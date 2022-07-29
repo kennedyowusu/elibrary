@@ -1,7 +1,10 @@
+import 'package:elibrary/views/home/home.dart';
 import 'package:elibrary/views/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+
+import 'widgets/button_nav.dart';
 
 void main() async {
   await GetStorage.init();
@@ -19,7 +22,8 @@ class Elibrary extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: SplashView(),
+      // home: SplashView(),
+      home: BottomNavigation(),
     );
   }
 }

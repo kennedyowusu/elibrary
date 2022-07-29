@@ -5,4 +5,5 @@ class ProjectColors {
   static const Color secondary = Color(0xFFE2D1F9);
   static const Color white = Color(0xFFFCF6F5FF);
   static const Color black = Color(0xFF201E20);
+  static const Color grey = Color(0xFFBDBDBD);
 }

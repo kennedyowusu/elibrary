@@ -13,7 +13,7 @@ class OnBoard extends StatelessWidget {
 
     return Obx(
       () {
-        return _authManager.isLogged.value ? HomeView() : LoginView();
+        return _authManager.isLogged.value ? HomeView() : LoginScreen();
       },
     );
   }

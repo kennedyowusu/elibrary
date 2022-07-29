@@ -77,13 +77,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     currentIndex == slides.length - 1 ? "Proceed" : "Next"),
                 onPressed: () {
                   if (currentIndex == slides.length - 1) {
-                    Obx(
-                      () {
-                        return _authManager.isLogged.value
-                            ? HomeView()
-                            : LoginView();
-                      },
-                    );
+                    // Obx(
+                    //   () {
+                    //     return _authManager.isLogged.value
+                    //         ? HomeView()
+                    //         : LoginView();
+                    //   },
+                    // );
                   }
                   _controller.nextPage(
                     duration: Duration(milliseconds: 100),
