@@ -1,3 +1,4 @@
+import 'package:elibrary/views/crud/post/post.dart';
 import 'package:elibrary/views/home/home.dart';
 import 'package:elibrary/views/splash/splash.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class Elibrary extends StatelessWidget {
         primarySwatch: Colors.purple,
       ),
       // home: SplashView(),
-      home: BottomNavigation(),
+      home: BorrowBook(),
     );
   }
 }

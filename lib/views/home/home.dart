@@ -1,7 +1,9 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/styles.dart';
+import 'package:elibrary/views/details/details.dart';
 import 'package:elibrary/views/home/components/header.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -47,8 +49,20 @@ class _HomeViewState extends State<HomeView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              BookDetails(width: width, height: height),
-                              BookDetails(width: width, height: height),
+                              BookDetails(
+                                width: width,
+                                height: height,
+                                onTap: () {
+                                  Get.to(() => DetailsScreen(), arguments: []);
+                                },
+                              ),
+                              BookDetails(
+                                width: width,
+                                height: height,
+                                onTap: () {
+                                  Get.to(() => DetailsScreen(), arguments: []);
+                                },
+                              ),
                             ],
                           ),
                         ],
@@ -96,6 +110,7 @@ class BookDetails extends StatelessWidget {
     Key? key,
     required this.width,
     required this.height,
+    required this.onTap,
   }) : super(key: key);
 
   final double width;
@@ -103,33 +118,37 @@ class BookDetails extends StatelessWidget {
   final String image =
       "https://images.unsplash.com/photo-1495640388908-05fa85288e61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80";
   final String title = "Reading With Friends";
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: width * 0.45,
-          height: height * 0.32,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.red,
-            image: DecorationImage(
-              image: NetworkImage(image),
-              fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () => onTap(),
+      child: Column(
+        children: [
+          Container(
+            width: width * 0.45,
+            height: height * 0.32,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: ProjectColors.grey,
+              image: DecorationImage(
+                image: NetworkImage(image),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-        ),
-        SizedBox(height: height * 0.015),
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: ProjectColors.black.withOpacity(0.5),
+          SizedBox(height: height * 0.015),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: ProjectColors.black.withOpacity(0.5),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

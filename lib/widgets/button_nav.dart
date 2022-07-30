@@ -1,4 +1,5 @@
 import 'package:elibrary/constants/colors.dart';
+import 'package:elibrary/views/crud/read/my_books.dart';
 import 'package:elibrary/views/home/home.dart';
 import 'package:flutter/material.dart';
 
@@ -13,10 +14,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     HomeView(),
-    Text(
-      'My Books',
-      style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
-    ),
+    RequestedBooks(),
     Text(
       'Profile Screen',
       style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
