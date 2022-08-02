@@ -36,7 +36,7 @@ class _RegisterFormState extends State<RegisterForm> {
               labelText: 'Full Name',
               labelStyle: TextStyle(
                 fontSize: 16,
-                color: ProjectColors.primary,
+                color: ProjectColors.black.withOpacity(0.5),
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -50,7 +50,7 @@ class _RegisterFormState extends State<RegisterForm> {
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(
-                  color: ProjectColors.grey,
+                  color: ProjectColors.black,
                 ),
               ),
             ),
@@ -69,14 +69,29 @@ class _RegisterFormState extends State<RegisterForm> {
             keyboardType: TextInputType.emailAddress,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.email, color: ProjectColors.grey),
+              prefixIcon: Icon(
+                Icons.email,
+                color: ProjectColors.grey,
+              ),
               labelText: 'Email Address',
               labelStyle: TextStyle(
                 fontSize: 16,
-                color: ProjectColors.primary,
+                color: ProjectColors.black.withOpacity(0.5),
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                  color: ProjectColors.grey,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                  color: ProjectColors.black,
+                ),
               ),
             ),
             validator: (value) {
@@ -94,9 +109,7 @@ class _RegisterFormState extends State<RegisterForm> {
             obscureText: !_isShowPassword,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
-              prefixIcon: Icon(
-                Icons.lock,
-              ),
+              prefixIcon: Icon(Icons.lock, color: ProjectColors.grey),
               suffixIcon: IconButton(
                 icon: Icon(
                   _isShowPassword ? Icons.visibility : Icons.visibility_off,
@@ -109,9 +122,24 @@ class _RegisterFormState extends State<RegisterForm> {
                 },
               ),
               labelText: 'Password',
-              labelStyle: TextStyle(fontSize: 16, color: ProjectColors.primary),
+              labelStyle: TextStyle(
+                fontSize: 16,
+                color: ProjectColors.black.withOpacity(0.5),
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                  color: ProjectColors.grey,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                  color: ProjectColors.black,
+                ),
               ),
             ),
             validator: (value) => value!.isEmpty
@@ -128,9 +156,7 @@ class _RegisterFormState extends State<RegisterForm> {
             obscureText: !_isShowPassword,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
-              prefixIcon: Icon(
-                Icons.lock,
-              ),
+              prefixIcon: Icon(Icons.lock, color: ProjectColors.grey),
               suffixIcon: IconButton(
                 icon: Icon(
                   _isShowPassword ? Icons.visibility : Icons.visibility_off,
@@ -145,10 +171,22 @@ class _RegisterFormState extends State<RegisterForm> {
               labelText: 'Confirm Password',
               labelStyle: TextStyle(
                 fontSize: 16,
-                color: ProjectColors.primary,
+                color: ProjectColors.black.withOpacity(0.5),
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                  color: ProjectColors.grey,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                  color: ProjectColors.black,
+                ),
               ),
             ),
             validator: (value) {

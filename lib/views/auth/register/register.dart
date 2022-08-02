@@ -16,6 +16,9 @@ class RegisterScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SizedBox(
+                  height: height * 0.16,
+                ),
                 Text(
                   'Create Account',
                   style: TextStyle(fontSize: 20),

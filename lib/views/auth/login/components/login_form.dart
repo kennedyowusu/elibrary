@@ -1,6 +1,5 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/controllers/auth/auth.dart';
-import 'package:elibrary/views/auth/login/components/login_model.dart';
 import 'package:elibrary/views/auth/register/register.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -36,11 +35,29 @@ class _LoginFormState extends State<LoginForm> {
             keyboardType: TextInputType.emailAddress,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.email),
+              prefixIcon: Icon(
+                Icons.email,
+                color: ProjectColors.grey,
+              ),
               labelText: 'Email Address',
-              labelStyle: TextStyle(fontSize: 16),
+              labelStyle: TextStyle(
+                fontSize: 16,
+                color: ProjectColors.black.withOpacity(0.5),
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                  color: ProjectColors.grey,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                  color: ProjectColors.black,
+                ),
               ),
             ),
             validator: (value) {
@@ -72,6 +89,7 @@ class _LoginFormState extends State<LoginForm> {
             decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.lock,
+                color: ProjectColors.grey,
               ),
               suffixIcon: IconButton(
                 icon: Icon(
@@ -85,9 +103,24 @@ class _LoginFormState extends State<LoginForm> {
                 },
               ),
               labelText: 'Password',
-              labelStyle: TextStyle(fontSize: 16),
+              labelStyle: TextStyle(
+                fontSize: 16,
+                color: ProjectColors.black.withOpacity(0.5),
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                  color: ProjectColors.grey,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                  color: ProjectColors.black,
+                ),
               ),
             ),
             validator: (value) => value!.isEmpty
