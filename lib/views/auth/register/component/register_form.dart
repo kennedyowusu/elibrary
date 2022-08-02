@@ -1,5 +1,5 @@
 import 'package:elibrary/constants/colors.dart';
-import 'package:elibrary/services/endpoints.dart';
+import 'package:elibrary/controllers/auth/auth.dart';
 import 'package:elibrary/views/auth/login/login.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -14,16 +14,10 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   GlobalKey<FormState> _formKey = GlobalKey();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false;
-  bool _isShowPassword = false;
-  String email = '';
-  String name = '';
-  String password = '';
 
-  AuthService authService = Get.put(AuthService());
+  bool _isShowPassword = false;
+
+  AuthController authController = AuthController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +27,31 @@ class _RegisterFormState extends State<RegisterForm> {
       child: Column(
         children: [
           TextFormField(
-            controller: _nameController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.person),
+              prefixIcon: Icon(
+                Icons.person,
+                color: ProjectColors.grey,
+              ),
               labelText: 'Full Name',
-              labelStyle: TextStyle(fontSize: 16),
+              labelStyle: TextStyle(
+                fontSize: 16,
+                color: ProjectColors.primary,
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                  color: ProjectColors.grey,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                  color: ProjectColors.grey,
+                ),
               ),
             ),
             validator: (value) {
@@ -50,18 +61,20 @@ class _RegisterFormState extends State<RegisterForm> {
               return null;
             },
             onSaved: (value) {
-              name = value!;
+              authController.name = value!;
             },
           ),
           SizedBox(height: height * 0.03),
           TextFormField(
-            controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.email),
+              prefixIcon: Icon(Icons.email, color: ProjectColors.grey),
               labelText: 'Email Address',
-              labelStyle: TextStyle(fontSize: 16),
+              labelStyle: TextStyle(
+                fontSize: 16,
+                color: ProjectColors.primary,
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -73,12 +86,11 @@ class _RegisterFormState extends State<RegisterForm> {
               return null;
             },
             onSaved: (value) {
-              email = value!;
+              authController.email = value!;
             },
           ),
           SizedBox(height: height * 0.03),
           TextFormField(
-            controller: _passwordController,
             obscureText: !_isShowPassword,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
@@ -97,7 +109,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 },
               ),
               labelText: 'Password',
-              labelStyle: TextStyle(fontSize: 16),
+              labelStyle: TextStyle(fontSize: 16, color: ProjectColors.primary),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -108,7 +120,48 @@ class _RegisterFormState extends State<RegisterForm> {
                     ? 'Password must be at least 6 characters'
                     : null,
             onSaved: (value) {
-              password = value!;
+              authController.password = value!;
+            },
+          ),
+          SizedBox(height: height * 0.03),
+          TextFormField(
+            obscureText: !_isShowPassword,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                Icons.lock,
+              ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isShowPassword ? Icons.visibility : Icons.visibility_off,
+                  color: Colors.grey,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _isShowPassword = !_isShowPassword;
+                  });
+                },
+              ),
+              labelText: 'Confirm Password',
+              labelStyle: TextStyle(
+                fontSize: 16,
+                color: ProjectColors.primary,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please confirm your password';
+              }
+              if (authController.confirmPassword != authController.password) {
+                return 'Password does not match';
+              }
+              return null;
+            },
+            onSaved: (value) {
+              authController.confirmPassword = value!;
             },
           ),
           SizedBox(height: height * 0.03),
@@ -125,8 +178,9 @@ class _RegisterFormState extends State<RegisterForm> {
               style: TextStyle(fontSize: 16),
             ),
             onPressed: () async {
-              if (_formKey.currentState?.validate() ?? false) {
-                await authService.registerUser(name, email, password);
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
+                authController.createUserAccount();
               }
             },
           ),

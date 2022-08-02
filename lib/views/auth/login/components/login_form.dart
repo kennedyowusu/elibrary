@@ -1,5 +1,5 @@
 import 'package:elibrary/constants/colors.dart';
-import 'package:elibrary/services/endpoints.dart';
+import 'package:elibrary/controllers/auth/auth.dart';
 import 'package:elibrary/views/auth/login/components/login_model.dart';
 import 'package:elibrary/views/auth/register/register.dart';
 import 'package:flutter/gestures.dart';
@@ -22,7 +22,7 @@ class _LoginFormState extends State<LoginForm> {
   String email = '';
   String password = '';
 
-  AuthService authService = Get.put(AuthService());
+  AuthController authController = AuthController();
 
   @override
   Widget build(BuildContext context) {
@@ -110,8 +110,9 @@ class _LoginFormState extends State<LoginForm> {
             ),
             child: Text('Login', style: TextStyle(fontSize: 16)),
             onPressed: () async {
-              if (_formKey.currentState?.validate() ?? false) {
-                await authService.loginUser(email, password);
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
+                authController.signInUser();
               }
             },
           ),

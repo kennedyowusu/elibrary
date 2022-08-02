@@ -11,21 +11,23 @@ class RegisterScreen extends StatelessWidget {
       child: Scaffold(
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: height * 0.02),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Create Account',
-                style: TextStyle(fontSize: 20),
-              ),
-              Text(
-                'Please use the form below to create an account',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: height * 0.08),
-              RegisterForm(),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Create Account',
+                  style: TextStyle(fontSize: 20),
+                ),
+                Text(
+                  'Please use the form below to create an account',
+                  style: TextStyle(fontSize: 16),
+                ),
+                SizedBox(height: height * 0.08),
+                RegisterForm(),
+              ],
+            ),
           ),
         ),
       ),
