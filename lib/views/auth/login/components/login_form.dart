@@ -33,7 +33,6 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: [
           TextFormField(
-            controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
@@ -50,7 +49,9 @@ class _LoginFormState extends State<LoginForm> {
               }
               return null;
             },
-            onSaved: (value) {},
+            onSaved: (value) {
+              authController.email = value!;
+            },
           ),
           SizedBox(height: height * 0.005),
           TextButton(
@@ -66,7 +67,6 @@ class _LoginFormState extends State<LoginForm> {
           ),
           SizedBox(height: height * 0.005),
           TextFormField(
-            controller: _passwordController,
             obscureText: !_isShowPassword,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
@@ -96,7 +96,7 @@ class _LoginFormState extends State<LoginForm> {
                     ? 'Password must be at least 6 characters'
                     : null,
             onSaved: (value) {
-              email = _emailController.text;
+              authController.password = value!;
             },
           ),
           SizedBox(height: height * 0.03),
