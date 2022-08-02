@@ -70,19 +70,7 @@ class _LoginFormState extends State<LoginForm> {
               authController.email = value!;
             },
           ),
-          SizedBox(height: height * 0.005),
-          TextButton(
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                'Forgot Password?',
-                style: TextStyle(
-                    fontSize: 16, color: ProjectColors.black.withOpacity(0.5)),
-              ),
-            ),
-            onPressed: () {},
-          ),
-          SizedBox(height: height * 0.005),
+          SizedBox(height: height * 0.03),
           TextFormField(
             obscureText: !_isShowPassword,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -132,7 +120,19 @@ class _LoginFormState extends State<LoginForm> {
               authController.password = value!;
             },
           ),
-          SizedBox(height: height * 0.03),
+          SizedBox(height: height * 0.005),
+          TextButton(
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'Forgot Password?',
+                style: TextStyle(
+                    fontSize: 16, color: ProjectColors.black.withOpacity(0.5)),
+              ),
+            ),
+            onPressed: () {},
+          ),
+          SizedBox(height: height * 0.005),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               primary: ProjectColors.primary,

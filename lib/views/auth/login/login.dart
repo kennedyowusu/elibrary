@@ -1,5 +1,7 @@
+import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/styles.dart';
 import 'package:elibrary/views/auth/login/components/login_form.dart';
+import 'package:elibrary/widgets/auth_design.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -8,6 +10,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -15,11 +18,8 @@ class LoginScreen extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: height * 0.05,
-                ),
+                authDesign(height, width),
                 Center(
                   child: Hero(
                     tag: 'logo',
@@ -31,7 +31,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: height * 0.060,
+                  height: height * 0.040,
                 ),
                 Text(
                   'Welcome Back!',

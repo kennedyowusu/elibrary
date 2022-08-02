@@ -16,6 +16,7 @@ class _RegisterFormState extends State<RegisterForm> {
   GlobalKey<FormState> _formKey = GlobalKey();
 
   bool _isShowPassword = false;
+  var _isLoading = false;
 
   AuthController authController = AuthController();
 
@@ -218,11 +219,12 @@ class _RegisterFormState extends State<RegisterForm> {
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                authController.createUserAccount();
+
+                await authController.createUserAccount();
               }
             },
           ),
-          SizedBox(height: height * 0.05),
+          SizedBox(height: height * 0.03),
           RichText(
             text: TextSpan(
               text: 'Already have an account? ',

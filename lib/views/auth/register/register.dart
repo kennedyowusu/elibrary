@@ -1,4 +1,6 @@
+import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/views/auth/register/component/register_form.dart';
+import 'package:elibrary/widgets/auth_design.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -7,6 +9,7 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -14,10 +17,10 @@ class RegisterScreen extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                authDesign(height, width),
                 SizedBox(
-                  height: height * 0.16,
+                  height: height * 0.06,
                 ),
                 Text(
                   'Create Account',
@@ -27,7 +30,7 @@ class RegisterScreen extends StatelessWidget {
                   'Please use the form below to create an account',
                   style: TextStyle(fontSize: 16),
                 ),
-                SizedBox(height: height * 0.08),
+                SizedBox(height: height * 0.06),
                 RegisterForm(),
               ],
             ),
