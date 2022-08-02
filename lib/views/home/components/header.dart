@@ -53,6 +53,11 @@ class Header extends StatelessWidget {
           CircleAvatar(
             radius: height * 0.05,
             backgroundColor: ProjectColors.secondary,
+            child: Icon(
+              Icons.person,
+              size: height * 0.060,
+              color: ProjectColors.white,
+            ),
           ),
         ],
       ),

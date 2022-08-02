@@ -1,7 +1,10 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/styles.dart';
 import 'package:elibrary/views/details/details.dart';
+import 'package:elibrary/views/home/components/books_by_streams.dart';
+import 'package:elibrary/views/home/components/category.dart';
 import 'package:elibrary/views/home/components/header.dart';
+import 'package:elibrary/views/home/components/slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,15 +18,17 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   GlobalKey<FormState> _searchKey = GlobalKey<FormState>();
   TextEditingController _searchController = TextEditingController();
-  bool _isSearching = false;
-  String _searchText = '';
-  FocusNode _searchFocus = FocusNode();
+
+  CategoryCard _categoryCard = CategoryCard();
+  StreamByBooks _streamByBooks = StreamByBooks(
+    title: '',
+  );
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    Size size = MediaQuery.of(context).size;
+
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -32,40 +37,113 @@ class _HomeViewState extends State<HomeView> {
             child: Column(
               children: [
                 Header(height: height),
-                SizedBox(height: height * 0.02),
+                SizedBox(height: height * 0.018),
                 buildSearchField(height),
-                SizedBox(height: height * 0.02),
-                Container(
-                  height: height * 0.6,
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    itemCount: 6,
-                    separatorBuilder: (context, index) => SizedBox(
-                      height: height * 0.02,
+                CarouselSlider(),
+                SizedBox(height: height * 0.028),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "New Arrivals",
+                      style: TextStyle(
+                        color: ProjectColors.black,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
+                    Text(
+                      "View All",
+                      style: TextStyle(
+                        color: ProjectColors.black.withOpacity(0.5),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: height * 0.014),
+                Container(
+                  height: height * 0.14,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _categoryCard.items.length,
                     itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      return Padding(
+                        padding: EdgeInsets.only(right: width * 0.02),
+                        child: Image.asset(
+                          _categoryCard.items[index],
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: height * 0.040),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Books by Streams",
+                      style: TextStyle(
+                        color: ProjectColors.black,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    Text(
+                      "View All",
+                      style: TextStyle(
+                        color: ProjectColors.black.withOpacity(0.5),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: height * 0.014),
+                Container(
+                  height: height * 0.285,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _categoryCard.items.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(right: width * 0.02),
+                        child: GestureDetector(
+                          onTap: () => Get.to(
+                            () => DetailsScreen(),
+                            arguments: [
+                              _streamByBooks.books[index].title,
+                              _streamByBooks.books[index].image,
+                              // _streamByBooks.items[index].image,
+                              // _streamByBooks.items[index].description,
+                              // _streamByBooks.items[index].isAvailable,
+
+                              // 'title': _streamByBooks.title,
+                              // 'image': _streamByBooks.image,
+                              // 'author': _streamByBooks.author,
+                              // 'description': _streamByBooks.description,
+
+                              // 'isAvailable': _streamByBooks.isAvailable,
+                            ],
+                          ),
+                          child: Column(
                             children: [
-                              BookDetails(
-                                width: width,
-                                height: height,
-                                onTap: () {
-                                  Get.to(() => DetailsScreen(), arguments: []);
-                                },
+                              Image.asset(
+                                _streamByBooks.books
+                                    .map((e) => e.image)
+                                    .toList()[index],
+                                height: height * 0.25,
+                                width: width * 0.3,
+                                fit: BoxFit.cover,
                               ),
-                              BookDetails(
-                                width: width,
-                                height: height,
-                                onTap: () {
-                                  Get.to(() => DetailsScreen(), arguments: []);
-                                },
+                              SizedBox(height: height * 0.007),
+                              Text(
+                                _streamByBooks.books
+                                    .map((e) => e.title)
+                                    .toList()[index],
+                                style: TextStyle(
+                                  color: ProjectColors.black,
+                                ),
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       );
                     },
                   ),
@@ -81,25 +159,28 @@ class _HomeViewState extends State<HomeView> {
   Form buildSearchField(double height) {
     return Form(
       key: _searchKey,
-      child: TextFormField(
-        controller: _searchController,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.search),
-          labelText: 'Search',
-          labelStyle: TextStyle(
-            fontSize: height * 0.03,
+      child: SizedBox(
+        height: height * 0.075,
+        child: TextFormField(
+          controller: _searchController,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          decoration: InputDecoration(
+            prefixIcon: Icon(Icons.search),
+            labelText: 'Search',
+            labelStyle: TextStyle(
+              fontSize: height * 0.03,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(height * 0.02),
+            ),
           ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(height * 0.02),
-          ),
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'Please enter some text';
+            }
+            return null;
+          },
         ),
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'Please enter some text';
-          }
-          return null;
-        },
       ),
     );
   }
@@ -127,8 +208,8 @@ class BookDetails extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            width: width * 0.45,
-            height: height * 0.32,
+            width: width * 0.3,
+            height: height * 0.5,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: ProjectColors.grey,

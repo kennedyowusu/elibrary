@@ -1,8 +1,9 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BookDetails extends StatelessWidget {
-  const BookDetails({
+  BookDetails({
     Key? key,
     required this.height,
     required this.width,
@@ -12,6 +13,8 @@ class BookDetails extends StatelessWidget {
   final double height;
   final double width;
   final IconData icon;
+
+  final data = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
