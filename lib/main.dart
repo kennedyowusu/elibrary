@@ -1,10 +1,17 @@
+import 'package:elibrary/services/shared_prefs.dart';
 import 'package:elibrary/views/auth/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+
+int? initScreen;
 
 void main() async {
-  await GetStorage.init();
+  WidgetsFlutterBinding.ensureInitialized();
+  Persistent persistent = Persistent();
+
+  initScreen = await persistent.getInt('initScreen');
+  await persistent.setInt('initScreen', 1);
+
   runApp(Elibrary());
 }
 
@@ -19,8 +26,11 @@ class Elibrary extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      // home: SplashView(),
-      home: LoginScreen(),
+      initialRoute: initScreen == 0 || initScreen == null ? "login" : "/",
+      routes: {
+        '/': (context) => LoginScreen(),
+        "login": (context) => LoginScreen(),
+      },
     );
   }
 }

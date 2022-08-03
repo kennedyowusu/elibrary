@@ -1,16 +1,10 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/images.dart';
-import 'package:elibrary/controllers/auth/auth_manager.dart';
-import 'package:elibrary/views/onboard/onboarding.dart';
+import 'package:elibrary/views/auth/login/login.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class SplashView extends StatelessWidget {
-  final AuthenticationManager _authmanager = Get.put(AuthenticationManager());
-
   Future<void> initializeSettings() async {
-    _authmanager.checkLoginStatus();
-
     //Simulate other services for 3 seconds
     await Future.delayed(Duration(seconds: 3));
   }
@@ -33,7 +27,7 @@ class SplashView extends StatelessWidget {
           if (snapshot.hasError)
             return errorView(snapshot);
           else
-            return OnBoard();
+            return LoginScreen();
         }
       },
     );

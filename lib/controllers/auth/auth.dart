@@ -2,18 +2,21 @@ import 'dart:convert';
 
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/services/auth/auth.dart';
+import 'package:elibrary/services/shared_prefs.dart';
 import 'package:elibrary/views/auth/login/login.dart';
 import 'package:elibrary/views/home/home.dart';
 import 'package:elibrary/widgets/button_nav.dart';
 import 'package:elibrary/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'package:http/http.dart' as http;
 
 class AuthController extends GetxController {
   late BuildContext context;
   AuthService authService = AuthService();
+  Persistent persistent = Persistent();
 
   String name = '';
   String phone = '';
@@ -21,6 +24,7 @@ class AuthController extends GetxController {
   String password = '';
   String confirmPassword = '';
   bool _isLoading = false;
+  var isPasswordHidden = true.obs;
 
   Future createUserAccount() async {
     http.Response response = await authService.signUpUser(
@@ -32,6 +36,8 @@ class AuthController extends GetxController {
     );
     Map<String, dynamic> responseData = json.decode(response.body);
     if (response.statusCode == 200) {
+      await persistent.preferences.setString('token', responseData['token']);
+
       _isLoading == true
           ? showLoaderDialog(context, message: 'Loading...')
           : null;

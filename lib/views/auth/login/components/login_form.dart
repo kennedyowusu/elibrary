@@ -71,55 +71,56 @@ class _LoginFormState extends State<LoginForm> {
             },
           ),
           SizedBox(height: height * 0.03),
-          TextFormField(
-            obscureText: !_isShowPassword,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            decoration: InputDecoration(
-              prefixIcon: Icon(
-                Icons.lock,
-                color: ProjectColors.grey,
-              ),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _isShowPassword ? Icons.visibility : Icons.visibility_off,
-                  color: Colors.grey,
+          Obx(() => TextFormField(
+                obscureText: authController.isPasswordHidden.value,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.lock,
+                    color: ProjectColors.grey,
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      authController.isPasswordHidden.value
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      authController.isPasswordHidden.value =
+                          !authController.isPasswordHidden.value;
+                    },
+                  ),
+                  labelText: 'Password',
+                  labelStyle: TextStyle(
+                    fontSize: 16,
+                    color: ProjectColors.black.withOpacity(0.5),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: ProjectColors.grey,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: ProjectColors.black,
+                    ),
+                  ),
                 ),
-                onPressed: () {
-                  setState(() {
-                    _isShowPassword = !_isShowPassword;
-                  });
+                validator: (value) => value!.isEmpty
+                    ? 'Please enter your password'
+                    : value.length < 6
+                        ? 'Password must be at least 6 characters'
+                        : null,
+                onSaved: (value) {
+                  authController.password = value!;
                 },
-              ),
-              labelText: 'Password',
-              labelStyle: TextStyle(
-                fontSize: 16,
-                color: ProjectColors.black.withOpacity(0.5),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                  color: ProjectColors.grey,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                  color: ProjectColors.black,
-                ),
-              ),
-            ),
-            validator: (value) => value!.isEmpty
-                ? 'Please enter your password'
-                : value.length < 6
-                    ? 'Password must be at least 6 characters'
-                    : null,
-            onSaved: (value) {
-              authController.password = value!;
-            },
-          ),
+              )),
           SizedBox(height: height * 0.005),
           TextButton(
             child: Align(

@@ -1,6 +1,7 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/views/crud/read/my_books.dart';
 import 'package:elibrary/views/home/home.dart';
+import 'package:elibrary/views/profile/profile.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -15,10 +16,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   static const List<Widget> _widgetOptions = <Widget>[
     HomeView(),
     RequestedBooks(),
-    Text(
-      'Profile Screen',
-      style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
-    ),
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {

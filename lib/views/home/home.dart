@@ -1,5 +1,7 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/styles.dart';
+import 'package:elibrary/controllers/streams/streams.dart';
+import 'package:elibrary/services/shared_prefs.dart';
 import 'package:elibrary/views/details/details.dart';
 import 'package:elibrary/views/home/components/books_by_streams.dart';
 import 'package:elibrary/views/home/components/category.dart';
@@ -18,11 +20,13 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   GlobalKey<FormState> _searchKey = GlobalKey<FormState>();
   TextEditingController _searchController = TextEditingController();
+  Persistent persistent = Persistent();
 
   CategoryCard _categoryCard = CategoryCard();
   StreamByBooks _streamByBooks = StreamByBooks(
     title: '',
   );
+  final StreamsController _streamsController = Get.put(StreamsController());
 
   @override
   Widget build(BuildContext context) {
@@ -98,54 +102,49 @@ class _HomeViewState extends State<HomeView> {
                 SizedBox(height: height * 0.014),
                 Container(
                   height: height * 0.285,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: _categoryCard.items.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.only(right: width * 0.02),
-                        child: GestureDetector(
-                          onTap: () => Get.to(
-                            () => DetailsScreen(),
-                            arguments: [
-                              _streamByBooks.books[index].title,
-                              _streamByBooks.books[index].image,
-                              // _streamByBooks.items[index].image,
-                              // _streamByBooks.items[index].description,
-                              // _streamByBooks.items[index].isAvailable,
-
-                              // 'title': _streamByBooks.title,
-                              // 'image': _streamByBooks.image,
-                              // 'author': _streamByBooks.author,
-                              // 'description': _streamByBooks.description,
-
-                              // 'isAvailable': _streamByBooks.isAvailable,
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                _streamByBooks.books
-                                    .map((e) => e.image)
-                                    .toList()[index],
-                                height: height * 0.25,
-                                width: width * 0.3,
-                                fit: BoxFit.cover,
-                              ),
-                              SizedBox(height: height * 0.007),
-                              Text(
-                                _streamByBooks.books
-                                    .map((e) => e.title)
-                                    .toList()[index],
-                                style: TextStyle(
-                                  color: ProjectColors.black,
+                  child: Obx(
+                    () => ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _streamsController.streamList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.only(right: width * 0.02),
+                          child: GestureDetector(
+                            onTap: () => Get.to(
+                              () => DetailsScreen(),
+                              arguments: [
+                                _streamByBooks.books[index].title,
+                                _streamByBooks.books[index].image,
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  _streamByBooks.books
+                                      .map((e) => e.image)
+                                      .toList()[index],
+                                  height: height * 0.25,
+                                  width: width * 0.3,
+                                  fit: BoxFit.cover,
                                 ),
-                              ),
-                            ],
+                                SizedBox(height: height * 0.007),
+                                Text(
+                                  _streamsController.streamList
+                                      .map((element) => element.title)
+                                      .toList()[index]
+                                      .toString(),
+
+                                  // _streamsController.streamList[index].title!,
+                                  style: TextStyle(
+                                    color: ProjectColors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
               ],
