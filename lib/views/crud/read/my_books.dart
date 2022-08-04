@@ -1,5 +1,6 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/styles.dart';
+import 'package:elibrary/controllers/requests/requests.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,6 +40,7 @@ class _RequestedBooksState extends State<RequestedBooks> {
   }
 
   bool status = false;
+  final RequestsController _requestsController = Get.put(RequestsController());
 
   @override
   Widget build(BuildContext context) {
@@ -84,10 +86,9 @@ class _RequestedBooksState extends State<RequestedBooks> {
                     ),
                     child: Center(
                       child: Text(
-                        "2",
+                        getItemCount().toString(),
                         style: TextStyle(
                           fontSize: 20,
-                          fontWeight: FontWeight.w600,
                           color: ProjectColors.black,
                         ),
                       ),
@@ -99,7 +100,7 @@ class _RequestedBooksState extends State<RequestedBooks> {
               Container(
                 child: ListView.separated(
                   shrinkWrap: true,
-                  itemCount: 3,
+                  itemCount: _requestsController.requestList.length,
                   separatorBuilder: (context, index) => SizedBox(
                     height: height * 0.02,
                   ),
@@ -212,29 +213,37 @@ class _RequestedBooksState extends State<RequestedBooks> {
                         child: Card(
                           child: ListTile(
                             title: Text(
-                              "Book Name",
+                              _requestsController.requestList[index].title
+                                  .toString(),
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 15,
                                 fontWeight: FontWeight.w600,
                                 color: ProjectColors.black,
                               ),
                             ),
                             subtitle: Text(
-                              "Book Author",
+                              _requestsController.requestList[index].author
+                                  .toString(),
                               style: TextStyle(
                                 fontSize: 15,
                                 color: ProjectColors.black,
                               ),
                             ),
-                            trailing: status == true
-                                ? Icon(
-                                    Icons.check_circle,
-                                    color: ProjectColors.green,
-                                  )
-                                : Icon(
-                                    Icons.cancel_outlined,
-                                    color: ProjectColors.red,
-                                  ),
+                            // trailing: _requestsController
+                            //             .requestList[index].availability ==
+                            //         true
+                            //     ? buildAvailabilityIconContainer(
+                            //         height,
+                            //         width,
+                            //         Icons.check_circle,
+                            //         ProjectColors.green,
+                            //       )
+                            //     : buildAvailabilityIconContainer(
+                            //         height,
+                            //         width,
+                            //         Icons.cancel_sharp,
+                            //         ProjectColors.red,
+                            //       ),
                           ),
                         ),
                       ),
@@ -245,6 +254,28 @@ class _RequestedBooksState extends State<RequestedBooks> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  int getItemCount() => _requestsController.requestList.length;
+
+  Container buildAvailabilityIconContainer(
+      double height, double width, IconData icon, Color color) {
+    return Container(
+      height: height * 0.04,
+      width: width * 0.06,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: ProjectColors.primary,
+          width: 2,
+        ),
+      ),
+      child: Icon(
+        icon,
+        size: 20,
+        color: color,
       ),
     );
   }

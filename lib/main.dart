@@ -1,5 +1,7 @@
 import 'package:elibrary/services/shared_prefs.dart';
 import 'package:elibrary/views/auth/login/login.dart';
+import 'package:elibrary/views/crud/read/my_books.dart';
+import 'package:elibrary/widgets/button_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -30,8 +32,8 @@ class Elibrary extends StatelessWidget {
       ),
       initialRoute: initScreen == 0 || initScreen == null ? "login" : "/",
       routes: {
-        '/': (context) => BorrowBook(),
-        "login": (context) => BorrowBook(),
+        '/': (context) => BottomNavigation(),
+        "login": (context) => BottomNavigation(),
       },
     );
   }
