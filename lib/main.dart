@@ -3,6 +3,8 @@ import 'package:elibrary/views/auth/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'views/crud/post/post.dart';
+
 int? initScreen;
 
 void main() async {
@@ -28,8 +30,8 @@ class Elibrary extends StatelessWidget {
       ),
       initialRoute: initScreen == 0 || initScreen == null ? "login" : "/",
       routes: {
-        '/': (context) => LoginScreen(),
-        "login": (context) => LoginScreen(),
+        '/': (context) => BorrowBook(),
+        "login": (context) => BorrowBook(),
       },
     );
   }

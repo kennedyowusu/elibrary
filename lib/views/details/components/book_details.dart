@@ -1,4 +1,5 @@
 import 'package:elibrary/constants/colors.dart';
+import 'package:elibrary/controllers/streams/streams.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,6 +16,8 @@ class BookDetails extends StatelessWidget {
   final IconData icon;
 
   final data = Get.arguments;
+
+  final StreamsController _streamsController = Get.put(StreamsController());
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,7 @@ class BookDetails extends StatelessWidget {
         ),
         SizedBox(height: height * 0.02),
         Text(
-          "Reading With Friends",
+          _streamsController.streamList[data].title!,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -46,7 +49,7 @@ class BookDetails extends StatelessWidget {
         ),
         SizedBox(height: height * 0.02),
         Text(
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat.",
+          _streamsController.streamList[data].description!,
           style: TextStyle(
             fontSize: 16,
             color: ProjectColors.black.withOpacity(0.5),
@@ -54,7 +57,7 @@ class BookDetails extends StatelessWidget {
         ),
         SizedBox(height: height * 0.02),
         Text(
-          "Author of the book",
+          _streamsController.streamList[data].author!,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -73,7 +76,7 @@ class BookDetails extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Availability",
+              _streamsController.streamList[data].availability!.toString(),
               style: TextStyle(
                 fontSize: 16,
                 color: ProjectColors.black.withOpacity(0.5),

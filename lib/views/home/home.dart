@@ -113,8 +113,10 @@ class _HomeViewState extends State<HomeView> {
                             onTap: () => Get.to(
                               () => DetailsScreen(),
                               arguments: [
-                                _streamByBooks.books[index].title,
-                                _streamByBooks.books[index].image,
+                                // _streamByBooks.books[index].title,
+                                // _streamByBooks.books[index].image,
+                                _streamsController.streamList[index].title,
+                                // _streamsController.streamList[index].image,
                               ],
                             ),
                             child: Column(
@@ -130,11 +132,9 @@ class _HomeViewState extends State<HomeView> {
                                 SizedBox(height: height * 0.007),
                                 Text(
                                   _streamsController.streamList
-                                      .map((element) => element.title)
+                                      .map((element) => element.stream)
                                       .toList()[index]
                                       .toString(),
-
-                                  // _streamsController.streamList[index].title!,
                                   style: TextStyle(
                                     color: ProjectColors.black,
                                   ),

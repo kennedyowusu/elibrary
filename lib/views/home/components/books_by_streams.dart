@@ -28,6 +28,14 @@ class StreamByBooks extends StatelessWidget {
       title: 'Economics',
       image: ProjectImages.principlesofecons,
     ),
+    Books(
+      title: 'Oil & Gas',
+      image: ProjectImages.og,
+    ),
+    Books(
+      title: 'Economics',
+      image: ProjectImages.principlesofecons,
+    ),
   ];
 
   @override

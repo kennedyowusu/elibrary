@@ -9,14 +9,14 @@ class RetrieveStreams {
   static var client = http.Client();
   ProjectApis projectApis = ProjectApis();
 
-  static Future<Streams> fetchStreams() async {
+  static Future<List<Streams>> fetchStreams() async {
     final response = await client.get(
       Uri.parse(ProjectApis.streamsUrl),
     );
     if (response.statusCode == HttpStatus.ok) {
       // Call is successful
       var jsonString = response.body;
-      return streamsFromJson(jsonString);
+      return streamsListFromJson(jsonString);
     } else {
       // If that call was not successful, throw an error.
       Get.snackbar(

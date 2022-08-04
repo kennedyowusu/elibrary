@@ -7,6 +7,7 @@ class ProjectApis {
   String logoutUrl = "${baseUrl}api/auth/logout";
 
   static String streamsUrl = "${baseUrl}api/streams";
+  static String requestUrl = "${baseUrl}api/requests";
 
   Map<String, String> headers = {
     "Content-Type": "application/json",

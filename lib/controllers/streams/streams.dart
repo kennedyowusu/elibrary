@@ -7,7 +7,7 @@ class StreamsController extends GetxController {
 
   void getStreams() async {
     var streamVariable = await RetrieveStreams.fetchStreams();
-    streamList.value = streamVariable as List<Streams>;
+    streamList.value = streamVariable;
   }
 
   @override

@@ -1,8 +1,16 @@
 import 'dart:convert';
 
-Streams streamsFromJson(String str) => Streams.fromJson(json.decode(str));
+// Streams streamsFromJson(String str) => Streams.fromJson(json.decode(str));
 
-String streamsToJson(Streams data) => json.encode(data.toJson());
+// String streamsToJson(Streams data) => json.encode(data.toJson());
+
+List<Streams> streamsListFromJson(String str) =>
+    (json.decode(str) as List<dynamic>)
+        .map((s) => Streams.fromJson(s))
+        .toList();
+
+String streamsListToJson(List<Streams> data) =>
+    json.encode(data.map((s) => s.toJson()).toList());
 
 class Streams {
   Streams({

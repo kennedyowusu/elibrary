@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/styles.dart';
+import 'package:elibrary/controllers/post/post.dart';
+import 'package:elibrary/services/endpoints/endpoints.dart';
 import 'package:elibrary/widgets/top_section.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class BorrowBook extends StatelessWidget {
   BorrowBook({Key? key}) : super(key: key);
@@ -13,6 +17,60 @@ class BorrowBook extends StatelessWidget {
   TextEditingController _dateController = TextEditingController();
   TextEditingController _returnController = TextEditingController();
   TextEditingController _nameController = TextEditingController();
+
+  PostController _postController = Get.put(PostController());
+
+  void _clearForm() {
+    _titleController.clear();
+    _authorController.clear();
+    _indexController.clear();
+    _dateController.clear();
+    _returnController.clear();
+    _nameController.clear();
+  }
+
+  sendUserRequest() async {
+    var userData = {
+      'title': _titleController.text,
+      'author': _authorController.text,
+      'index': _indexController.text,
+      'borrow_date': _dateController.text,
+      'return_date': _returnController.text,
+      'borrowed_by': _nameController.text,
+    };
+
+    var response =
+        await _postController.postRequest(userData, ProjectApis.requestUrl);
+    var body = json.decode(response.body);
+    if (body['status'] == 'success') {
+      _clearForm();
+      Get.snackbar(
+        'Success',
+        'Your request has been sent successfully',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        margin: EdgeInsets.all(10),
+        borderColor: Colors.green,
+        borderWidth: 2,
+        colorText: Colors.white,
+        snackStyle: SnackStyle.FLOATING,
+        duration: Duration(seconds: 2),
+      );
+    } else {
+      Get.snackbar(
+        'Error',
+        'Something went wrong',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        margin: EdgeInsets.all(10),
+        borderColor: Colors.red,
+        borderWidth: 2,
+        colorText: Colors.white,
+        snackStyle: SnackStyle.FLOATING,
+        duration: Duration(seconds: 2),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +185,9 @@ class BorrowBook extends StatelessWidget {
                           primary: ProjectColors.primary,
                           minimumSize: Size(width * 0.95, height * 0.08),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          sendUserRequest();
+                        },
                         child: Text("Submit Request"),
                       ),
                       SizedBox(height: height * 0.02),
