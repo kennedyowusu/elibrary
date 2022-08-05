@@ -1,3 +1,4 @@
+import 'package:elibrary/utils/shared_prefs.dart';
 import 'package:elibrary/views/auth/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overboard/flutter_overboard.dart';
@@ -12,6 +13,12 @@ class OnboardView extends StatefulWidget {
 }
 
 class _OnboardViewState extends State<OnboardView> {
+  @override
+  void initState() {
+    UserPreferences().setSeenOnboard();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
