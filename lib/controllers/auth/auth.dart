@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:elibrary/constants/colors.dart';
+import 'package:elibrary/model/user.dart';
 import 'package:elibrary/services/auth/auth.dart';
 import 'package:elibrary/services/shared_prefs.dart';
 import 'package:elibrary/views/auth/login/login.dart';
@@ -38,10 +39,9 @@ class AuthController extends GetxController {
     if (response.statusCode == 200) {
       await persistent.preferences.setString('token', responseData['token']);
 
-      _isLoading == true
-          ? showLoaderDialog(context, message: 'Loading...')
-          : null;
-      Get.offAll(() => HomeView());
+      Get.offAll(
+        () => HomeView(),
+      );
     } else {
       Get.snackbar(
         "Error Occurred",

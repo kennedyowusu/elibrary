@@ -1,6 +1,7 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/styles.dart';
 import 'package:elibrary/controllers/streams/streams.dart';
+import 'package:elibrary/model/user.dart';
 import 'package:elibrary/services/shared_prefs.dart';
 import 'package:elibrary/views/details/details.dart';
 import 'package:elibrary/views/home/components/books_by_streams.dart';
@@ -11,7 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
+  const HomeView({
+    Key? key,
+  }) : super(key: key);
+  static const String routeName = '/home';
+  // final User user;
 
   @override
   _HomeViewState createState() => _HomeViewState();

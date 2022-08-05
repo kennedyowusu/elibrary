@@ -1,9 +1,20 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/controllers/auth/auth.dart';
+import 'package:elibrary/model/user.dart';
+import 'package:elibrary/services/endpoints/endpoints.dart';
+import 'package:elibrary/utils/shared_prefs.dart';
 import 'package:elibrary/views/auth/register/register.dart';
+import 'package:elibrary/views/home/home.dart';
+import 'package:elibrary/widgets/error.dart';
+import 'package:elibrary/widgets/loader.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -16,12 +27,74 @@ class _LoginFormState extends State<LoginForm> {
   GlobalKey<FormState> _formKey = GlobalKey();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false;
-  bool _isShowPassword = false;
+
   String email = '';
   String password = '';
 
+  final FocusNode emailNode = FocusNode();
+  final FocusNode passwordNode = FocusNode();
+
+  _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
+  }
+
   AuthController authController = AuthController();
+  ProjectApis projectApis = ProjectApis();
+
+  // loginUserNew(BuildContext context) async{
+  //   if(_formKey.currentState!.validate() == false) return null; {
+
+  //     setState(() {
+  //       _isLoading = true;
+  //     });
+  //     await authController.loginUser(email, password);
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
+  //   }
+  // }
+
+  loginUserNew(BuildContext context) async {
+    if (_formKey.currentState!.validate() == false) return null;
+    _formKey.currentState!.save();
+
+    showLoaderDialog(context, message: 'Logging in...');
+
+    http.Response response = await http.post(
+      Uri.parse(projectApis.loginUrl),
+      headers: projectApis.headers,
+      body: json.encode({
+        'email': email,
+        'password': password,
+      }),
+    );
+    if (response.statusCode == 200 || response.body != '') {
+      Map<String, dynamic> responseData = json.decode(response.body);
+      debugPrint(responseData.toString());
+      if (responseData['status'] == 'success') {
+        var userData = User.fromJson(responseData['data']);
+        debugPrint("login: token=${userData.token}");
+        Directory documentDirectory = await getApplicationDocumentsDirectory();
+        userData.applicationDirPath = documentDirectory.path;
+        UserPreferences().setUser(userData);
+        Navigator.pop(context);
+        Get.offAll(() => HomeView());
+        return;
+      } else {
+        Navigator.pop(context);
+        showErrorDialog(context, message: responseData['message']);
+        return;
+      }
+    } else {
+      Navigator.pop(context);
+      Map<String, dynamic> responseData = json.decode(response.body);
+      showErrorDialog(context,
+          message: responseData['message'] ?? 'Server Error');
+      return;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +107,12 @@ class _LoginFormState extends State<LoginForm> {
           TextFormField(
             keyboardType: TextInputType.emailAddress,
             autovalidateMode: AutovalidateMode.onUserInteraction,
+            autofocus: true,
+            focusNode: emailNode,
+            onFieldSubmitted: (value) {
+              _fieldFocusChange(context, emailNode, passwordNode);
+            },
+            textInputAction: TextInputAction.next,
             decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.email,
@@ -74,6 +153,7 @@ class _LoginFormState extends State<LoginForm> {
           Obx(() => TextFormField(
                 obscureText: authController.isPasswordHidden.value,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
+                focusNode: passwordNode,
                 decoration: InputDecoration(
                   prefixIcon: Icon(
                     Icons.lock,
@@ -146,7 +226,8 @@ class _LoginFormState extends State<LoginForm> {
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                authController.signInUser();
+                // authController.signInUser();
+                loginUserNew(context);
               }
             },
           ),

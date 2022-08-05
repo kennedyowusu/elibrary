@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_overboard/flutter_overboard.dart';
 
-// ignore: must_be_immutable
-class Slider extends StatelessWidget {
-  String image, title, description;
-
-  Slider({required this.image, required this.title, required this.description});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image(image: AssetImage(image)),
-          SizedBox(height: 20),
-          Text(
-            title,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-          ),
-          SizedBox(height: 12),
-          Text(description),
-          SizedBox(height: 25),
-        ],
-      ),
-    );
-  }
-}
+final screen = [
+  new PageModel(
+      color: const Color(0xFF0097A7),
+      imageAssetPath: 'assets/image/library-1.png',
+      title: 'Screen 1',
+      body: 'Read the Menu to know what you can order',
+      doAnimateImage: true),
+  new PageModel(
+      color: const Color(0xFF536DFE),
+      imageAssetPath: 'assets/image/library-2.png',
+      title: 'Screen 2',
+      body: 'Place your order at your convenience',
+      doAnimateImage: true),
+  new PageModel(
+      color: const Color(0xFF9B90BC),
+      imageAssetPath: 'assets/image/library-3.png',
+      title: 'Screen 3',
+      body: 'Enjoy your meal',
+      doAnimateImage: true),
+];
