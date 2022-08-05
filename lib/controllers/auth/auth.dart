@@ -58,7 +58,9 @@ class AuthController extends GetxController {
     Map<String, dynamic> responseData = json.decode(response.body);
     if (response.statusCode == 200) {
       _isLoading == true
-          ? showLoaderDialog(context, message: 'Loading...')
+          ? showLoaderDialog(
+              context,
+            )
           : null;
       Get.offAll(() => BottomNavigation());
     } else {
@@ -68,6 +70,22 @@ class AuthController extends GetxController {
       );
     }
   }
+
+  // sign in user and show loader when loading
+  Future signInUserWithLoader() async {
+    _isLoading = true;
+    await signInUser();
+    _isLoading = false;
+  }
+
+  // show loading indicator when loading is true
+  // Widget loader() {
+  //   if (_isLoading) {
+  //     return Loader();
+  //   } else {
+  //     return Container();
+  //   }
+  // }
 
   Future signOut() async {
     await authService.signOutUser();
