@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 
 showErrorDialog(BuildContext context, {String? message = "Error"}) {
   Get.snackbar(
-    'Error',
-    'Something went wrong',
+    message!,
+    'Server Error',
     snackPosition: SnackPosition.BOTTOM,
     backgroundColor: Colors.red,
     colorText: Colors.white,

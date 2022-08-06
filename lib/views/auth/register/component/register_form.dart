@@ -15,8 +15,10 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   GlobalKey<FormState> _formKey = GlobalKey();
 
-  bool _isShowPassword = false;
-  var _isLoading = false;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController mailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
 
   AuthController authController = AuthController();
 
@@ -28,7 +30,9 @@ class _RegisterFormState extends State<RegisterForm> {
       child: Column(
         children: [
           TextFormField(
+            controller: nameController,
             keyboardType: TextInputType.text,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.person,
@@ -67,6 +71,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           SizedBox(height: height * 0.03),
           TextFormField(
+            controller: mailController,
             keyboardType: TextInputType.emailAddress,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
@@ -96,8 +101,16 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
             ),
             validator: (value) {
+              bool emailValid = RegExp(
+                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+              ).hasMatch(
+                mailController.text.trim(),
+              );
+
               if (value!.isEmpty) {
-                return 'Please enter your email address';
+                return 'Please enter your email';
+              } else if (!emailValid) {
+                return 'Please enter a valid email';
               }
               return null;
             },
@@ -107,19 +120,21 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           SizedBox(height: height * 0.03),
           TextFormField(
-            obscureText: !_isShowPassword,
+            controller: passwordController,
+            obscureText: authController.isPasswordHidden.value,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.lock, color: ProjectColors.grey),
               suffixIcon: IconButton(
                 icon: Icon(
-                  _isShowPassword ? Icons.visibility : Icons.visibility_off,
+                  authController.isPasswordHidden.value
+                      ? Icons.visibility_off
+                      : Icons.visibility,
                   color: Colors.grey,
                 ),
                 onPressed: () {
-                  setState(() {
-                    _isShowPassword = !_isShowPassword;
-                  });
+                  authController.isPasswordHidden.value =
+                      !authController.isPasswordHidden.value;
                 },
               ),
               labelText: 'Password',
@@ -143,30 +158,35 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
               ),
             ),
-            validator: (value) => value!.isEmpty
-                ? 'Please enter your password'
-                : value.length < 6
-                    ? 'Password must be at least 6 characters'
-                    : null,
             onSaved: (value) {
               authController.password = value!;
+            },
+            validator: (text) {
+              String? _msg;
+
+              if (text!.isEmpty) {
+                _msg = "Your password is required";
+              }
+              return _msg;
             },
           ),
           SizedBox(height: height * 0.03),
           TextFormField(
-            obscureText: !_isShowPassword,
+            obscureText: authController.isPasswordHidden.value,
+            controller: confirmPasswordController,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.lock, color: ProjectColors.grey),
               suffixIcon: IconButton(
                 icon: Icon(
-                  _isShowPassword ? Icons.visibility : Icons.visibility_off,
+                  authController.isPasswordHidden.value
+                      ? Icons.visibility_off
+                      : Icons.visibility,
                   color: Colors.grey,
                 ),
                 onPressed: () {
-                  setState(() {
-                    _isShowPassword = !_isShowPassword;
-                  });
+                  authController.isPasswordHidden.value =
+                      !authController.isPasswordHidden.value;
                 },
               ),
               labelText: 'Confirm Password',
@@ -190,14 +210,16 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
               ),
             ),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'Please confirm your password';
+            validator: (text) {
+              String? _msg;
+
+              if (text!.isEmpty) {
+                _msg = "Your password is required";
+              } else if (authController.confirmPassword !=
+                  authController.password) {
+                return "Password must be same as above";
               }
-              if (authController.confirmPassword != authController.password) {
-                return 'Password does not match';
-              }
-              return null;
+              return _msg;
             },
             onSaved: (value) {
               authController.confirmPassword = value!;
@@ -205,6 +227,12 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           SizedBox(height: height * 0.03),
           ElevatedButton(
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
+                authController.createUserAccount(context);
+              }
+            },
             style: ElevatedButton.styleFrom(
               primary: ProjectColors.primary,
               minimumSize: Size.fromHeight(height * 0.08),
@@ -216,33 +244,26 @@ class _RegisterFormState extends State<RegisterForm> {
               'Register',
               style: TextStyle(fontSize: 16),
             ),
-            onPressed: () async {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-
-                await authController.createUserAccount();
-              }
-            },
           ),
-          SizedBox(height: height * 0.03),
-          RichText(
-            text: TextSpan(
-              text: 'Already have an account? ',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-              children: [
-                TextSpan(
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      Get.to(
-                        () => LoginScreen(),
-                      );
-                    },
-                  text: 'Login',
-                  style: TextStyle(fontSize: 16, color: ProjectColors.black),
-                ),
-              ],
-            ),
-          ),
+          // SizedBox(height: height * 0.03),
+          // RichText(
+          //   text: TextSpan(
+          //     text: 'Already have an account? ',
+          //     style: TextStyle(fontSize: 16, color: Colors.grey),
+          //     children: [
+          //       TextSpan(
+          //         recognizer: TapGestureRecognizer()
+          //           ..onTap = () {
+          //             Get.to(
+          //               () => LoginScreen(),
+          //             );
+          //           },
+          //         text: 'Login',
+          //         style: TextStyle(fontSize: 16, color: ProjectColors.black),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

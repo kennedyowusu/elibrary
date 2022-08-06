@@ -18,7 +18,6 @@ class UserPreferences {
     preferences.setInt("id", user!.id!);
     preferences.setString("name", user.name!);
     preferences.setString("email", user.email!);
-    preferences.setString("phone", user.phone ?? "");
     preferences.setString("api_token", user.token!);
     return true;
   }

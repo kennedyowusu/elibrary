@@ -7,17 +7,15 @@ import 'package:http/http.dart' as http;
 class AuthService {
   ProjectApis projectApis = ProjectApis();
 
-  Future<http.Response> signUpUser(
-    String name,
-    String email,
-    String phone,
-    String password,
-    String confirmPassword,
-  ) async {
+  Future<http.Response> signUpUser({
+    String? name,
+    String? email,
+    String? password,
+    String? confirmPassword,
+  }) async {
     Map data = {
       'name': name,
       'email': email,
-      'phone': phone,
       'password': password,
       'password_confirmation': confirmPassword,
     };

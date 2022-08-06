@@ -6,7 +6,6 @@ import 'package:elibrary/services/auth/auth.dart';
 import 'package:elibrary/services/endpoints/endpoints.dart';
 import 'package:elibrary/utils/shared_prefs.dart';
 import 'package:elibrary/views/auth/login/login.dart';
-import 'package:elibrary/views/home/home.dart';
 import 'package:elibrary/widgets/button_nav.dart';
 import 'package:elibrary/widgets/error.dart';
 import 'package:elibrary/widgets/loader.dart';
@@ -16,39 +15,62 @@ import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 
 class AuthController extends GetxController {
-  late BuildContext context;
   AuthService authService = AuthService();
   ProjectApis projectApis = ProjectApis();
 
   String name = '';
-  String phone = '';
   String email = '';
   String password = '';
   String confirmPassword = '';
   var isPasswordHidden = true.obs;
 
-  Future createUserAccount() async {
+  Future createUserAccount(BuildContext context) async {
+    showLoaderDialog(context, message: "signing up ...");
+
     http.Response response = await authService.signUpUser(
-      name,
-      email,
-      phone,
-      password,
-      confirmPassword,
+      name: name,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
     );
-    Map<String, dynamic> responseData = json.decode(response.body);
-    if (response.statusCode == 200) {
-      Get.offAll(
-        () => HomeView(),
-      );
+
+    print(response.body);
+    print("response got here");
+    print(response.statusCode);
+    if (response.statusCode == 200 && response.body != "") {
+      Map<String, dynamic> responseData = json.decode(response.body);
+      print(responseData);
+      if (responseData["status"] == true) {
+        var user = User.fromJson(responseData["data"]);
+        print("registering: token=${user.token}");
+        Directory documentDirectory = await getApplicationDocumentsDirectory();
+        user.applicationDirPath = documentDirectory.path;
+        UserPreferences().setUser(user);
+        Navigator.pop(context);
+        Get.offAll(() => BottomNavigation());
+
+        Get.snackbar(
+          "Registration Successful",
+          responseData['message'],
+        );
+
+        return;
+      } else {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(responseData['message']),
+        ));
+        return;
+      }
     } else {
-      Get.snackbar(
-        "Error Occurred",
-        responseData['error'],
-      );
+      Navigator.pop(context);
+
+      showErrorDialog(context, message: "Server Error");
+      return;
     }
   }
 
-  Future loginUserNew() async {
+  Future loginUser(BuildContext context) async {
     showLoaderDialog(context, message: 'Logging in...');
 
     http.Response response = await authService.signInUser(
@@ -69,14 +91,15 @@ class AuthController extends GetxController {
         return;
       } else {
         Navigator.pop(context);
-        showErrorDialog(context, message: responseData['message']);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(responseData['message']),
+        ));
         return;
       }
     } else {
       Navigator.pop(context);
-      Map<String, dynamic> responseData = json.decode(response.body);
-      showErrorDialog(context,
-          message: responseData['message'] ?? 'Server Error');
+
+      showErrorDialog(context, message: "Server Error");
       return;
     }
   }

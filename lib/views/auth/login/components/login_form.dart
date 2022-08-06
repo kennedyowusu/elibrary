@@ -32,7 +32,6 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return Form(
       key: _formKey,
       child: Column(
@@ -161,7 +160,7 @@ class _LoginFormState extends State<LoginForm> {
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                authController.loginUserNew();
+                authController.loginUser(context);
               }
             },
           ),
