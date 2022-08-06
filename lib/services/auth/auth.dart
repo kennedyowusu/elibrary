@@ -58,4 +58,19 @@ class AuthService {
     );
     return response;
   }
+
+  Future<http.Response> resetPassword(String email) async {
+    Map data = {
+      'email': email,
+    };
+    var body = json.encode(data);
+    var url = Uri.parse(projectApis.resetPasswordUrl);
+
+    var response = await http.post(
+      url,
+      body: body,
+      headers: projectApis.headers,
+    );
+    return response;
+  }
 }

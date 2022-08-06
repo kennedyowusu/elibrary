@@ -5,6 +5,7 @@ class ProjectApis {
   String loginUrl = "${baseUrl}api/auth/login";
   String registerUrl = "${baseUrl}api/auth/register";
   String logoutUrl = "${baseUrl}api/auth/logout";
+  String resetPasswordUrl = "${baseUrl}api/auth/forgot-password";
 
   static String streamsUrl = "${baseUrl}api/streams";
   static String requestUrl = "${baseUrl}api/requests";
