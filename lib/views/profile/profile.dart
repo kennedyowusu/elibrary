@@ -1,4 +1,5 @@
 import 'package:elibrary/services/shared_prefs.dart';
+import 'package:elibrary/utils/shared_prefs.dart';
 import 'package:elibrary/views/auth/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,8 +12,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final Persistent persistent = Persistent();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,8 +23,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {
-              persistent.removeUserData('token');
+            onPressed: () async {
+              await UserPreferences().removeUser();
               Get.offAll(() => LoginScreen());
             },
             child: Text("Logout"),

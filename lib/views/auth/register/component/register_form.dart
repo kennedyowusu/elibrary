@@ -245,25 +245,25 @@ class _RegisterFormState extends State<RegisterForm> {
               style: TextStyle(fontSize: 16),
             ),
           ),
-          // SizedBox(height: height * 0.03),
-          // RichText(
-          //   text: TextSpan(
-          //     text: 'Already have an account? ',
-          //     style: TextStyle(fontSize: 16, color: Colors.grey),
-          //     children: [
-          //       TextSpan(
-          //         recognizer: TapGestureRecognizer()
-          //           ..onTap = () {
-          //             Get.to(
-          //               () => LoginScreen(),
-          //             );
-          //           },
-          //         text: 'Login',
-          //         style: TextStyle(fontSize: 16, color: ProjectColors.black),
-          //       ),
-          //     ],
-          //   ),
-          // ),
+          SizedBox(height: height * 0.03),
+          RichText(
+            text: TextSpan(
+              text: 'Already have an account? ',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+              children: [
+                TextSpan(
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      Get.to(
+                        () => LoginScreen(),
+                      );
+                    },
+                  text: 'Login',
+                  style: TextStyle(fontSize: 16, color: ProjectColors.black),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
