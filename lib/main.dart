@@ -11,6 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'views/crud/post/post.dart';
+
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 bool? seenOnboard;
 void main() async {
@@ -86,7 +88,7 @@ class _ElibraryState extends State<Elibrary> {
                   ),
             ),
             // home: seenOnboard == true ? myFuture : OnboardView(),
-            home: BottomNavigation(),
+            home: BorrowBook(),
             routes: routes,
           ),
         );

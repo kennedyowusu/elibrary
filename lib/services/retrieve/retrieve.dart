@@ -1,4 +1,4 @@
-import 'package:elibrary/model/requests.dart';
+import 'package:elibrary/model/retrieve.dart';
 import 'package:elibrary/services/endpoints/endpoints.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,11 +6,10 @@ import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:http/http.dart' as http;
 
 class RetrieveRequests {
-  RetrieveRequests();
   static var client = http.Client();
   ProjectApis projectApis = ProjectApis();
 
-  static Future<List<Requests>> fetchRequests() async {
+  static Future<List<Retrieve>> fetchRequests() async {
     final response = await client.get(
       Uri.parse(ProjectApis.requestUrl),
     );

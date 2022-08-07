@@ -1,31 +1,31 @@
 import 'dart:convert';
 
-List<Requests> requestsListFromJson(String str) =>
+List<Retrieve> requestsListFromJson(String str) =>
     (json.decode(str) as List<dynamic>)
-        .map((s) => Requests.fromJson(s))
+        .map((s) => Retrieve.fromJson(s))
         .toList();
 
-String requestsListToJson(List<Requests> data) =>
+String requestsListToJson(List<Retrieve> data) =>
     json.encode(data.map((s) => s.toJson()).toList());
 
-class Requests {
-  Requests({
-    this.title,
-    this.author,
-    this.index,
-    this.borrowDate,
-    this.returnDate,
-    this.borrowedBy,
+class Retrieve {
+  Retrieve({
+    required this.title,
+    required this.author,
+    required this.index,
+    required this.borrowDate,
+    required this.returnDate,
+    required this.borrowedBy,
   });
 
-  String? title;
-  String? author;
-  String? index;
-  String? borrowDate;
-  String? returnDate;
-  String? borrowedBy;
+  String title;
+  String author;
+  String index;
+  String borrowDate;
+  String returnDate;
+  String borrowedBy;
 
-  factory Requests.fromJson(Map<String, dynamic> json) => Requests(
+  factory Retrieve.fromJson(Map<String, dynamic> json) => Retrieve(
         title: json["title"],
         author: json["author"],
         index: json["index"],

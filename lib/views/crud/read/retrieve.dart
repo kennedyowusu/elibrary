@@ -39,13 +39,14 @@ class _RequestedBooksState extends State<RequestedBooks> {
     );
   }
 
-  bool status = false;
   final RequestsController _requestsController = Get.put(RequestsController());
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    debugPrint(_requestsController.requestList.length.toString());
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(

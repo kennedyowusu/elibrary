@@ -3,10 +3,10 @@ import 'package:elibrary/services/streams/streams.dart';
 import 'package:get/get.dart';
 
 class StreamsController extends GetxController {
-  var streamList = <Streams>[].obs;
+  RxList<Streams> streamList = <Streams>[].obs;
 
   void getStreams() async {
-    var streamVariable = await RetrieveStreams.fetchStreams();
+    List<Streams> streamVariable = await RetrieveStreams.fetchStreams();
     streamList.value = streamVariable;
   }
 

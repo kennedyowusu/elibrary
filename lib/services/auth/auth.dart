@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 
 class AuthService {
   ProjectApis projectApis = ProjectApis();
+  static var client = http.Client();
 
   Future<http.Response> signUpUser({
     String? name,
@@ -22,7 +23,7 @@ class AuthService {
     var body = json.encode(data);
     var url = Uri.parse(projectApis.registerUrl);
 
-    var response = await http.post(
+    var response = await client.post(
       url,
       body: body,
       headers: projectApis.headers,
@@ -42,7 +43,7 @@ class AuthService {
     var body = json.encode(data);
     var url = Uri.parse(projectApis.loginUrl);
 
-    var response = await http.post(
+    var response = await client.post(
       url,
       body: body,
       headers: projectApis.headers,
@@ -52,7 +53,7 @@ class AuthService {
 
   Future<http.Response> signOutUser() async {
     var url = Uri.parse(projectApis.logoutUrl);
-    var response = await http.get(
+    var response = await client.get(
       url,
       headers: projectApis.headers,
     );
@@ -66,7 +67,7 @@ class AuthService {
     var body = json.encode(data);
     var url = Uri.parse(projectApis.resetPasswordUrl);
 
-    var response = await http.post(
+    var response = await client.post(
       url,
       body: body,
       headers: projectApis.headers,
