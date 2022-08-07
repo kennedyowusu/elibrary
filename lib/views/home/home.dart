@@ -1,6 +1,7 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/styles.dart';
 import 'package:elibrary/controllers/streams/streams.dart';
+import 'package:elibrary/model/streams.dart';
 import 'package:elibrary/model/user.dart';
 import 'package:elibrary/services/shared_prefs.dart';
 import 'package:elibrary/views/details/details.dart';
@@ -14,9 +15,10 @@ import 'package:get/get.dart';
 class HomeView extends StatefulWidget {
   const HomeView({
     Key? key,
+    this.streams,
   }) : super(key: key);
   static const String routeName = '/home';
-  // final User user;
+  final Streams? streams;
 
   @override
   _HomeViewState createState() => _HomeViewState();
@@ -25,7 +27,6 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   GlobalKey<FormState> _searchKey = GlobalKey<FormState>();
   TextEditingController _searchController = TextEditingController();
-  Persistent persistent = Persistent();
 
   CategoryCard _categoryCard = CategoryCard();
   StreamByBooks _streamByBooks = StreamByBooks(
@@ -116,12 +117,13 @@ class _HomeViewState extends State<HomeView> {
                           padding: EdgeInsets.only(right: width * 0.02),
                           child: GestureDetector(
                             onTap: () => Get.to(
-                              () => DetailsScreen(),
+                              () => DetailsScreen(
+                                stream: _streamsController.streamList[index],
+                              ),
                               arguments: [
-                                // _streamByBooks.books[index].title,
-                                // _streamByBooks.books[index].image,
-                                _streamsController.streamList[index].title,
-                                // _streamsController.streamList[index].image,
+                                _streamByBooks.books[index].title,
+                                _streamsController
+                                    .streamList[index].description,
                               ],
                             ),
                             child: Column(

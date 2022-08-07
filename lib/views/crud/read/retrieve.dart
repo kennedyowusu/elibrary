@@ -1,6 +1,6 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/styles.dart';
-import 'package:elibrary/controllers/requests/requests.dart';
+import 'package:elibrary/controllers/requests/retrieve.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,227 +39,229 @@ class _RequestedBooksState extends State<RequestedBooks> {
     );
   }
 
-  final RequestsController _requestsController = Get.put(RequestsController());
+  final RetrieveController _retrieveController = Get.put(RetrieveController());
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    debugPrint(_requestsController.requestList.length.toString());
+    debugPrint(_retrieveController.requestList.length.toString());
 
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: ProjectStyle.padding(context),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: width * 0.12,
-                    height: height * 0.06,
-                    margin: EdgeInsets.only(top: height * 0.012),
-                    decoration: BoxDecoration(
-                      color: ProjectColors.secondary,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: IconButton(
-                      icon: Icon(CupertinoIcons.chevron_back),
-                      onPressed: () => Get.back(),
-                    ),
-                  ),
-                  Text(
-                    "Your Requested Books",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: ProjectColors.black,
-                    ),
-                  ),
-                  Container(
-                    width: width * 0.12,
-                    height: height * 0.06,
-                    margin: EdgeInsets.only(top: height * 0.012),
-                    decoration: BoxDecoration(
-                      color: ProjectColors.secondary,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Center(
-                      child: Text(
-                        getItemCount().toString(),
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: ProjectColors.black,
-                        ),
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: ProjectStyle.padding(context),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: width * 0.12,
+                      height: height * 0.06,
+                      margin: EdgeInsets.only(top: height * 0.012),
+                      decoration: BoxDecoration(
+                        color: ProjectColors.secondary,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: IconButton(
+                        icon: Icon(CupertinoIcons.chevron_back),
+                        onPressed: () => Get.back(),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: height * 0.02),
-              Container(
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: _requestsController.requestList.length,
-                  separatorBuilder: (context, index) => SizedBox(
-                    height: height * 0.02,
-                  ),
-                  itemBuilder: (context, index) {
-                    return Dismissible(
-                      key: UniqueKey(),
-                      onDismissed: (direction) {
-                        print(direction);
-                      },
-                      confirmDismiss: (direction) async {
-                        if (direction == DismissDirection.endToStart) {
-                          return await showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text("Confirm"),
-                              content: Text(
-                                "Are you sure you want to delete this book?",
-                                style: ProjectStyle.textStyle(context),
-                              ),
-                              actions: [
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: ProjectColors.red,
-                                  ),
-                                  child: Text("Cancel"),
-                                  onPressed: () =>
-                                      Navigator.of(context).pop(false),
-                                ),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: ProjectColors.primary,
-                                  ),
-                                  child: Text("Delete"),
-                                  onPressed: () =>
-                                      Navigator.of(context).pop(true),
-                                ),
-                              ],
-                            ),
-                          );
-                        } else {
-                          return Future.delayed(
-                            Duration(milliseconds: 100),
-                            () async {
-                              if (direction == DismissDirection.startToEnd) {
-                                return await showModalBottomSheet(
-                                  backgroundColor: Colors.transparent,
-                                  barrierColor: Colors.transparent,
-                                  context: context,
-                                  builder: (_) {
-                                    return Container(
-                                      height: height * 0.18,
-                                      decoration: BoxDecoration(
-                                        color: ProjectColors.secondary,
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              primary: ProjectColors.primary,
-                                            ),
-                                            onPressed: () {},
-                                            child: Text(
-                                              "View",
-                                              style: TextStyle(
-                                                color: ProjectColors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          ElevatedButton.icon(
-                                            style: ElevatedButton.styleFrom(
-                                              primary: ProjectColors.primary,
-                                            ),
-                                            onPressed: () {},
-                                            icon: Icon(
-                                              Icons.edit,
-                                              color: ProjectColors.white,
-                                            ),
-                                            label: Text(
-                                              "Edit",
-                                              style: TextStyle(
-                                                color: ProjectColors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
-                              }
-                              return null;
-                            },
-                          );
-                        }
-                      },
-                      background: leftSection(),
-                      secondaryBackground: rightSection(),
-                      child: Container(
-                        height: height * 0.12,
-                        child: Card(
-                          child: ListTile(
-                            title: Text(
-                              _requestsController.requestList[index].title
-                                  .toString(),
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: ProjectColors.black,
-                              ),
-                            ),
-                            subtitle: Text(
-                              _requestsController.requestList[index].author
-                                  .toString(),
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: ProjectColors.black,
-                              ),
-                            ),
-                            // trailing: _requestsController
-                            //             .requestList[index].availability ==
-                            //         true
-                            //     ? buildAvailabilityIconContainer(
-                            //         height,
-                            //         width,
-                            //         Icons.check_circle,
-                            //         ProjectColors.green,
-                            //       )
-                            //     : buildAvailabilityIconContainer(
-                            //         height,
-                            //         width,
-                            //         Icons.cancel_sharp,
-                            //         ProjectColors.red,
-                            //       ),
+                    Text(
+                      "Your Requested Books",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: ProjectColors.black,
+                      ),
+                    ),
+                    Container(
+                      width: width * 0.12,
+                      height: height * 0.06,
+                      margin: EdgeInsets.only(top: height * 0.012),
+                      decoration: BoxDecoration(
+                        color: ProjectColors.secondary,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Center(
+                        child: Text(
+                          getItemCount().toString(),
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: ProjectColors.black,
                           ),
                         ),
                       ),
-                    );
-                  },
+                    ),
+                  ],
                 ),
-              ),
-            ],
+                SizedBox(height: height * 0.02),
+                Container(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: _retrieveController.requestList.length,
+                    separatorBuilder: (context, index) => SizedBox(
+                      height: height * 0.02,
+                    ),
+                    itemBuilder: (context, index) {
+                      return Dismissible(
+                        key: UniqueKey(),
+                        onDismissed: (direction) {
+                          print(direction);
+                        },
+                        confirmDismiss: (direction) async {
+                          if (direction == DismissDirection.endToStart) {
+                            return await showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text("Confirm"),
+                                content: Text(
+                                  "Are you sure you want to delete this book?",
+                                  style: ProjectStyle.textStyle(context),
+                                ),
+                                actions: [
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: ProjectColors.red,
+                                    ),
+                                    child: Text("Cancel"),
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(false),
+                                  ),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: ProjectColors.primary,
+                                    ),
+                                    child: Text("Delete"),
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(true),
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return Future.delayed(
+                              Duration(milliseconds: 100),
+                              () async {
+                                if (direction == DismissDirection.startToEnd) {
+                                  return await showModalBottomSheet(
+                                    backgroundColor: Colors.transparent,
+                                    barrierColor: Colors.transparent,
+                                    context: context,
+                                    builder: (_) {
+                                      return Container(
+                                        height: height * 0.18,
+                                        decoration: BoxDecoration(
+                                          color: ProjectColors.secondary,
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(20),
+                                            topRight: Radius.circular(20),
+                                          ),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                primary: ProjectColors.primary,
+                                              ),
+                                              onPressed: () {},
+                                              child: Text(
+                                                "View",
+                                                style: TextStyle(
+                                                  color: ProjectColors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                            ),
+                                            ElevatedButton.icon(
+                                              style: ElevatedButton.styleFrom(
+                                                primary: ProjectColors.primary,
+                                              ),
+                                              onPressed: () {},
+                                              icon: Icon(
+                                                Icons.edit,
+                                                color: ProjectColors.white,
+                                              ),
+                                              label: Text(
+                                                "Edit",
+                                                style: TextStyle(
+                                                  color: ProjectColors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }
+                                return null;
+                              },
+                            );
+                          }
+                        },
+                        background: leftSection(),
+                        secondaryBackground: rightSection(),
+                        child: Container(
+                          height: height * 0.12,
+                          child: Card(
+                            child: ListTile(
+                              title: Text(
+                                _retrieveController.requestList[index].title
+                                    .toString(),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: ProjectColors.black,
+                                ),
+                              ),
+                              subtitle: Text(
+                                _retrieveController.requestList[index].author
+                                    .toString(),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: ProjectColors.black,
+                                ),
+                              ),
+                              // trailing: _retrieveController
+                              //             .requestList[index].availability ==
+                              //         true
+                              //     ? buildAvailabilityIconContainer(
+                              //         height,
+                              //         width,
+                              //         Icons.check_circle,
+                              //         ProjectColors.green,
+                              //       )
+                              //     : buildAvailabilityIconContainer(
+                              //         height,
+                              //         width,
+                              //         Icons.cancel_sharp,
+                              //         ProjectColors.red,
+                              //       ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  int getItemCount() => _requestsController.requestList.length;
+  int getItemCount() => _retrieveController.requestList.length;
 
   Container buildAvailabilityIconContainer(
       double height, double width, IconData icon, Color color) {
