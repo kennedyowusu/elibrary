@@ -34,18 +34,19 @@ class AuthController extends GetxController {
       confirmPassword: confirmPassword,
     );
 
-    print(response.body);
-    print("response got here");
-    print(response.statusCode);
+    // print(response.body);
+    // print("response got here");
+    // print(response.statusCode);
     if (response.statusCode == 200 && response.body != "") {
       Map<String, dynamic> responseData = json.decode(response.body);
       print(responseData);
       if (responseData["status"] == true) {
         var user = User.fromJson(responseData["data"]);
-        print("registering: token=${user.token}");
+
         Directory documentDirectory = await getApplicationDocumentsDirectory();
         user.applicationDirPath = documentDirectory.path;
         UserPreferences().setUser(user);
+        debugPrint("print this " + user.toString());
         Navigator.pop(context);
         Get.offAll(() => BottomNavigation());
 
@@ -77,25 +78,18 @@ class AuthController extends GetxController {
       email,
       password,
     );
-    if (response.statusCode == 200 || response.body != '') {
+    if (response.statusCode == 200) {
       Map<String, dynamic> responseData = json.decode(response.body);
+
       debugPrint(responseData.toString());
-      if (responseData['status'] == 'success') {
-        var userData = User.fromJson(responseData['data']);
-        debugPrint("login: token=${userData.token}");
-        Directory documentDirectory = await getApplicationDocumentsDirectory();
-        userData.applicationDirPath = documentDirectory.path;
-        UserPreferences().setUser(userData);
-        Navigator.pop(context);
-        Get.offAll(() => BottomNavigation());
-        return;
-      } else {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(responseData['message']),
-        ));
-        return;
-      }
+      debugPrint(responseData['message']);
+
+      User userData = User.fromJson(responseData);
+
+      UserPreferences().setUser(userData);
+      Navigator.pop(context);
+      Get.offAll(() => BottomNavigation());
+      return;
     } else {
       Navigator.pop(context);
 

@@ -13,31 +13,28 @@ class UserPreferences {
     return true;
   }
 
-  Future<bool> setUser(User? user) async {
+  Future<bool> setUser(User user) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setInt("id", user!.id!);
-    preferences.setString("name", user.name!);
-    preferences.setString("email", user.email!);
-    preferences.setString("api_token", user.token!);
+    //  preferences.setString('user', json.encode(user));
+
+    preferences.setString("name", user.name);
+    preferences.setString("email", user.email);
+    preferences.setString("api_token", user.token);
     return true;
   }
 
   Future<User?> getUser() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
 
-    int? id = preferences.getInt("id");
-    String? name = preferences.getString("name");
-    String? email = preferences.getString("email");
-    String? phone = preferences.getString("phone");
-    String? token = preferences.getString("api_token");
-
-    if (id == null) return null;
+    String name = preferences.getString("name").toString();
+    String email = preferences.getString("email").toString();
+    ;
+    String token = preferences.getString("api_token").toString();
+    ;
 
     User user = User(
-      id: id,
       name: name,
       email: email,
-      phone: phone,
       token: token,
     );
 

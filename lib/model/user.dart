@@ -6,44 +6,34 @@ String userToJson(User data) => json.encode(data.toJson());
 
 class User {
   User({
-    this.id,
-    this.name,
-    this.email,
-    this.password,
-    this.passwordConfirm,
-    this.token,
-    this.phone,
+    required this.name,
+    required this.email,
+    required this.token,
   });
 
-  int? id;
-  String? name;
-  String? email;
-  String? password;
-  String? passwordConfirm;
-  String? token;
-  String? phone;
+  String name;
+  String email;
+
+  String token;
 
   String applicationDirPath = "";
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
         name: json["name"],
         email: json["email"],
-        password: json["password"],
-        passwordConfirm: json["passwordConfirm"],
         token: json["token"],
-        phone: json["phone"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
         "name": name,
         "email": email,
-        "password": password,
-        "passwordConfirm": passwordConfirm,
         "token": token,
-        "phone": phone,
       };
+
+  @override
+  String toString() {
+    return 'User{ name: $name, email: $email, token: $token}';
+  }
 }
 
 

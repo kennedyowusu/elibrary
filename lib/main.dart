@@ -87,8 +87,8 @@ class _ElibraryState extends State<Elibrary> {
                     fontFamily: 'Poppins',
                   ),
             ),
-            // home: seenOnboard == true ? myFuture : OnboardView(),
-            home: BorrowBook(),
+            home: seenOnboard == true ? myFuture : OnboardView(),
+            // home: BorrowBook(),
             routes: routes,
           ),
         );
