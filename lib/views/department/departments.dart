@@ -30,7 +30,7 @@ class AllDepartmentsView extends StatelessWidget {
                     left: 0,
                     child: IconButton(
                       icon: Icon(
-                        Icons.arrow_back,
+                        Icons.chevron_left,
                         color: ProjectColors.white,
                       ),
                       onPressed: () => Navigator.pop(context),

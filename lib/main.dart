@@ -3,17 +3,12 @@ import 'package:elibrary/constants/routes.dart';
 import 'package:elibrary/model/user.dart';
 import 'package:elibrary/utils/shared_prefs.dart';
 import 'package:elibrary/views/auth/login/login.dart';
-import 'package:elibrary/views/auth/register/component/register_form.dart';
 import 'package:elibrary/views/auth/register/register.dart';
-import 'package:elibrary/views/onboard/onboarding.dart';
-import 'package:elibrary/widgets/button_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'views/crud/post/post.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 bool? seenOnboard;

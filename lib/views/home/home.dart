@@ -95,7 +95,7 @@ class _HomeViewState extends State<HomeView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Books by Streams",
+                      "Books by Department",
                       style: TextStyle(
                         color: ProjectColors.black,
                         fontWeight: FontWeight.w400,
