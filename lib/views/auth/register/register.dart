@@ -1,4 +1,3 @@
-import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/views/auth/register/component/register_form.dart';
 import 'package:elibrary/widgets/auth_design.dart';
 import 'package:flutter/material.dart';
