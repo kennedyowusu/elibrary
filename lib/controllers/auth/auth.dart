@@ -28,45 +28,28 @@ class AuthController extends GetxController {
     showLoaderDialog(context, message: "signing up ...");
 
     http.Response response = await authService.signUpUser(
-      name: name,
-      email: email,
-      password: password,
-      confirmPassword: confirmPassword,
+      name,
+      email,
+      password,
+      confirmPassword,
     );
 
-    // print(response.body);
-    // print("response got here");
-    // print(response.statusCode);
-    if (response.statusCode == 200 && response.body != "") {
+    if (response.statusCode == 200) {
       Map<String, dynamic> responseData = json.decode(response.body);
-      print(responseData);
-      if (responseData["status"] == true) {
-        var user = User.fromJson(responseData["data"]);
+      debugPrint(responseData.toString());
 
-        Directory documentDirectory = await getApplicationDocumentsDirectory();
-        user.applicationDirPath = documentDirectory.path;
-        UserPreferences().setUser(user);
-        debugPrint("print this " + user.toString());
-        Navigator.pop(context);
-        Get.offAll(() => BottomNavigation());
+      User user = User.fromJson(responseData);
 
-        Get.snackbar(
-          "Registration Successful",
-          responseData['message'],
-        );
+      UserPreferences().setUser(user);
+      debugPrint("print this " + user.toString());
+      Navigator.pop(context);
+      Get.offAll(() => BottomNavigation());
 
-        return;
-      } else {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(responseData['message']),
-        ));
-        return;
-      }
+      return;
     } else {
       Navigator.pop(context);
 
-      showErrorDialog(context, message: "Server Error");
+      showErrorDialog(context, message: response.body);
       return;
     }
   }

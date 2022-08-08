@@ -8,12 +8,12 @@ class AuthService {
   ProjectApis projectApis = ProjectApis();
   static var client = http.Client();
 
-  Future<http.Response> signUpUser({
-    String? name,
-    String? email,
-    String? password,
-    String? confirmPassword,
-  }) async {
+  Future<http.Response> signUpUser(
+    String name,
+    String email,
+    String password,
+    String confirmPassword,
+  ) async {
     Map data = {
       'name': name,
       'email': email,

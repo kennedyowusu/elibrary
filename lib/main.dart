@@ -3,6 +3,8 @@ import 'package:elibrary/constants/routes.dart';
 import 'package:elibrary/model/user.dart';
 import 'package:elibrary/utils/shared_prefs.dart';
 import 'package:elibrary/views/auth/login/login.dart';
+import 'package:elibrary/views/auth/register/component/register_form.dart';
+import 'package:elibrary/views/auth/register/register.dart';
 import 'package:elibrary/views/onboard/onboarding.dart';
 import 'package:elibrary/widgets/button_nav.dart';
 import 'package:flutter/material.dart';
@@ -15,11 +17,13 @@ import 'views/crud/post/post.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 bool? seenOnboard;
+bool isLoggedIn = false;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   SharedPreferences preferences = await SharedPreferences.getInstance();
   seenOnboard = await preferences.getBool("seenOnboard") ?? false;
+  isLoggedIn = await preferences.getBool("isLoggedIn") ?? false;
 
   runApp(Elibrary());
 }
@@ -51,9 +55,7 @@ class _ElibraryState extends State<Elibrary> {
             } else if (snapshot.data == null) {
               return LoginScreen();
             } else {
-              return CircularProgressIndicator(
-                color: ProjectColors.primary,
-              );
+              return Text("hello");
             }
         }
       },
@@ -87,8 +89,8 @@ class _ElibraryState extends State<Elibrary> {
                     fontFamily: 'Poppins',
                   ),
             ),
-            home: seenOnboard == true ? myFuture : OnboardView(),
-            // home: BorrowBook(),
+            // home: seenOnboard == true ? myFuture : OnboardView(),
+            home: RegisterScreen(),
             routes: routes,
           ),
         );
