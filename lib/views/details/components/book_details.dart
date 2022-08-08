@@ -25,8 +25,6 @@ class BookDetails extends StatefulWidget {
 }
 
 class _BookDetailsState extends State<BookDetails> {
-  final data = Get.arguments;
-
   @override
   Widget build(BuildContext context) {
     return Container(

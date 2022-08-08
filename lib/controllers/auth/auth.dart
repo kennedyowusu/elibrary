@@ -76,7 +76,7 @@ class AuthController extends GetxController {
     } else {
       Navigator.pop(context);
 
-      showErrorDialog(context, message: "Server Error");
+      showErrorDialog(context, message: response.body.toString());
       return;
     }
   }

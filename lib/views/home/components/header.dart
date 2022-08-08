@@ -1,18 +1,29 @@
 import 'package:elibrary/constants/colors.dart';
+import 'package:elibrary/model/user.dart';
+import 'package:elibrary/utils/shared_prefs.dart';
 import 'package:flutter/material.dart';
 
-class Header extends StatelessWidget {
+class Header extends StatefulWidget {
   const Header({
     Key? key,
     required this.height,
+    required this.user,
   }) : super(key: key);
 
   final double height;
+  final User user;
 
   @override
+  State<Header> createState() => _HeaderState();
+}
+
+class _HeaderState extends State<Header> {
+  @override
   Widget build(BuildContext context) {
+    debugPrint('Header build' + widget.user.toString());
+
     return Padding(
-      padding: EdgeInsets.only(top: height * 0.03),
+      padding: EdgeInsets.only(top: widget.height * 0.03),
       child: Row(
         children: [
           Expanded(
@@ -30,11 +41,11 @@ class Header extends StatelessWidget {
                     ),
                     children: [
                       TextSpan(
-                        text: 'User Name',
+                        text: widget.user.name.split(' ')[0],
                         style: TextStyle(
-                          color: ProjectColors.black,
+                          color: ProjectColors.primary,
                           fontSize: 16,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
@@ -51,11 +62,11 @@ class Header extends StatelessWidget {
             ),
           ),
           CircleAvatar(
-            radius: height * 0.05,
+            radius: widget.height * 0.05,
             backgroundColor: ProjectColors.secondary,
             child: Icon(
               Icons.person,
-              size: height * 0.060,
+              size: widget.height * 0.060,
               color: ProjectColors.white,
             ),
           ),

@@ -4,6 +4,7 @@ import 'package:elibrary/controllers/streams/streams.dart';
 import 'package:elibrary/model/streams.dart';
 import 'package:elibrary/model/user.dart';
 import 'package:elibrary/services/shared_prefs.dart';
+import 'package:elibrary/utils/shared_prefs.dart';
 import 'package:elibrary/views/details/details.dart';
 import 'package:elibrary/views/home/components/books_by_streams.dart';
 import 'package:elibrary/views/home/components/category.dart';
@@ -27,6 +28,8 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   GlobalKey<FormState> _searchKey = GlobalKey<FormState>();
   TextEditingController _searchController = TextEditingController();
+  String _searchText = '';
+  final User user = Get.put(User(email: '', name: '', token: ''));
 
   CategoryCard _categoryCard = CategoryCard();
   StreamByBooks _streamByBooks = StreamByBooks(
@@ -46,7 +49,7 @@ class _HomeViewState extends State<HomeView> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Header(height: height),
+                Header(height: height, user: user),
                 SizedBox(height: height * 0.018),
                 buildSearchField(height),
                 CarouselSlider(),
