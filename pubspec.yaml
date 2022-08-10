@@ -26,6 +26,7 @@ dependencies:
   responsive_sizer: ^3.1.0
   flutter_screenutil: ^5.5.3+2
   flutter_overboard: ^3.1.1
+  
 
 dev_dependencies:
   flutter_test:

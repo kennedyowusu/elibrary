@@ -3,14 +3,13 @@ import 'package:elibrary/constants/styles.dart';
 import 'package:elibrary/controllers/streams/streams.dart';
 import 'package:elibrary/model/streams.dart';
 import 'package:elibrary/model/user.dart';
-import 'package:elibrary/services/shared_prefs.dart';
-import 'package:elibrary/utils/shared_prefs.dart';
 import 'package:elibrary/views/department/departments.dart';
 import 'package:elibrary/views/details/details.dart';
 import 'package:elibrary/views/home/components/books_by_streams.dart';
 import 'package:elibrary/views/home/components/category.dart';
 import 'package:elibrary/views/home/components/header.dart';
 import 'package:elibrary/views/home/components/slider.dart';
+import 'package:elibrary/views/new_arrival/new_arrival_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -65,10 +64,17 @@ class _HomeViewState extends State<HomeView> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    Text(
-                      "View All",
-                      style: TextStyle(
-                        color: ProjectColors.black.withOpacity(0.5),
+                    TextButton(
+                      onPressed: () {
+                        Get.to(
+                          () => NewArrivalList(),
+                        );
+                      },
+                      child: Text(
+                        "View All",
+                        style: TextStyle(
+                          color: ProjectColors.black.withOpacity(0.5),
+                        ),
                       ),
                     ),
                   ],

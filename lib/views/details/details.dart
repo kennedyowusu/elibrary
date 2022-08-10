@@ -2,7 +2,6 @@ import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/styles.dart';
 import 'package:elibrary/controllers/details/details.dart';
 import 'package:elibrary/model/streams.dart';
-import 'package:elibrary/views/crud/post/post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -94,12 +93,12 @@ class DetailsScreen extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.06,
       margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.012),
       decoration: BoxDecoration(
-        color: ProjectColors.secondary,
+        color: ProjectColors.primary,
         borderRadius: BorderRadius.circular(5),
       ),
       child: Icon(
         icon,
-        color: ProjectColors.black,
+        color: ProjectColors.white,
       ),
     );
   }
