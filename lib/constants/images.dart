@@ -8,4 +8,5 @@ class ProjectImages {
   static const biomedics = 'assets/image/biomedics.png';
   static const og = 'assets/image/og.jpg';
   static const medicine = 'assets/image/medicine.png';
+  static const String profile = 'assets/image/profile.png';
 }
