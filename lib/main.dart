@@ -4,6 +4,7 @@ import 'package:elibrary/model/user.dart';
 import 'package:elibrary/utils/shared_prefs.dart';
 import 'package:elibrary/views/auth/login/login.dart';
 import 'package:elibrary/views/auth/register/register.dart';
+import 'package:elibrary/views/crud/post/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -85,7 +86,7 @@ class _ElibraryState extends State<Elibrary> {
                   ),
             ),
             // home: seenOnboard == true ? myFuture : OnboardView(),
-            home: LoginScreen(),
+            home: BorrowBook(),
             routes: routes,
           ),
         );

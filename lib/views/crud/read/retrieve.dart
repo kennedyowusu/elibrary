@@ -120,7 +120,12 @@ class _RequestedBooksState extends State<RequestedBooks> {
                                 title: Text("Confirm"),
                                 content: Text(
                                   "Are you sure you want to delete this book?",
-                                  style: ProjectStyle.textStyle(context),
+                                  style: ProjectStyle.textStyle(
+                                    context,
+                                    size: height * 0.02,
+                                    color: ProjectColors.white,
+                                    weight: FontWeight.w500,
+                                  ),
                                 ),
                                 actions: [
                                   ElevatedButton(

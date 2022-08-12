@@ -24,12 +24,15 @@ class ProjectStyle {
     );
   }
 
-  static textStyle(context) {
+  static textStyle(BuildContext context,
+      {required Color color,
+      required double size,
+      required FontWeight weight}) {
     double height = MediaQuery.of(context).size.height;
     return TextStyle(
-      fontSize: height * 0.022,
-      fontWeight: FontWeight.w600,
-      color: ProjectColors.black,
+      fontSize: size,
+      fontWeight: weight,
+      color: color,
     );
   }
 }

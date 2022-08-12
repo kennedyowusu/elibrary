@@ -8,23 +8,40 @@ import 'package:elibrary/widgets/button_nav.dart';
 import 'package:elibrary/widgets/top_section.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
-class BorrowBook extends StatelessWidget {
+class BorrowBook extends StatefulWidget {
   BorrowBook({Key? key}) : super(key: key);
+
+  @override
+  State<BorrowBook> createState() => _BorrowBookState();
+}
+
+class _BorrowBookState extends State<BorrowBook> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController _titleController = TextEditingController();
+
   TextEditingController _authorController = TextEditingController();
+
   TextEditingController _indexController = TextEditingController();
+
   TextEditingController _dateController = TextEditingController();
+
   TextEditingController _returnController = TextEditingController();
+
   TextEditingController _nameController = TextEditingController();
 
   String title = '';
+
   String author = '';
+
   String index = '';
+
   String borrowDate = '';
+
   String returnDate = '';
+
   String name = '';
 
   PostController _postController = Get.put(PostController());
@@ -58,11 +75,7 @@ class BorrowBook extends StatelessWidget {
         "Book has been borrowed successfully",
       );
       _clearForm();
-      // Get.to(
-      //   ((_authorController.text.trim() == "")
-      //       ? "/"
-      //       : "/search?author=" + _authorController.text.trim()),
-      // );
+
       Get.to(() => BottomNavigation());
     } else {
       Get.snackbar(
@@ -72,10 +85,58 @@ class BorrowBook extends StatelessWidget {
     }
   }
 
+  DateTime selectReturnDate = DateTime.now();
+  DateTime selectBorrowDate = DateTime.now();
+
+  Future<void> _selectReturnDate(BuildContext context) async {
+    final today = DateTime.now();
+    final newDate = DateTime(
+      today.year,
+      today.month + 1,
+      today.day,
+    );
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: newDate,
+      firstDate: newDate,
+      lastDate: newDate,
+    );
+    if (picked != null && picked != selectReturnDate)
+      setState(
+        () {
+          selectReturnDate = picked;
+        },
+      );
+  }
+
+  Future<void> _selectBorrowDate(BuildContext context) async {
+    final today = DateTime.now();
+    final newDate = DateTime(
+      today.year,
+      today.month + 1,
+      today.day,
+    );
+
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectBorrowDate,
+      firstDate: DateTime.now(),
+      lastDate: newDate,
+    );
+    if (picked != null && picked != selectBorrowDate)
+      setState(
+        () {
+          selectBorrowDate = picked;
+        },
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    debugPrint(selectReturnDate.toString());
+    debugPrint(selectBorrowDate.toString());
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -116,7 +177,10 @@ class BorrowBook extends StatelessWidget {
                     children: [
                       Text(
                         "Book Title",
-                        style: ProjectStyle.textStyle(context),
+                        style: ProjectStyle.textStyle(context,
+                            size: height * 0.02,
+                            color: ProjectColors.black,
+                            weight: FontWeight.w500),
                       ),
                       SizedBox(height: height * 0.02),
                       PostFormInputField(
@@ -136,7 +200,10 @@ class BorrowBook extends StatelessWidget {
                       SizedBox(height: height * 0.02),
                       Text(
                         "Author Name",
-                        style: ProjectStyle.textStyle(context),
+                        style: ProjectStyle.textStyle(context,
+                            size: height * 0.02,
+                            color: ProjectColors.black,
+                            weight: FontWeight.w500),
                       ),
                       SizedBox(height: height * 0.02),
                       PostFormInputField(
@@ -156,7 +223,10 @@ class BorrowBook extends StatelessWidget {
                       SizedBox(height: height * 0.02),
                       Text(
                         "Student Index",
-                        style: ProjectStyle.textStyle(context),
+                        style: ProjectStyle.textStyle(context,
+                            size: height * 0.02,
+                            color: ProjectColors.black,
+                            weight: FontWeight.w500),
                       ),
                       SizedBox(height: height * 0.02),
                       PostFormInputField(
@@ -173,50 +243,116 @@ class BorrowBook extends StatelessWidget {
                           index = value;
                         },
                       ),
-                      SizedBox(height: height * 0.02),
-                      Text(
-                        "Borrow Date",
-                        style: ProjectStyle.textStyle(context),
-                      ),
-                      SizedBox(height: height * 0.02),
-                      PostFormInputField(
-                        inputController: _dateController,
-                        hintText: "Enter Borrow Date",
-                        inputType: TextInputType.text,
-                        validate: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter Borrow Date';
-                          }
-                          return null;
-                        },
-                        saved: (value) {
-                          borrowDate = value;
-                        },
-                      ),
-                      SizedBox(height: height * 0.02),
-                      Text(
-                        "Return Date",
-                        style: ProjectStyle.textStyle(context),
-                      ),
-                      SizedBox(height: height * 0.02),
-                      PostFormInputField(
-                        inputController: _returnController,
-                        hintText: "Enter Return Date",
-                        inputType: TextInputType.text,
-                        validate: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter return date';
-                          }
-                          return null;
-                        },
-                        saved: (value) {
-                          returnDate = value;
-                        },
+                      SizedBox(height: height * 0.04),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: height * 0.010,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: ProjectColors.grey,
+                            width: 1,
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Borrow Date",
+                                      style: ProjectStyle.textStyle(
+                                        context,
+                                        size: height * 0.02,
+                                        color: ProjectColors.black,
+                                        weight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    SizedBox(height: height * 0.010),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: ProjectColors.primary,
+                                      ),
+                                      onPressed: () =>
+                                          _selectBorrowDate(context),
+                                      child: Text(
+                                        "${selectBorrowDate.toLocal()}"
+                                            .split(' ')[0],
+                                        style: ProjectStyle.textStyle(
+                                          context,
+                                          size: height * 0.02,
+                                          color: ProjectColors.white,
+                                          weight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: height * 0.080,
+                                  child: VerticalDivider(
+                                    color: ProjectColors.red,
+                                    thickness: 1,
+                                    indent: height * 0.040,
+                                  ),
+                                ),
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Return Date",
+                                      style: ProjectStyle.textStyle(context,
+                                          size: height * 0.02,
+                                          color: ProjectColors.black,
+                                          weight: FontWeight.w500),
+                                    ),
+                                    SizedBox(height: height * 0.010),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: ProjectColors.primary,
+                                      ),
+                                      onPressed: () =>
+                                          _selectReturnDate(context),
+                                      child: Text(
+                                        "${selectReturnDate.toLocal()}"
+                                            .split(' ')[0],
+                                        style: ProjectStyle.textStyle(
+                                          context,
+                                          size: height * 0.02,
+                                          color: ProjectColors.white,
+                                          weight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: height * 0.02),
+                            Text(
+                              "Abide by your chosen date".toUpperCase(),
+                              style: TextStyle(
+                                color: ProjectColors.red,
+                                fontSize: height * 0.02,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(height: height * 0.02),
                       Text(
                         "Borrowed By",
-                        style: ProjectStyle.textStyle(context),
+                        style: ProjectStyle.textStyle(context,
+                            size: height * 0.02,
+                            color: ProjectColors.black,
+                            weight: FontWeight.w500),
                       ),
                       SizedBox(height: height * 0.02),
                       PostFormInputField(
