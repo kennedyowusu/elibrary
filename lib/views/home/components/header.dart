@@ -23,7 +23,7 @@ class _HeaderState extends State<Header> {
     debugPrint('Header build' + widget.user.toString());
 
     return Padding(
-      padding: EdgeInsets.only(top: widget.height * 0.03),
+      padding: EdgeInsets.only(top: widget.height * 0.0),
       child: Row(
         children: [
           Expanded(

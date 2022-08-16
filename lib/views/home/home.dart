@@ -10,7 +10,9 @@ import 'package:elibrary/views/home/components/category.dart';
 import 'package:elibrary/views/home/components/header.dart';
 import 'package:elibrary/views/home/components/slider.dart';
 import 'package:elibrary/views/new_arrival/new_arrival_list.dart';
+import 'package:elibrary/views/search/search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class HomeView extends StatefulWidget {
@@ -42,18 +44,48 @@ class _HomeViewState extends State<HomeView> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
+    debugPrint(_streamsController.streamList.length.toString());
+
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          title: Text(
+            'Elibrary',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: ScreenUtil().setSp(30),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.search,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                showSearch(
+                  context: context,
+                  delegate: SearchItems(
+                      // streams: widget.streams,
+                      ),
+                );
+              },
+            ),
+          ],
+        ),
         body: Padding(
           padding: ProjectStyle.padding(context),
           child: SingleChildScrollView(
             child: Column(
               children: [
                 Header(height: height, user: user),
-                SizedBox(height: height * 0.018),
-                buildSearchField(height),
+                // SizedBox(height: height * 0.018),
+                // buildSearchField(height),
                 CarouselSlider(),
-                SizedBox(height: height * 0.028),
+                // SizedBox(height: height * 0.028),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
