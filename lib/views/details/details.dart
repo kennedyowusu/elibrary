@@ -9,11 +9,11 @@ import 'package:get/get.dart';
 import 'components/book_details.dart';
 
 class DetailsScreen extends StatelessWidget {
-  DetailsScreen({Key? key, required this.stream}) : super(key: key);
+  // DetailsScreen({Key? key, required this.stream}) : super(key: key);
 
   Details details = Get.put(Details());
 
-  final Streams stream;
+  // final Streams stream;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class DetailsScreen extends StatelessWidget {
                         icon: details.isAvailable == false
                             ? (Icons.check_circle_outline_outlined)
                             : (Icons.cancel_outlined),
-                        stream: stream,
+                        // stream: stream,
                       );
                     },
                   ),

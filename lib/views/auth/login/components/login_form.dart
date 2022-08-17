@@ -1,9 +1,15 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/controllers/auth/auth.dart';
+import 'package:elibrary/model/api_response.dart';
+import 'package:elibrary/model/user.dart';
 import 'package:elibrary/views/auth/register/register.dart';
+import 'package:elibrary/widgets/button_nav.dart';
+import 'package:elibrary/widgets/loader.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -17,6 +23,7 @@ class _LoginFormState extends State<LoginForm> {
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool isLoading = false;
 
   final FocusNode emailNode = FocusNode();
   final FocusNode passwordNode = FocusNode();
@@ -28,6 +35,37 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   AuthController authController = AuthController();
+
+  loginUser() async {
+    ApiResponse response = await authController.loginUser();
+
+    if (response.message == "success") {
+      saveAndRedirectToHome(response.data as User);
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      // SchedulerBinding.instance.addPostFrameCallback((_) {
+
+      // });
+      Get.snackbar(
+        "",
+        "${response.message}",
+        snackPosition: SnackPosition.BOTTOM,
+        colorText: Colors.white,
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  void saveAndRedirectToHome(User user) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.setString('token', user.token);
+    await pref.setInt('userId', user.id!);
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => BottomNavigation()),
+        (route) => false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,22 +186,30 @@ class _LoginFormState extends State<LoginForm> {
             onPressed: () {},
           ),
           SizedBox(height: height * 0.005),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: ProjectColors.primary,
-              minimumSize: Size.fromHeight(height * 0.08),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            child: Text('Login', style: TextStyle(fontSize: 16)),
-            onPressed: () async {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                authController.loginUser(context);
-              }
-            },
-          ),
+          isLoading
+              ? CircularProgressIndicator(
+                  color: ProjectColors.primary,
+                )
+              : ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: ProjectColors.primary,
+                    minimumSize: Size.fromHeight(height * 0.08),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Text('Login', style: TextStyle(fontSize: 16)),
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      setState(() {
+                        isLoading = true;
+
+                        loginUser();
+                      });
+                    }
+                  },
+                ),
           SizedBox(height: height * 0.05),
           RichText(
             text: TextSpan(

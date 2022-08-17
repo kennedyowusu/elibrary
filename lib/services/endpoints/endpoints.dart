@@ -10,8 +10,17 @@ class ProjectApis {
   static String streamsUrl = "${baseUrl}api/streams";
   static String requestUrl = "${baseUrl}api/requests";
 
+  String userUrl = "${baseUrl}api/user";
+
   Map<String, String> headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
   };
+
+  // Error messages
+  final String errorMessage = "Something went wrong";
+  final String errorMessageNoInternet = "No internet connection";
+  final String errorMessageNoData = "No data found";
+  final String errorMessageUnauthorized = "Unauthorized";
+  final String errorMessageServer = "Server error";
 }

@@ -1,12 +1,52 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/images.dart';
+import 'package:elibrary/controllers/auth/auth.dart';
+import 'package:elibrary/model/api_response.dart';
+import 'package:elibrary/services/endpoints/endpoints.dart';
 import 'package:elibrary/views/auth/login/login.dart';
+import 'package:elibrary/widgets/button_nav.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class SplashView extends StatelessWidget {
+class SplashView extends StatefulWidget {
+  @override
+  State<SplashView> createState() => _SplashViewState();
+}
+
+class _SplashViewState extends State<SplashView> {
   Future<void> initializeSettings() async {
     //Simulate other services for 3 seconds
     await Future.delayed(Duration(seconds: 3));
+  }
+
+  ProjectApis projectApis = ProjectApis();
+  AuthController authController = AuthController();
+
+  void loadUserData() async {
+    String token = await AuthController().getUserToken();
+
+    if (token == "") {
+      Get.offAll(() => LoginScreen());
+    } else {
+      ApiResponse response = await authController.getUserData();
+      if (response.message == "success") {
+        Get.offAll(() => BottomNavigation());
+      } else if (response.message == projectApis.errorMessageUnauthorized) {
+        Get.offAll(() => LoginScreen());
+      } else {
+        Get.snackbar(
+          "",
+          "${response.message}",
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    loadUserData();
+    super.initState();
   }
 
   @override

@@ -1,8 +1,5 @@
 import 'package:elibrary/constants/colors.dart';
-import 'package:elibrary/constants/images.dart';
-import 'package:elibrary/constants/styles.dart';
-import 'package:elibrary/services/shared_prefs.dart';
-import 'package:elibrary/utils/shared_prefs.dart';
+import 'package:elibrary/controllers/auth/auth.dart';
 import 'package:elibrary/views/auth/login/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +13,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  AuthController authController = AuthController();
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -65,10 +64,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     CircleAvatar(
                       backgroundColor: ProjectColors.green.withOpacity(0.5),
                       minRadius: 35.0,
-                      child: Icon(
-                        Icons.message,
-                        size: 30.0,
-                        color: Colors.white,
+                      // child: Icon(
+                      //   Icons.message,
+                      //   size: 30.0,
+                      //   color: Colors.white,
+                      // ),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.logout_sharp,
+                          size: 30.0,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          authController.logout().then(
+                                (value) => Get.offAll(
+                                  () => LoginScreen(),
+                                ),
+                              );
+                        },
                       ),
                     ),
                   ],

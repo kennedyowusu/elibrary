@@ -6,6 +6,7 @@ import 'package:elibrary/views/auth/login/login.dart';
 import 'package:elibrary/views/auth/register/register.dart';
 import 'package:elibrary/views/crud/post/post.dart';
 import 'package:elibrary/views/home/home.dart';
+import 'package:elibrary/views/splash/splash.dart';
 import 'package:elibrary/widgets/button_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -88,7 +89,8 @@ class _ElibraryState extends State<Elibrary> {
                   ),
             ),
             // home: seenOnboard == true ? myFuture : OnboardView(),
-            home: BottomNavigation(),
+            // home: BottomNavigation(),
+            home: SplashView(),
             routes: routes,
           ),
         );

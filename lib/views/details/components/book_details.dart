@@ -11,14 +11,14 @@ class BookDetails extends StatefulWidget {
     required this.height,
     required this.width,
     required this.icon,
-    required this.stream,
+    // required this.stream,
   }) : super(key: key);
 
   final double height;
   final double width;
   final IconData icon;
 
-  final Streams stream;
+  // final Streams stream;
 
   @override
   State<BookDetails> createState() => _BookDetailsState();
@@ -55,7 +55,8 @@ class _BookDetailsState extends State<BookDetails> {
             ),
             SizedBox(height: widget.height * 0.02),
             Text(
-              widget.stream.title,
+              // widget.stream.title,
+              "Hello Title",
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -64,7 +65,8 @@ class _BookDetailsState extends State<BookDetails> {
             ),
             SizedBox(height: widget.height * 0.02),
             Text(
-              widget.stream.description,
+              // widget.stream.description,
+              "Hello Description",
               textAlign: TextAlign.justify,
               style: TextStyle(
                 fontSize: 16,
@@ -73,7 +75,8 @@ class _BookDetailsState extends State<BookDetails> {
             ),
             SizedBox(height: widget.height * 0.02),
             Text(
-              widget.stream.author,
+              // widget.stream.author,
+              "Hello Author",
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -92,36 +95,37 @@ class _BookDetailsState extends State<BookDetails> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.stream.availability.toString() == "true"
-                      ? "Available"
-                      : "Not Available",
+                  // widget.stream.availability.toString() == "true"
+                  //     ? "Available"
+                  //     : "Not Available",
+                  "Available",
                   style: TextStyle(
                     fontSize: 16,
                     color: ProjectColors.black.withOpacity(0.5),
                   ),
                 ),
-                Icon(
-                  widget.stream.availability.toString() == "true"
-                      ? Icons.check_circle
-                      : Icons.cancel,
-                  color: widget.stream.availability.toString() == "true"
-                      ? ProjectColors.green
-                      : ProjectColors.red,
-                ),
+                // Icon(
+                //   widget.stream.availability.toString() == "true"
+                //       ? Icons.check_circle
+                //       : Icons.cancel,
+                //   color: widget.stream.availability.toString() == "true"
+                //       ? ProjectColors.green
+                //       : ProjectColors.red,
+                // ),
               ],
             ),
             SizedBox(height: widget.height * 0.02),
-            widget.stream.availability.toString() == "true"
-                ? ElevatedButton.icon(
-                    onPressed: () {
-                      Get.to(() => BorrowBook());
-                    },
-                    icon: Icon(Icons.add),
-                    label: Text("Borrow Book"),
-                  )
-                : Container(
-                    child: Text(""),
-                  ),
+            // widget.stream.availability.toString() == "true"
+            //     ? ElevatedButton.icon(
+            //         onPressed: () {
+            //           Get.to(() => BorrowBook());
+            //         },
+            //         icon: Icon(Icons.add),
+            //         label: Text("Borrow Book"),
+            //       )
+            //     : Container(
+            //         child: Text(""),
+            //       ),
             SizedBox(height: widget.height * 0.02),
           ],
         ),

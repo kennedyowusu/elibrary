@@ -1,9 +1,13 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/controllers/auth/auth.dart';
+import 'package:elibrary/model/api_response.dart';
+import 'package:elibrary/model/user.dart';
 import 'package:elibrary/views/auth/login/login.dart';
+import 'package:elibrary/widgets/button_nav.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({Key? key}) : super(key: key);
@@ -21,6 +25,39 @@ class _RegisterFormState extends State<RegisterForm> {
   TextEditingController confirmPasswordController = TextEditingController();
 
   AuthController authController = AuthController();
+
+  bool isLoading = false;
+
+  registerUser() async {
+    ApiResponse response = await authController.register(
+      nameController.text,
+      mailController.text,
+      passwordController.text,
+    );
+
+    if (response.message == "success") {
+      saveAndRedirect(response.data as User);
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      Get.snackbar(
+        "",
+        "${response.message}",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  void saveAndRedirect(User user) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString('token', user.token);
+    await preferences.setInt('userId', user.id!);
+
+    Get.offAll(BottomNavigation());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -226,25 +263,33 @@ class _RegisterFormState extends State<RegisterForm> {
             },
           ),
           SizedBox(height: height * 0.03),
-          ElevatedButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                authController.createUserAccount(context);
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              primary: ProjectColors.primary,
-              minimumSize: Size.fromHeight(height * 0.08),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            child: Text(
-              'Register',
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
+          isLoading
+              ? CircularProgressIndicator(
+                  color: ProjectColors.primary,
+                )
+              : ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+
+                      setState(() {
+                        isLoading = true;
+                        registerUser();
+                      });
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: ProjectColors.primary,
+                    minimumSize: Size.fromHeight(height * 0.08),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Text(
+                    'Register',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
           SizedBox(height: height * 0.03),
           RichText(
             text: TextSpan(

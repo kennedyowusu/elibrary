@@ -28,21 +28,22 @@ class UserPreferences {
 
     String name = preferences.getString("name").toString();
     String email = preferences.getString("email").toString();
-    ;
-    String token = preferences.getString("api_token").toString();
-    ;
 
-    User user = User(
-      name: name,
-      email: email,
-      token: token,
-    );
+    String token = preferences.getString("api_token").toString();
+    // int id = preferences.getInt("id");
+
+    // User user = User(
+    //   name: name,
+    //   email: email,
+    //   token: token,
+    //   id: id,
+    // );
 
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     print("documentDirectory.path:${documentDirectory.path}");
-    user.applicationDirPath = documentDirectory.path;
+    // user.applicationDirPath = documentDirectory.path;
 
-    return user;
+    // return user;
   }
 
   removeUser() async {

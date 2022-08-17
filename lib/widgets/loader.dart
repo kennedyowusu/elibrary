@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 showLoaderDialog(BuildContext context, {String? message = "loading..."}) {
   AlertDialog alert = AlertDialog(
@@ -18,11 +19,20 @@ showLoaderDialog(BuildContext context, {String? message = "loading..."}) {
       ],
     ),
   );
-  showDialog(
-    barrierDismissible: false,
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
+  SchedulerBinding.instance.addPostFrameCallback((_) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  });
+  // showDialog(
+  //   barrierDismissible: false,
+  //   context: context,
+  //   builder: (BuildContext context) {
+  //     return alert;
+  //   },
+  // );
 }
