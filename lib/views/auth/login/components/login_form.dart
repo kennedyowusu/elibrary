@@ -4,10 +4,8 @@ import 'package:elibrary/model/api_response.dart';
 import 'package:elibrary/model/user.dart';
 import 'package:elibrary/views/auth/register/register.dart';
 import 'package:elibrary/widgets/button_nav.dart';
-import 'package:elibrary/widgets/loader.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,6 +36,7 @@ class _LoginFormState extends State<LoginForm> {
 
   loginUser() async {
     ApiResponse response = await authController.loginUser();
+    debugPrint(response.message);
 
     if (response.message == "success") {
       saveAndRedirectToHome(response.data as User);
@@ -45,9 +44,7 @@ class _LoginFormState extends State<LoginForm> {
       setState(() {
         isLoading = false;
       });
-      // SchedulerBinding.instance.addPostFrameCallback((_) {
 
-      // });
       Get.snackbar(
         "",
         "${response.message}",
@@ -61,7 +58,7 @@ class _LoginFormState extends State<LoginForm> {
   void saveAndRedirectToHome(User user) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.setString('token', user.token);
-    await pref.setInt('userId', user.id!);
+
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => BottomNavigation()),
         (route) => false);

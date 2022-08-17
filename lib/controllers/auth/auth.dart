@@ -19,75 +19,30 @@ class AuthController extends GetxController {
   String confirmPassword = '';
   var isPasswordHidden = true.obs;
 
-  // Future login(String email, String password) async {
-  //   ApiResponse apiResponse = ApiResponse();
-
-  //   try {
-  //     final response = await http.post(
-  //       Uri.parse(projectApis.loginUrl),
-  //       body: json.encode({"email": email, "password": password}),
-  //       headers: projectApis.headers,
-  //     );
-
-  //     switch (response.statusCode) {
-  //       case 200:
-  //         apiResponse.data = User.fromJson(json.decode(response.body));
-  //         break;
-  //       case 422:
-  //         final error = json.decode(response.body)['errors'];
-  //         apiResponse.message = error[error.keys.elementAt(0)][0];
-  //         break;
-  //       case 401:
-  //         apiResponse.message = json.decode(response.body)['message'];
-  //         break;
-  //       default:
-  //         apiResponse.message = projectApis.errorMessage;
-  //         break;
-  //     }
-  //   } catch (e) {
-  //     apiResponse.message = projectApis.errorMessageServer;
-  //   }
-
-  //   return apiResponse;
-  // }
-
   Future loginUser() async {
     ApiResponse apiResponse = ApiResponse();
     try {
       http.Response response = await authService.signInUser(email, password);
       debugPrint(response.body);
 
-      // if (response.statusCode == 200) {
-      //   final responseJson = json.decode(response.body);
-      //   final user = User.fromJson(responseJson);
-      //   await getUserData(user);
-      //   Get.offAll('/home');
-      // } else {
-      //   final responseJson = json.decode(response.body);
-      //   final error = responseJson['errors'];
-      //   Get.snackbar(
-      //     'Error',
-      //     error[error.keys.elementAt(0)][0],
-      //     backgroundColor: Colors.red,
-      //     colorText: Colors.white,
-      //   );
-      // }
+      print(response.statusCode);
 
-      // switch (response.statusCode) {
-      //   case 200:
-      //     apiResponse.data = User.fromJson(json.decode(response.body));
-      //     break;
-      //   case 422:
-      //     final error = json.decode(response.body)['errors'];
-      //     apiResponse.message = error[error.keys.elementAt(0)][0];
-      //     break;
-      //   case 401:
-      //     apiResponse.message = json.decode(response.body)['message'];
-      //     break;
-      //   default:
-      //     apiResponse.message = projectApis.errorMessage;
-      //     break;
-      // }
+      switch (response.statusCode) {
+        case 200:
+          apiResponse.data = User.fromJson(json.decode(response.body));
+          apiResponse.message = "success";
+          break;
+        case 422:
+          final error = json.decode(response.body)['errors'];
+          apiResponse.message = error[error.keys.elementAt(0)][0];
+          break;
+        case 401:
+          apiResponse.message = json.decode(response.body)['message'];
+          break;
+        default:
+          apiResponse.message = projectApis.errorMessage;
+          break;
+      }
     } catch (e) {
       apiResponse.message = projectApis.errorMessageServer;
     }

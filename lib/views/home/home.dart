@@ -37,14 +37,14 @@ class _HomeViewState extends State<HomeView> {
   StreamByBooks _streamByBooks = StreamByBooks(
     title: '',
   );
-  // final StreamsController _streamsController = Get.put(StreamsController());
+  final StreamsController _streamsController = Get.put(StreamsController());
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    // debugPrint(_streamsController.streamList.length.toString());
+    debugPrint(_streamsController.streamList.length.toString());
 
     return SafeArea(
       child: Scaffold(
@@ -156,53 +156,57 @@ class _HomeViewState extends State<HomeView> {
                 SizedBox(height: height * 0.014),
                 Container(
                   height: height * 0.285,
-                  // child: Obx(
-                  //   () => ListView.builder(
-                  //     scrollDirection: Axis.horizontal,
-                  //     // itemCount: _streamsController.streamList.length,
-                  //     itemCount: 3,
-                  //     itemBuilder: (context, index) {
-                  //       return Padding(
-                  //         padding: EdgeInsets.only(right: width * 0.02),
-                  //         child: GestureDetector(
-                  //           onTap: () => Get.to(
-                  //             () => DetailsScreen(
-                  //                 // stream: _streamsController.streamList[index],
-                  //                 ),
-                  //             arguments: [
-                  //               // _streamByBooks.books[index].title,
-                  //               // _streamsController
-                  //               //     .streamList[index].description,
-                  //             ],
-                  //           ),
-                  //           child: Column(
-                  //             children: [
-                  //               Image.asset(
-                  //                 _streamByBooks.books
-                  //                     .map((e) => e.image)
-                  //                     .toList()[index],
-                  //                 height: height * 0.25,
-                  //                 width: width * 0.3,
-                  //                 fit: BoxFit.cover,
-                  //               ),
-                  //               SizedBox(height: height * 0.007),
-                  //               Text(
-                  //                 // _streamsController.streamList
-                  //                 //     .map((element) => element.stream)
-                  //                 //     .toList()[index]
-                  //                 //     .toString(),
-                  //                 "Hello Stream",
-                  //                 style: TextStyle(
-                  //                   color: ProjectColors.black,
-                  //                 ),
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
+                  child: Obx(
+                    () => ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _streamsController.streamList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.only(right: width * 0.02),
+                          child: GestureDetector(
+                            onTap: () => Get.to(
+                              () => DetailsScreen(
+                                stream: _streamsController.streamList[index],
+                              ),
+                              arguments: [
+                                // _streamByBooks.books[index].title,
+                                // _streamsController
+                                //     .streamList[index].description,
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                // Image.asset(
+                                //   _streamByBooks.books
+                                //       .map((e) => e.image)
+                                //       .toList()[index],
+                                //   height: height * 0.25,
+                                //   width: width * 0.3,
+                                //   fit: BoxFit.cover,
+                                // ),
+                                Image.network(
+                                  _streamsController.streamList[index].image,
+                                  height: height * 0.25,
+                                  width: width * 0.3,
+                                  fit: BoxFit.cover,
+                                ),
+                                SizedBox(height: height * 0.007),
+                                Text(
+                                  _streamsController.streamList
+                                      .map((element) => element.stream)
+                                      .toList()[index]
+                                      .toString(),
+                                  style: TextStyle(
+                                    color: ProjectColors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ],
             ),

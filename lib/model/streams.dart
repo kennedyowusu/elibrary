@@ -10,6 +10,7 @@ String streamsListToJson(List<Streams> data) =>
 
 class Streams {
   Streams({
+    required this.image,
     required this.title,
     required this.stream,
     required this.description,
@@ -17,21 +18,18 @@ class Streams {
     required this.availability,
   });
 
-  String title;
-  String stream;
-  String description;
-  String author;
-  bool availability;
-
+  String image, title, stream, description, author = "";
+  bool? availability;
   factory Streams.fromJson(Map<String, dynamic> json) => Streams(
         title: json["title"],
         stream: json["stream"],
         description: json["description"],
         author: json["author"],
         availability: json["availability"],
+        image: json["image"],
       );
-
   Map<String, dynamic> toJson() => {
+        "image": image,
         "title": title,
         "stream": stream,
         "description": description,

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SearchItems extends SearchDelegate {
-  // final StreamsController _streamsController = Get.put(StreamsController());
+  final StreamsController _streamsController = Get.put(StreamsController());
   StreamByBooks _streamByBooks = StreamByBooks(
     title: '',
   );
@@ -40,19 +40,18 @@ class SearchItems extends SearchDelegate {
     return Obx(
       () => ListView.builder(
         scrollDirection: Axis.vertical,
-        // itemCount: _streamsController.streamList.length,
-        itemCount: 3,
+        itemCount: _streamsController.streamList.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.only(right: width * 0.02),
             child: GestureDetector(
               onTap: () => Get.to(
                 () => DetailsScreen(
-                    // stream: _streamsController.streamList[index],
-                    ),
+                  stream: _streamsController.streamList[index],
+                ),
                 arguments: [
                   // _streamByBooks.books[index].title,
-                  // _streamsController.streamList[index].description,
+                  _streamsController.streamList[index].description,
                 ],
               ),
               // child: Card(
@@ -90,11 +89,10 @@ class SearchItems extends SearchDelegate {
                   ),
                   SizedBox(height: height * 0.007),
                   Text(
-                    // _streamsController.streamList
-                    //     .map((element) => element.stream)
-                    //     .toList()[index]
-                    //     .toString(),
-                    "Stream",
+                    _streamsController.streamList
+                        .map((element) => element.stream)
+                        .toList()[index]
+                        .toString(),
                     style: TextStyle(
                       color: ProjectColors.black,
                     ),

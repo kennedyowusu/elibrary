@@ -54,7 +54,6 @@ class _RegisterFormState extends State<RegisterForm> {
   void saveAndRedirect(User user) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString('token', user.token);
-    await preferences.setInt('userId', user.id!);
 
     Get.offAll(BottomNavigation());
   }
