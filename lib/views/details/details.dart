@@ -1,7 +1,6 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/styles.dart';
 import 'package:elibrary/controllers/details/details.dart';
-import 'package:elibrary/model/streams.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,11 +8,11 @@ import 'package:get/get.dart';
 import 'components/book_details.dart';
 
 class DetailsScreen extends StatelessWidget {
-  DetailsScreen({Key? key, required this.stream}) : super(key: key);
+  DetailsScreen({Key? key}) : super(key: key);
 
   Details details = Get.put(Details());
 
-  final Streams stream;
+  // final Streams stream;
 
   @override
   Widget build(BuildContext context) {

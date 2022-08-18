@@ -1,6 +1,4 @@
 import 'package:elibrary/constants/colors.dart';
-import 'package:elibrary/controllers/streams/streams.dart';
-import 'package:elibrary/model/streams.dart';
 import 'package:elibrary/views/crud/post/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
