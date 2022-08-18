@@ -53,20 +53,16 @@ class AuthController extends GetxController {
     ApiResponse apiResponse = ApiResponse();
 
     try {
-      final response = await http.post(
-        Uri.parse(projectApis.registerUrl),
-        body: json.encode({
-          "name": name,
-          "email": email,
-          "password": password,
-          "password_confirmation": password,
-        }),
-        headers: projectApis.headers,
-      );
+      http.Response response =
+          await authService.signUpUser(name, email, password, confirmPassword);
+      debugPrint(response.body);
+
+      print(response.statusCode);
 
       switch (response.statusCode) {
         case 200:
           apiResponse.data = User.fromJson(json.decode(response.body));
+          apiResponse.message = "success";
           break;
         case 422:
           final error = json.decode(response.body)['errors'];

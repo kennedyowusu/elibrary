@@ -89,8 +89,8 @@ class _ElibraryState extends State<Elibrary> {
                   ),
             ),
             // home: seenOnboard == true ? myFuture : OnboardView(),
-            // home: BottomNavigation(),
-            home: SplashView(),
+            home: BottomNavigation(),
+            // home: SplashView(),
             routes: routes,
           ),
         );

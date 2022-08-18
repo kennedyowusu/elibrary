@@ -250,7 +250,7 @@ class _RegisterFormState extends State<RegisterForm> {
               String? _msg;
 
               if (text!.isEmpty) {
-                _msg = "Your password is required";
+                _msg = "Confirm your password";
               } else if (authController.confirmPassword !=
                   authController.password) {
                 return "Password must be same as above";
