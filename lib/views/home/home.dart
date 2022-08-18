@@ -1,5 +1,6 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/styles.dart';
+import 'package:elibrary/controllers/department/department.dart';
 import 'package:elibrary/model/user.dart';
 import 'package:elibrary/views/department/departments.dart';
 import 'package:elibrary/views/details/details.dart';
@@ -10,7 +11,6 @@ import 'package:elibrary/views/home/components/slider.dart';
 import 'package:elibrary/views/new_arrival/new_arrival_list.dart';
 import 'package:elibrary/views/search/search.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class HomeView extends StatefulWidget {
@@ -37,6 +37,10 @@ class _HomeViewState extends State<HomeView> {
     User(name: '', email: '', token: ''),
   );
 
+  final DepartmentController _departmentController = Get.put(
+    DepartmentController(),
+  );
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -44,6 +48,11 @@ class _HomeViewState extends State<HomeView> {
 
     // Print user's name
     debugPrint("Name is: ${user.name}");
+
+    // print department title
+
+    // debugPrint(
+    //     "Department title is: ${_departmentController.departmentList}");
 
     return SafeArea(
       child: Scaffold(
@@ -154,62 +163,65 @@ class _HomeViewState extends State<HomeView> {
                 SizedBox(height: height * 0.014),
                 Container(
                   height: height * 0.285,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: _streamByBooks.books.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.only(right: width * 0.02),
-                        child: GestureDetector(
-                          onTap: () => Get.to(
-                            () => DetailsScreen(
-                                // stream: _streamsController.streamList[index],
+                  child: Obx(
+                    () => ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _departmentController.departmentList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.only(right: width * 0.02),
+                          child: GestureDetector(
+                            onTap: () => Get.to(
+                              () => DetailsScreen(
+                                  // stream: _streamsController.streamList[index],
+                                  ),
+                              arguments: [
+                                // _streamByBooks.books[index].title,
+                                // _streamsController
+                                //     .streamList[index].description,
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                // Image.asset(
+                                //   _streamByBooks.books
+                                //       .map((e) => e.image)
+                                //       .toList()[index],
+                                //   height: height * 0.25,
+                                //   width: width * 0.3,
+                                //   fit: BoxFit.cover,
+                                // ),
+                                Image.network(
+                                  _departmentController
+                                      .departmentList[index].imageLink,
+                                  height: height * 0.25,
+                                  width: width * 0.3,
+                                  fit: BoxFit.cover,
                                 ),
-                            arguments: [
-                              // _streamByBooks.books[index].title,
-                              // _streamsController
-                              //     .streamList[index].description,
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                _streamByBooks.books
-                                    .map((e) => e.image)
-                                    .toList()[index],
-                                height: height * 0.25,
-                                width: width * 0.3,
-                                fit: BoxFit.cover,
-                              ),
-                              // Image.network(
-                              //   _streamsController.streamList[index].image,
-                              //   height: height * 0.25,
-                              //   width: width * 0.3,
-                              //   fit: BoxFit.cover,
-                              // ),
-                              SizedBox(height: height * 0.007),
-                              Text(
-                                _streamByBooks.books
-                                    .map((element) => element.title)
-                                    .toList()[index],
-                                style: TextStyle(
-                                  color: ProjectColors.black,
+                                SizedBox(height: height * 0.007),
+                                // Text(
+                                //   _streamByBooks.books
+                                //       .map((element) => element.title)
+                                //       .toList()[index],
+                                //   style: TextStyle(
+                                //     color: ProjectColors.black,
+                                //   ),
+                                // ),
+                                Text(
+                                  _departmentController.departmentList
+                                      .map((e) => e.name)
+                                      .toList()[index],
+                                  // "hello",
+                                  style: TextStyle(
+                                    color: ProjectColors.black,
+                                  ),
                                 ),
-                              ),
-                              // Text(
-                              //   _streamsController.streamList
-                              //       .map((e) => e.title)
-                              //       .toList()[index],
-                              //   // "hello",
-                              //   style: TextStyle(
-                              //     color: ProjectColors.black,
-                              //   ),
-                              // ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
               ],
