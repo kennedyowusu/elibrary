@@ -48,6 +48,7 @@ class AuthService {
       body: body,
       headers: projectApis.headers,
     );
+    debugPrint(response.body);
     return response;
   }
 

@@ -23,7 +23,7 @@ class AuthController extends GetxController {
     ApiResponse apiResponse = ApiResponse();
     try {
       http.Response response = await authService.signInUser(email, password);
-      debugPrint(response.body);
+      debugPrint("This is the body: ${response.body}");
 
       print(response.statusCode);
 
@@ -55,9 +55,9 @@ class AuthController extends GetxController {
     try {
       http.Response response =
           await authService.signUpUser(name, email, password, confirmPassword);
-      debugPrint(response.body);
+      debugPrint("This is the body: ${response.body}");
 
-      print(response.statusCode);
+      // print(response.statusCode);
 
       switch (response.statusCode) {
         case 200:

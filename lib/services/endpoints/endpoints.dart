@@ -1,6 +1,6 @@
 class ProjectApis {
   static String baseUrl = "https://elibrari.herokuapp.com/";
-  static String localBaseUrl = "0.0.0.0:8000/";
+  static String localBaseUrl = "https://192.168.1.102:8000/";
 
   String loginUrl = "${baseUrl}api/auth/login";
   String registerUrl = "${baseUrl}api/auth/register";
@@ -8,6 +8,9 @@ class ProjectApis {
   String resetPasswordUrl = "${baseUrl}api/auth/forgot-password";
 
   static String streamsUrl = "${baseUrl}api/streams";
+  static String streamsLocalUrl = "${localBaseUrl}api/streams";
+  // static String streamsSearchUrl = "${baseUrl}api/streams/search";
+
   static String requestUrl = "${baseUrl}api/requests";
 
   String userUrl = "${baseUrl}api/user";

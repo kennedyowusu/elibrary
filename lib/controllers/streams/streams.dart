@@ -3,16 +3,17 @@ import 'package:elibrary/services/streams/streams.dart';
 import 'package:get/get.dart';
 
 class StreamsController extends GetxController {
-  var streamList = <Streams>[].obs;
-
-  // void getStreams() async {
-  //   var streamVariable = await RetrieveStreams.fetchStreams();
-  //   streamList.value = streamVariable;
-  // }
+  RxList<Streams> streamList = <Streams>[].obs;
 
   @override
   void onInit() {
-    // getStreams();
+    // fetchStreams();
     super.onInit();
+  }
+
+  void fetchStreams() async {
+    List<Streams> availableStreams = await RemoteServices.getStreams();
+
+    streamList.value = availableStreams;
   }
 }

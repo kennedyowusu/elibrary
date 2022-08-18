@@ -21,6 +21,7 @@ class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
     debugPrint('Header build' + widget.user.toString());
+    debugPrint(widget.user.name.toString());
 
     return Padding(
       padding: EdgeInsets.only(top: widget.height * 0.0),
@@ -41,7 +42,7 @@ class _HeaderState extends State<Header> {
                     ),
                     children: [
                       TextSpan(
-                        text: widget.user.name.split(' ')[0],
+                        text: widget.user.name.toString(),
                         style: TextStyle(
                           color: ProjectColors.primary,
                           fontSize: 16,

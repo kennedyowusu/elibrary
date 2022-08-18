@@ -31,13 +31,13 @@ class _HomeViewState extends State<HomeView> {
   GlobalKey<FormState> _searchKey = GlobalKey<FormState>();
   TextEditingController _searchController = TextEditingController();
   String _searchText = '';
-  // final User user = Get.put(User(email: '', name: '', token: ''));
 
   CategoryCard _categoryCard = CategoryCard();
   StreamByBooks _streamByBooks = StreamByBooks(
     title: '',
   );
   final StreamsController _streamsController = Get.put(StreamsController());
+  late final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +45,9 @@ class _HomeViewState extends State<HomeView> {
     double width = MediaQuery.of(context).size.width;
 
     debugPrint(_streamsController.streamList.length.toString());
+
+    // Print user's name
+    debugPrint("Name is: ${user.name}");
 
     return SafeArea(
       child: Scaffold(
@@ -83,7 +86,7 @@ class _HomeViewState extends State<HomeView> {
               children: [
                 Header(
                   height: height,
-                  user: User(email: '', name: '', token: ''),
+                  user: user,
                 ),
                 // SizedBox(height: height * 0.018),
                 // buildSearchField(height),
@@ -176,26 +179,33 @@ class _HomeViewState extends State<HomeView> {
                             ),
                             child: Column(
                               children: [
-                                // Image.asset(
-                                //   _streamByBooks.books
-                                //       .map((e) => e.image)
-                                //       .toList()[index],
-                                //   height: height * 0.25,
-                                //   width: width * 0.3,
-                                //   fit: BoxFit.cover,
-                                // ),
-                                Image.network(
-                                  _streamsController.streamList[index].image,
+                                Image.asset(
+                                  _streamByBooks.books
+                                      .map((e) => e.image)
+                                      .toList()[index],
                                   height: height * 0.25,
                                   width: width * 0.3,
                                   fit: BoxFit.cover,
                                 ),
+                                // Image.network(
+                                //   _streamsController.streamList[index].image,
+                                //   height: height * 0.25,
+                                //   width: width * 0.3,
+                                //   fit: BoxFit.cover,
+                                // ),
                                 SizedBox(height: height * 0.007),
+                                // Text(
+                                //   _streamByBooks.books
+                                //       .map((element) => element.title)
+                                //       .toList()[index],
+                                //   style: TextStyle(
+                                //     color: ProjectColors.black,
+                                //   ),
+                                // ),
                                 Text(
                                   _streamsController.streamList
-                                      .map((element) => element.stream)
-                                      .toList()[index]
-                                      .toString(),
+                                      .map((e) => e.title)
+                                      .toList()[index],
                                   style: TextStyle(
                                     color: ProjectColors.black,
                                   ),
