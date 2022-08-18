@@ -54,7 +54,6 @@ class _HomeViewState extends State<HomeView> {
             'Elibrary',
             style: TextStyle(
               color: Colors.black,
-              fontSize: ScreenUtil().setSp(30),
               fontWeight: FontWeight.bold,
             ),
           ),

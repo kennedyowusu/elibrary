@@ -95,6 +95,7 @@ class AuthController extends GetxController {
       switch (response.statusCode) {
         case 200:
           apiResponse.data = User.fromJson(json.decode(response.body));
+          apiResponse.message = "success";
           break;
         case 401:
           apiResponse.message = projectApis.errorMessageUnauthorized;
