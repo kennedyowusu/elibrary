@@ -41,6 +41,13 @@ class _HomeViewState extends State<HomeView> {
     User(name: '', email: '', token: ''),
   );
 
+  @override
+  void initState() {
+    user.name = user.name;
+    user.email = user.email;
+    super.initState();
+  }
+
   final DepartmentController _departmentController = Get.put(
     DepartmentController(),
   );
@@ -151,7 +158,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
                     TextButton(
                       onPressed: () => Get.to(() => AllDepartmentsView(
-                            department: widget.department!,
+                            department: widget.department,
                           )),
                       child: Text(
                         "View All",

@@ -1,25 +1,48 @@
 import 'package:elibrary/constants/colors.dart';
-import 'package:elibrary/constants/images.dart';
 import 'package:elibrary/constants/styles.dart';
+import 'package:elibrary/controllers/department/department.dart';
 import 'package:elibrary/model/department.dart';
+import 'package:elibrary/views/home/components/books_by_streams.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class AllDepartmentsView extends StatelessWidget {
-  AllDepartmentsView({Key? key, this.department}) : super(key: key);
+class AllDepartmentsView extends StatefulWidget {
+  AllDepartmentsView({Key? key, Department? department}) : super(key: key);
 
-  Department? department = Department(
-      name: '',
-      stream: '',
-      description: '',
-      author: '',
-      availability: true,
-      hod: '',
-      totalNoBooks: 0);
+  @override
+  State<AllDepartmentsView> createState() => _AllDepartmentsViewState();
+}
+
+class _AllDepartmentsViewState extends State<AllDepartmentsView> {
+  DepartmentController departmentController = Get.put(DepartmentController());
+  StreamByBooks _streamByBooks = StreamByBooks(
+    title: '',
+  );
+
+  Department department = Department(
+    name: '',
+    stream: '',
+    description: '',
+    author: '',
+    availability: true,
+    hod: '',
+    totalNoBooks: 0,
+  );
+
+  @override
+  void initState() {
+    department.name = department.name;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+
+    debugPrint(departmentController.departmentList.length.toString());
+    // Print department name
+    debugPrint(department.name);
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -97,7 +120,7 @@ class AllDepartmentsView extends StatelessWidget {
                       height: height * 0.0,
                     );
                   },
-                  itemCount: 5,
+                  itemCount: departmentController.departmentList.length,
                   itemBuilder: (context, index) => Container(
                     height: 200,
                     width: double.infinity,
@@ -142,7 +165,11 @@ class AllDepartmentsView extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               child: Image.asset(
-                                ProjectImages.medicine,
+                                // ProjectImages.medicine,
+                                // departmentController.departmentList[index].image,
+                                _streamByBooks.books
+                                    .map((e) => e.image)
+                                    .toList()[index],
                                 fit: BoxFit.fill,
                               ),
                             ),
@@ -161,7 +188,8 @@ class AllDepartmentsView extends StatelessWidget {
                                   height: 10.0,
                                 ),
                                 Text(
-                                  department!.name,
+                                  departmentController
+                                      .departmentList[index].name,
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: ProjectColors.primary,
@@ -172,10 +200,11 @@ class AllDepartmentsView extends StatelessWidget {
                                   height: 5.0,
                                 ),
                                 Text(
-                                  department!.hod,
+                                  departmentController
+                                      .departmentList[index].hod,
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: ProjectColors.primary,
+                                    color: ProjectColors.black,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -208,7 +237,10 @@ class AllDepartmentsView extends StatelessWidget {
                                 //   ),
                                 // ),
                                 Text(
-                                  department!.totalNoBooks.toInt().toString(),
+                                  departmentController
+                                      .departmentList[index].totalNoBooks
+                                      .toInt()
+                                      .toString(),
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: ProjectColors.black,
