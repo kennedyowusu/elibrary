@@ -4,6 +4,8 @@ import 'package:elibrary/views/department/departments.dart';
 import 'package:elibrary/views/home/home.dart';
 import 'package:flutter/material.dart';
 
+import '../model/department.dart';
+
 class Routes {
   static const String home = HomeView.routeName;
 }

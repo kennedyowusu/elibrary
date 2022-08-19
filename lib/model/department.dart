@@ -1,33 +1,50 @@
+// To parse this JSON data, do
+//
+//     final department = departmentFromJson(jsonString);
+
 import 'dart:convert';
-import 'package:get/get.dart';
 
-List<Product> productFromJson(String str) =>
-    List<Product>.from(json.decode(str).map((x) => Product.fromJson(x)));
+Department departmentFromJson(String str) =>
+    Department.fromJson(json.decode(str));
 
-String productToJson(List<Product> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String departmentToJson(Department data) => json.encode(data.toJson());
 
-class Product {
-  Product({
-    required this.brand,
+class Department {
+  Department({
     required this.name,
-    required this.imageLink,
+    required this.stream,
+    required this.description,
+    required this.author,
+    required this.availability,
+    required this.hod,
+    required this.totalNoBooks,
   });
 
   String name;
-  String brand;
+  String stream;
+  String description;
+  String author;
+  bool availability;
+  String hod;
+  int totalNoBooks;
 
-  String imageLink;
-
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
+  factory Department.fromJson(Map<String, dynamic> json) => Department(
         name: json["name"],
-        brand: json["brand"],
-        imageLink: json['image_link'],
+        stream: json["stream"],
+        description: json["description"],
+        author: json["author"],
+        availability: json["availability"],
+        hod: json["hod"],
+        totalNoBooks: json["totalNoBooks"],
       );
 
   Map<String, dynamic> toJson() => {
         "name": name,
-        "brand": brand,
-        "imageLink": imageLink,
+        "stream": stream,
+        "description": description,
+        "author": author,
+        "availability": availability,
+        "hod": hod,
+        "totalNoBooks": totalNoBooks,
       };
 }

@@ -1,10 +1,20 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/images.dart';
 import 'package:elibrary/constants/styles.dart';
+import 'package:elibrary/model/department.dart';
 import 'package:flutter/material.dart';
 
 class AllDepartmentsView extends StatelessWidget {
-  const AllDepartmentsView({Key? key}) : super(key: key);
+  AllDepartmentsView({Key? key, this.department}) : super(key: key);
+
+  Department? department = Department(
+      name: '',
+      stream: '',
+      description: '',
+      author: '',
+      availability: true,
+      hod: '',
+      totalNoBooks: 0);
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +161,7 @@ class AllDepartmentsView extends StatelessWidget {
                                   height: 10.0,
                                 ),
                                 Text(
-                                  'Biomedical Engineering',
+                                  department!.name,
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: ProjectColors.primary,
@@ -162,7 +172,7 @@ class AllDepartmentsView extends StatelessWidget {
                                   height: 5.0,
                                 ),
                                 Text(
-                                  'Dr. A.K.M. Ali',
+                                  department!.hod,
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: ProjectColors.primary,
@@ -182,8 +192,23 @@ class AllDepartmentsView extends StatelessWidget {
                                 SizedBox(
                                   height: 10,
                                 ),
+                                // department != null ? Text(
+                                //   department!.name,
+                                //   style: TextStyle(
+                                //     fontSize: 14,
+                                //     color: ProjectColors.primary,
+                                //     fontWeight: FontWeight.w500,
+                                //   ),
+                                // ) : Text(
+                                //   'No name available',
+                                //   style: TextStyle(
+                                //     fontSize: 14,
+                                //     color: ProjectColors.primary,
+                                //     fontWeight: FontWeight.w500,
+                                //   ),
+                                // ),
                                 Text(
-                                  "A total of 10 Departments",
+                                  department!.totalNoBooks.toInt().toString(),
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: ProjectColors.black,

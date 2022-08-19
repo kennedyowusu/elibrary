@@ -1,4 +1,5 @@
 import 'package:elibrary/constants/routes.dart';
+import 'package:elibrary/widgets/button_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,7 +27,7 @@ class Elibrary extends StatelessWidget {
               fontFamily: 'Poppins',
             ),
       ),
-      home: SplashView(),
+      home: BottomNavigation(),
       routes: routes,
     );
   }

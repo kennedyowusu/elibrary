@@ -1,6 +1,7 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/styles.dart';
 import 'package:elibrary/controllers/department/department.dart';
+import 'package:elibrary/model/department.dart';
 import 'package:elibrary/model/user.dart';
 import 'package:elibrary/views/department/departments.dart';
 import 'package:elibrary/views/details/details.dart';
@@ -16,8 +17,11 @@ import 'package:get/get.dart';
 class HomeView extends StatefulWidget {
   const HomeView({
     Key? key,
+    this.department,
   }) : super(key: key);
   static const String routeName = '/home';
+
+  final Department? department;
 
   @override
   _HomeViewState createState() => _HomeViewState();
@@ -48,11 +52,7 @@ class _HomeViewState extends State<HomeView> {
 
     // Print user's name
     debugPrint("Name is: ${user.name}");
-
-    // print department title
-
-    // debugPrint(
-    //     "Department title is: ${_departmentController.departmentList}");
+    debugPrint("Email is: ${user.email}");
 
     return SafeArea(
       child: Scaffold(
@@ -150,7 +150,9 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () => Get.to(() => AllDepartmentsView()),
+                      onPressed: () => Get.to(() => AllDepartmentsView(
+                            department: widget.department!,
+                          )),
                       child: Text(
                         "View All",
                         style: TextStyle(
@@ -173,45 +175,42 @@ class _HomeViewState extends State<HomeView> {
                           child: GestureDetector(
                             onTap: () => Get.to(
                               () => DetailsScreen(
-                                  // stream: _streamsController.streamList[index],
-                                  ),
+                                department:
+                                    _departmentController.departmentList[index],
+                              ),
                               arguments: [
-                                // _streamByBooks.books[index].title,
-                                // _streamsController
-                                //     .streamList[index].description,
+                                _departmentController
+                                    .departmentList[index].name,
+                                _departmentController
+                                    .departmentList[index].description,
+
+                                // pass image to details screen
+                                _streamByBooks.books[index].image,
                               ],
                             ),
                             child: Column(
                               children: [
-                                // Image.asset(
-                                //   _streamByBooks.books
-                                //       .map((e) => e.image)
-                                //       .toList()[index],
-                                //   height: height * 0.25,
-                                //   width: width * 0.3,
-                                //   fit: BoxFit.cover,
-                                // ),
-                                Image.network(
-                                  _departmentController
-                                      .departmentList[index].imageLink,
+                                Image.asset(
+                                  _streamByBooks.books
+                                      .map((e) => e.image)
+                                      .toList()[index],
                                   height: height * 0.25,
                                   width: width * 0.3,
                                   fit: BoxFit.cover,
                                 ),
-                                SizedBox(height: height * 0.007),
-                                // Text(
-                                //   _streamByBooks.books
-                                //       .map((element) => element.title)
-                                //       .toList()[index],
-                                //   style: TextStyle(
-                                //     color: ProjectColors.black,
-                                //   ),
+                                // Image.network(
+                                //   _departmentController
+                                //       .departmentList[index].imageLink,
+                                //   height: height * 0.25,
+                                //   width: width * 0.3,
+                                //   fit: BoxFit.cover,
                                 // ),
+                                SizedBox(height: height * 0.007),
+
                                 Text(
                                   _departmentController.departmentList
                                       .map((e) => e.name)
                                       .toList()[index],
-                                  // "hello",
                                   style: TextStyle(
                                     color: ProjectColors.black,
                                   ),

@@ -1,5 +1,7 @@
 import 'package:elibrary/constants/colors.dart';
+import 'package:elibrary/model/department.dart';
 import 'package:elibrary/views/crud/post/post.dart';
+import 'package:elibrary/views/home/components/books_by_streams.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,14 +11,18 @@ class BookDetails extends StatefulWidget {
     required this.height,
     required this.width,
     required this.icon,
-    // required this.stream,
+    required this.department,
   }) : super(key: key);
 
   final double height;
   final double width;
   final IconData icon;
 
-  // final Streams stream;
+  final Department department;
+
+  final StreamByBooks streamByBooks = Get.put(StreamByBooks(
+    title: '',
+  ));
 
   @override
   State<BookDetails> createState() => _BookDetailsState();
@@ -44,8 +50,8 @@ class _BookDetailsState extends State<BookDetails> {
                 borderRadius: BorderRadius.circular(10),
                 color: ProjectColors.white,
                 image: DecorationImage(
-                  image: NetworkImage(
-                    "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+                  image: AssetImage(
+                    widget.streamByBooks.books[index].image,
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -53,8 +59,7 @@ class _BookDetailsState extends State<BookDetails> {
             ),
             SizedBox(height: widget.height * 0.02),
             Text(
-              // widget.stream.title,
-              "Hello Title",
+              widget.department.name.toUpperCase(),
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -63,8 +68,7 @@ class _BookDetailsState extends State<BookDetails> {
             ),
             SizedBox(height: widget.height * 0.02),
             Text(
-              // widget.stream.description,
-              "Hello Description",
+              widget.department.description,
               textAlign: TextAlign.justify,
               style: TextStyle(
                 fontSize: 16,
@@ -73,8 +77,7 @@ class _BookDetailsState extends State<BookDetails> {
             ),
             SizedBox(height: widget.height * 0.02),
             Text(
-              // widget.stream.author,
-              "Hello Author",
+              widget.department.author,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -89,41 +92,41 @@ class _BookDetailsState extends State<BookDetails> {
                 color: ProjectColors.black.withOpacity(0.5),
               ),
             ),
+            SizedBox(height: widget.height * 0.02),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  // widget.stream.availability.toString() == "true"
-                  //     ? "Available"
-                  //     : "Not Available",
-                  "Available",
+                  widget.department.availability.toString() == "true"
+                      ? "Available"
+                      : "Not Available",
                   style: TextStyle(
                     fontSize: 16,
                     color: ProjectColors.black.withOpacity(0.5),
                   ),
                 ),
-                // Icon(
-                //   widget.stream.availability.toString() == "true"
-                //       ? Icons.check_circle
-                //       : Icons.cancel,
-                //   color: widget.stream.availability.toString() == "true"
-                //       ? ProjectColors.green
-                //       : ProjectColors.red,
-                // ),
+                Icon(
+                  widget.department.availability.toString() == "true"
+                      ? Icons.check_circle
+                      : Icons.cancel,
+                  color: widget.department.availability.toString() == "true"
+                      ? ProjectColors.green
+                      : ProjectColors.red,
+                ),
               ],
             ),
             SizedBox(height: widget.height * 0.02),
-            // widget.stream.availability.toString() == "true"
-            //     ? ElevatedButton.icon(
-            //         onPressed: () {
-            //           Get.to(() => BorrowBook());
-            //         },
-            //         icon: Icon(Icons.add),
-            //         label: Text("Borrow Book"),
-            //       )
-            //     : Container(
-            //         child: Text(""),
-            //       ),
+            widget.department.availability.toString() == "true"
+                ? ElevatedButton.icon(
+                    onPressed: () {
+                      Get.to(() => BorrowBook());
+                    },
+                    icon: Icon(Icons.add),
+                    label: Text("Borrow Book"),
+                  )
+                : Container(
+                    child: Text(""),
+                  ),
             SizedBox(height: widget.height * 0.02),
           ],
         ),

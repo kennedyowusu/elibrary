@@ -32,7 +32,7 @@ class _SplashViewState extends State<SplashView> {
       } else {
         Get.snackbar(
           "",
-          "Something went wrong",
+          "${response.message}",
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
           colorText: Colors.white,
