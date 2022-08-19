@@ -11,21 +11,21 @@ class RemoteService {
   ProjectApis _projectApis = ProjectApis();
   Client client = http.Client();
 
-  Future<List<Product>> getDepartments() async {
+  Future<List<Department>> getDepartments() async {
     http.Response response = await client.get(
-      Uri.parse(
-        'https://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline',
-      ),
+      Uri.parse(_projectApis.departmentsUrl),
     );
+
+    debugPrint("The response.statusCode is: ${response.statusCode}");
 
     if (response.statusCode == 200) {
       debugPrint("The response body is: ${response.body}");
+      debugPrint("The response.statusCode y is: ${response.statusCode}");
       return (json.decode(response.body) as List)
-          .map((data) => Product.fromJson(data))
+          .map((data) => Department.fromJson(data))
           .toList();
     } else {
       throw Exception('Failed to load departments');
-      // return null;
     }
   }
 }
