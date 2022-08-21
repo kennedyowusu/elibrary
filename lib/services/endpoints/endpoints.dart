@@ -1,6 +1,9 @@
+import 'package:elibrary/controllers/auth/auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 class ProjectApis {
-  // static String baseUrl = "https://elibrari.herokuapp.com/";
-  static String baseUrl = "http://192.168.1.102:8000/";
+  static String baseUrl = "https://elibrari.herokuapp.com/";
+  // static String baseUrl = "http://192.168.1.102:8000/";
 
   String loginUrl = "${baseUrl}api/auth/login";
   String registerUrl = "${baseUrl}api/auth/register";
@@ -21,6 +24,13 @@ class ProjectApis {
     "Content-Type": "application/json",
     "Accept": "application/json",
   };
+
+  // static Future<String> token = AuthController().getUserToken();
+  // Map<String, String> authHeaders = {
+  //   "Content-Type": "application/json",
+  //   "Accept": "application/json",
+  //   "Authorization": "Bearer $token",
+  // };
 
   // Error messages
   final String errorMessage = "Something went wrong";
