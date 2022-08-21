@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:elibrary/model/department.dart';
 import 'package:elibrary/services/endpoints/endpoints.dart';
@@ -14,13 +15,15 @@ class RemoteService {
   Future<List<Department>> getDepartments() async {
     http.Response response = await client.get(
       Uri.parse(_projectApis.departmentsUrl),
+      headers: _projectApis.headers,
     );
 
     debugPrint("The response.statusCode is: ${response.statusCode}");
 
     if (response.statusCode == 200) {
+      log("The response.body is: ${response.body}");
       debugPrint("The response body is: ${response.body}");
-      debugPrint("The response.statusCode y is: ${response.statusCode}");
+      debugPrint("The response.statusCode is: ${response.statusCode}");
       return (json.decode(response.body) as List)
           .map((data) => Department.fromJson(data))
           .toList();
