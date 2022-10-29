@@ -9,4 +9,5 @@ class ProjectImages {
   static const og = 'assets/image/og.jpg';
   static const medicine = 'assets/image/medicine.png';
   static const String profile = 'assets/image/profile.png';
+  static const String not_found = 'assets/image/not_found.png';
 }

@@ -1,8 +1,6 @@
-import 'package:elibrary/constants/routes.dart';
+import 'package:elibrary/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'views/splash/splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,9 +24,8 @@ class Elibrary extends StatelessWidget {
               fontFamily: 'Poppins',
             ),
       ),
-      // home: BottomNavigation(),
-      home: SplashView(),
-      routes: routes,
+      initialRoute: RouteHelper.getInitialRoute(),
+      getPages: RouteHelper.routes,
     );
   }
 }

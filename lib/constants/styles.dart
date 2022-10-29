@@ -1,7 +1,8 @@
-import 'package:elibrary/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class ProjectStyle {
+  static double kMultiplier = 0.0012;
+
   static padding(context) {
     double height = MediaQuery.of(context).size.height;
     return EdgeInsets.symmetric(horizontal: height * 0.02);
@@ -33,6 +34,7 @@ class ProjectStyle {
       fontSize: size,
       fontWeight: weight,
       color: color,
+      letterSpacing: 0.20 * height * kMultiplier,
     );
   }
 }

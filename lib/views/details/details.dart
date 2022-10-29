@@ -1,104 +1,152 @@
 import 'package:elibrary/constants/colors.dart';
+import 'package:elibrary/constants/images.dart';
 import 'package:elibrary/constants/styles.dart';
-import 'package:elibrary/controllers/details/details.dart';
-import 'package:elibrary/model/department.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:elibrary/routes/routes.dart';
+import 'package:elibrary/utils/helper.dart';
+import 'package:elibrary/views/home/components/nav_drawer.dart';
+import 'package:elibrary/widgets/app_bar.dart';
+import 'package:elibrary/widgets/medium.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'components/book_details.dart';
-
-class DetailsScreen extends StatelessWidget {
-  DetailsScreen({Key? key, required this.department}) : super(key: key);
-
-  Details details = Get.put(Details());
-
-  final Department department;
+class DetailScreen extends StatelessWidget {
+  DetailScreen({super.key});
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: ProjectStyle.padding(context),
-          child: SingleChildScrollView(
-            child: Column(
+        key: scaffoldKey,
+        backgroundColor: ProjectColors.white,
+        resizeToAvoidBottomInset: false,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(
+            60.0 * ProjectStyle.kMultiplier * height,
+          ),
+          child: ProjectAppBar(
+            height: height,
+            onPressed: () {
+              scaffoldKey.currentState!.openDrawer();
+            },
+          ),
+        ),
+        drawer: NavigationDrawer(),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: buildTopSection(
-                        width,
-                        context,
-                        CupertinoIcons.chevron_back,
-                      ),
-                    ),
-                    Text(
-                      "Brief Details",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: ProjectColors.black,
-                      ),
-                    ),
-                    buildTopSection(
-                      width,
-                      context,
-                      CupertinoIcons.book_circle,
-                    ),
-                  ],
-                ),
-                SizedBox(height: height * 0.02),
                 Container(
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    itemCount: 1,
-                    physics: NeverScrollableScrollPhysics(),
-                    separatorBuilder: (context, index) => SizedBox(
-                      height: height * 0.02,
+                  height: height * 0.5,
+                  width: width,
+                  child: Image.asset(
+                    ProjectImages.logo,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                  top: height * 0.42,
+                  left: width * 0.05,
+                  right: width * 0.05,
+                  child: Container(
+                    height: height * 0.07,
+                    width: width,
+                    decoration: BoxDecoration(
+                      color: ProjectColors.black.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(5.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: ProjectColors.black.withOpacity(0.1),
+                          blurRadius: 10,
+                          offset: Offset(0, 5),
+                        ),
+                      ],
                     ),
-                    itemBuilder: (context, index) {
-                      return BookDetails(
-                        height: height,
-                        width: width,
-                        icon: details.isAvailable == false
-                            ? (Icons.check_circle_outline_outlined)
-                            : (Icons.cancel_outlined),
-                        department: department,
-                      );
-                    },
+                    child: Center(
+                      child: Text(
+                        'The Book Title Here',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 18.0 * ProjectStyle.kMultiplier * height,
+                          color: ProjectColors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
+            // description
+            Padding(
+              padding: EdgeInsets.only(
+                left: width * 0.05,
+                right: width * 0.05,
+                top: height * 0.01,
+              ),
+              child: Text(
+                'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source from a Lorem Ipsum passage, and going through the cites of the word in classical literature,',
+                style: appStyle(
+                  size: 18.0 * ProjectStyle.kMultiplier * height,
+                ),
+              ),
+            ),
+          ],
+        ),
+        bottomNavigationBar: Container(
+          height: height * 0.120,
+          padding: EdgeInsets.only(
+            left: 20.0,
+            right: 20.0,
+            top: 20.0,
+            bottom: 30.0,
+          ),
+          decoration: BoxDecoration(
+            color: ProjectColors.black,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.0),
+              topRight: Radius.circular(10.0),
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Center(
+                child: Icon(
+                  Icons.bookmark_border_rounded,
+                  size: width * 0.10,
+                  color: ProjectColors.white,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed(
+                    RouteHelper.getRequestBookRoute(),
+                  );
+                },
+                child: Container(
+                  height: height * 0.10,
+                  width: width * 0.5,
+                  decoration: BoxDecoration(
+                    color: ProjectColors.white,
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: Center(
+                    child: MediumText(
+                      text: 'Request Book'.toUpperCase(),
+                      color: ProjectColors.black,
+                      size: 20.0 * ProjectStyle.kMultiplier * height,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-      ),
-    );
-  }
-
-  Container buildTopSection(
-    double width,
-    BuildContext context,
-    IconData icon,
-  ) {
-    return Container(
-      width: width * 0.12,
-      height: MediaQuery.of(context).size.height * 0.06,
-      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.012),
-      decoration: BoxDecoration(
-        color: ProjectColors.primary,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: Icon(
-        icon,
-        color: ProjectColors.white,
       ),
     );
   }

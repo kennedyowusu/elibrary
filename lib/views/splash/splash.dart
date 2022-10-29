@@ -1,78 +1,54 @@
+import 'dart:async';
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/images.dart';
-import 'package:elibrary/controllers/auth/auth.dart';
-import 'package:elibrary/model/api_response.dart';
-import 'package:elibrary/services/endpoints/endpoints.dart';
-import 'package:elibrary/views/auth/login/login.dart';
-import 'package:elibrary/widgets/button_nav.dart';
+import 'package:elibrary/views/onboarding/view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SplashView extends StatefulWidget {
+  const SplashView({Key? key}) : super(key: key);
+
   @override
-  State<SplashView> createState() => _SplashViewState();
+  _SplashViewState createState() => _SplashViewState();
 }
 
 class _SplashViewState extends State<SplashView> {
-  ProjectApis projectApis = ProjectApis();
-  AuthController authController = AuthController();
-
-  void loadUserData() async {
-    String token = await AuthController().getUserToken();
-
-    if (token == "") {
-      Get.offAll(() => LoginScreen());
-    } else {
-      ApiResponse response = await authController.getUserData();
-
-      if (response.message == "success") {
-        Get.offAll(() => BottomNavigation());
-      } else if (response.message == projectApis.errorMessageUnauthorized) {
-        Get.offAll(() => LoginScreen());
-      } else {
-        Get.snackbar(
-          "",
-          "${response.message}",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
-      }
-    }
-  }
-
   @override
   void initState() {
-    loadUserData();
     super.initState();
+    Timer(
+      Duration(
+        seconds: 5,
+      ),
+      () => Get.offAll(
+        () => OnboardingView(),
+        transition: Transition.rightToLeft,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    double height = size.height;
-
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CircleAvatar(
-                radius: height * 0.1,
-                backgroundColor: Colors.transparent,
-                backgroundImage: AssetImage(ProjectImages.logo),
+              Image.asset(
+                ProjectImages.logo,
+                width: 200,
+                height: 200,
               ),
-              Padding(
-                padding: EdgeInsets.all(16.0),
-                child: CircularProgressIndicator(
-                  color: ProjectColors.primary,
-                ),
-              ),
+              SizedBox(height: 20),
               Text(
-                'Knowledge is Power.',
-                style: TextStyle(fontSize: 18),
+                ' Welcome to Edu Library'.toUpperCase(),
+                style: TextStyle(
+                  color: ProjectColors.primary,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
