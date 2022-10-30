@@ -44,7 +44,7 @@ class CarouselSlide extends StatelessWidget {
                 ),
                 Positioned(
                   left: 0,
-                  top: 150,
+                  top: 170,
                   child: Container(
                     width: 140,
                     height: 22,

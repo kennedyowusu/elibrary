@@ -54,7 +54,7 @@ class NavigationDrawer extends StatelessWidget {
                 height: 20,
               ),
               DrawerItem(
-                name: 'My Account',
+                name: 'Account',
                 icon: Icons.account_box_rounded,
                 onPressed: () => onItemPressed(context, index: 3),
               ),
