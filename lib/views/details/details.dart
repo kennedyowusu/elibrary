@@ -44,7 +44,7 @@ class DetailScreen extends StatelessWidget {
                   width: width,
                   child: Image.asset(
                     ProjectImages.logo,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   ),
                 ),
                 Positioned(
