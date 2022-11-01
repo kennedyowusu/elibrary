@@ -1,6 +1,11 @@
-class CategoriesModel {
-  final String name;
-  final String image;
+class Category {
+  int? id = 0;
+  String? name = "";
 
-  CategoriesModel({required this.name, required this.image});
+  Category({this.id, this.name});
+
+  Category.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
 }
