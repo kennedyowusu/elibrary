@@ -4,7 +4,6 @@ import 'package:elibrary/recommendations.dart';
 import 'package:elibrary/routes/routes.dart';
 import 'package:elibrary/utils/helper.dart';
 import 'package:elibrary/views/home/carousel.dart';
-import 'package:elibrary/views/home/components/categories.dart';
 import 'package:elibrary/views/home/components/nav_drawer.dart';
 import 'package:elibrary/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
@@ -133,76 +132,75 @@ class HomeView extends StatelessWidget {
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   children: [
-                    for (int i = 0; i < categories.length; i++)
-                      Padding(
-                        padding: appPaddingHorizontal(20.0),
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                debugPrint("did Tapped $i");
-                                // Get.to(
-                                //   () => CategoryView(
-                                //     category: categories[i],
-                                //   ),
-                                //   arguments: categories[i],
-                                // );
-                              },
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height:
-                                        70 * ProjectStyle.kMultiplier * height,
-                                    width:
-                                        70 * ProjectStyle.kMultiplier * height,
-                                    decoration: BoxDecoration(
-                                      color:
-                                          ProjectColors.white.withOpacity(0.7),
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: ProjectColors.grey
-                                              .withOpacity(0.2),
-                                          blurRadius: 10 *
-                                              ProjectStyle.kMultiplier *
-                                              height,
-                                          offset: Offset(
-                                            0,
-                                            5 *
-                                                ProjectStyle.kMultiplier *
-                                                height,
-                                          ),
+                    Padding(
+                      padding: appPaddingHorizontal(20.0),
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              debugPrint("did Tapped");
+                              // Get.to(
+                              //   () => CategoryView(
+                              //     category: categories[i],
+                              //   ),
+                              //   arguments: categories[i],
+                              // );
+                            },
+                            child: Column(
+                              children: [
+                                Container(
+                                  height:
+                                      70 * ProjectStyle.kMultiplier * height,
+                                  width: 70 * ProjectStyle.kMultiplier * height,
+                                  decoration: BoxDecoration(
+                                    color: ProjectColors.white.withOpacity(0.7),
+                                    shape: BoxShape.circle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color:
+                                            ProjectColors.grey.withOpacity(0.2),
+                                        blurRadius: 10 *
+                                            ProjectStyle.kMultiplier *
+                                            height,
+                                        offset: Offset(
+                                          0,
+                                          5 * ProjectStyle.kMultiplier * height,
                                         ),
-                                      ],
-                                    ),
-                                    child: Center(
-                                      child: Image.asset(
-                                        categories[i].image,
-                                        height: 40 *
-                                            ProjectStyle.kMultiplier *
-                                            height,
-                                        width: 40 *
-                                            ProjectStyle.kMultiplier *
-                                            height,
                                       ),
+                                    ],
+                                  ),
+                                  child: Center(
+                                    // child: Image.asset(
+                                    //   categories[i].image,
+                                    //   height: 40 *
+                                    //       ProjectStyle.kMultiplier *
+                                    //       height,
+                                    //   width: 40 *
+                                    //       ProjectStyle.kMultiplier *
+                                    //       height,
+                                    // ),
+                                    child: FlutterLogo(
+                                      size: 40 *
+                                          ProjectStyle.kMultiplier *
+                                          height,
                                     ),
                                   ),
-                                  SizedBox(
-                                    height:
-                                        10 * ProjectStyle.kMultiplier * height,
-                                  ),
-                                  sText(
-                                    categories[i].name,
-                                    size:
-                                        14 * ProjectStyle.kMultiplier * height,
-                                    color: ProjectColors.black,
-                                  ),
-                                ],
-                              ),
+                                ),
+                                SizedBox(
+                                  height:
+                                      10 * ProjectStyle.kMultiplier * height,
+                                ),
+                                sText(
+                                  "Food",
+                                  size: 14 * ProjectStyle.kMultiplier * height,
+                                  color: ProjectColors.black,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
+                    ),
                   ],
                 ),
               ),

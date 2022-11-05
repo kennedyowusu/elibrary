@@ -1,4 +1,4 @@
-import 'package:elibrary/services/api/api_client.dart';
+import 'package:elibrary/services/requests.dart';
 import 'package:elibrary/services/endpoints.dart';
 import 'package:get/get.dart';
 
