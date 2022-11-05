@@ -4,36 +4,34 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CategoryController extends GetxController {
-  final CategoryRepository categoryRepository;
+  CategoryRepository categoryRepository = CategoryRepository();
 
-  CategoryController({required this.categoryRepository});
+  RxList<Category> categoryList = <Category>[].obs;
+  RxBool isLoading = false.obs;
 
-  List<Category> categoryList = [];
-
-  bool isLoaded = false;
+  @override
+  void onInit() {
+    super.onInit();
+    getCategoryList();
+  }
 
   Future<void> getCategoryList() async {
-    Response response = await categoryRepository.getCategories();
+    isLoading(true);
+    Response categoryResponse = await categoryRepository.getCategories();
 
-    if (response.statusCode == 200) {
-      categoryList = [];
-
-      for (var item in response.body) {
-        categoryList.add(Category.fromJson(item));
-      }
-
-      debugPrint('Category List: ${categoryList.length}');
-
-      isLoaded = true;
-      update();
+    if (categoryResponse.statusCode == 200) {
+      List<Category> categories =
+          categoryFromJson(categoryResponse.bodyString ?? "[]");
+      categoryList.assignAll(categories);
     } else {
       Get.snackbar(
         "Error Occurred",
-        response.statusText.toString(),
+        categoryResponse.statusText.toString(),
         snackPosition: SnackPosition.BOTTOM,
         colorText: Colors.white,
         backgroundColor: Colors.red,
       );
     }
+    isLoading(false);
   }
 }

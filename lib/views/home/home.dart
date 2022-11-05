@@ -1,5 +1,6 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/styles.dart';
+import 'package:elibrary/controllers/category_controller.dart';
 import 'package:elibrary/recommendations.dart';
 import 'package:elibrary/routes/routes.dart';
 import 'package:elibrary/utils/helper.dart';
@@ -12,6 +13,7 @@ import 'package:get/get.dart';
 class HomeView extends StatelessWidget {
   HomeView({super.key});
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final CategoryController categoryController = Get.put(CategoryController());
 
   @override
   Widget build(BuildContext context) {
@@ -128,15 +130,20 @@ class HomeView extends StatelessWidget {
               ),
               SizedBox(
                 height: height * 0.16,
-                child: ListView(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    CategoryItem(
-                      height: height,
-                      name: 'Goat Jollof',
-                    ),
-                  ],
+                child: Obx(
+                  () => ListView(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    children: categoryController.categoryList
+                        .map(
+                          (category) => CategoryItem(
+                            height: height,
+                            name: category.name,
+                            icon: category.icon,
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
               ),
               SizedBox(
@@ -268,10 +275,12 @@ class CategoryItem extends StatelessWidget {
     super.key,
     required this.height,
     required this.name,
+    required this.icon,
   });
 
   final double height;
   final String name;
+  final String icon;
 
   @override
   Widget build(BuildContext context) {
@@ -294,6 +303,7 @@ class CategoryItem extends StatelessWidget {
                 Container(
                   height: 70 * ProjectStyle.kMultiplier * height,
                   width: 70 * ProjectStyle.kMultiplier * height,
+                  padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: ProjectColors.white.withOpacity(0.7),
                     shape: BoxShape.circle,
@@ -308,18 +318,10 @@ class CategoryItem extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: Center(
-                    // child: Image.asset(
-                    //   categories[i].image,
-                    //   height: 40 *
-                    //       ProjectStyle.kMultiplier *
-                    //       height,
-                    //   width: 40 *
-                    //       ProjectStyle.kMultiplier *
-                    //       height,
-                    // ),
-                    child: FlutterLogo(
-                      size: 40 * ProjectStyle.kMultiplier * height,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    backgroundImage: NetworkImage(
+                      icon,
                     ),
                   ),
                 ),
