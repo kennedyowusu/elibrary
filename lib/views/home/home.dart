@@ -132,74 +132,9 @@ class HomeView extends StatelessWidget {
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   children: [
-                    Padding(
-                      padding: appPaddingHorizontal(20.0),
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              debugPrint("did Tapped");
-                              // Get.to(
-                              //   () => CategoryView(
-                              //     category: categories[i],
-                              //   ),
-                              //   arguments: categories[i],
-                              // );
-                            },
-                            child: Column(
-                              children: [
-                                Container(
-                                  height:
-                                      70 * ProjectStyle.kMultiplier * height,
-                                  width: 70 * ProjectStyle.kMultiplier * height,
-                                  decoration: BoxDecoration(
-                                    color: ProjectColors.white.withOpacity(0.7),
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color:
-                                            ProjectColors.grey.withOpacity(0.2),
-                                        blurRadius: 10 *
-                                            ProjectStyle.kMultiplier *
-                                            height,
-                                        offset: Offset(
-                                          0,
-                                          5 * ProjectStyle.kMultiplier * height,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Center(
-                                    // child: Image.asset(
-                                    //   categories[i].image,
-                                    //   height: 40 *
-                                    //       ProjectStyle.kMultiplier *
-                                    //       height,
-                                    //   width: 40 *
-                                    //       ProjectStyle.kMultiplier *
-                                    //       height,
-                                    // ),
-                                    child: FlutterLogo(
-                                      size: 40 *
-                                          ProjectStyle.kMultiplier *
-                                          height,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height:
-                                      10 * ProjectStyle.kMultiplier * height,
-                                ),
-                                sText(
-                                  "Food",
-                                  size: 14 * ProjectStyle.kMultiplier * height,
-                                  color: ProjectColors.black,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                    CategoryItem(
+                      height: height,
+                      name: 'Goat Jollof',
                     ),
                   ],
                 ),
@@ -323,6 +258,83 @@ class HomeView extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class CategoryItem extends StatelessWidget {
+  const CategoryItem({
+    super.key,
+    required this.height,
+    required this.name,
+  });
+
+  final double height;
+  final String name;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: appPaddingHorizontal(20.0),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              debugPrint("did Tapped");
+              // Get.to(
+              //   () => CategoryView(
+              //     category: categories[i],
+              //   ),
+              //   arguments: categories[i],
+              // );
+            },
+            child: Column(
+              children: [
+                Container(
+                  height: 70 * ProjectStyle.kMultiplier * height,
+                  width: 70 * ProjectStyle.kMultiplier * height,
+                  decoration: BoxDecoration(
+                    color: ProjectColors.white.withOpacity(0.7),
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: ProjectColors.grey.withOpacity(0.2),
+                        blurRadius: 10 * ProjectStyle.kMultiplier * height,
+                        offset: Offset(
+                          0,
+                          5 * ProjectStyle.kMultiplier * height,
+                        ),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    // child: Image.asset(
+                    //   categories[i].image,
+                    //   height: 40 *
+                    //       ProjectStyle.kMultiplier *
+                    //       height,
+                    //   width: 40 *
+                    //       ProjectStyle.kMultiplier *
+                    //       height,
+                    // ),
+                    child: FlutterLogo(
+                      size: 40 * ProjectStyle.kMultiplier * height,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10 * ProjectStyle.kMultiplier * height,
+                ),
+                sText(
+                  name,
+                  size: 14 * ProjectStyle.kMultiplier * height,
+                  color: ProjectColors.black,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
