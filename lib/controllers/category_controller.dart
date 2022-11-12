@@ -22,11 +22,24 @@ class CategoryController extends GetxController {
     try {
       Response categoryResponse = await categoryRepository.getCategories();
       if (categoryResponse.statusCode == 200) {
+        Map<String, dynamic> categoryMap = categoryResponse.body;
+
+        categoryMap.forEach((key, value) {
+          debugPrint("key = $key, value = $value");
+        });
+
+        debugPrint("result = ${categoryResponse.bodyString}");
+
         categoryList.assignAll(
           categoryFromJson(categoryResponse.bodyString ?? ''),
         );
+      } else {
+        showErrorMessage(categoryResponse, "Error Occurred").show();
+        debugPrint(categoryResponse.bodyString ?? '');
+        debugPrint(
+          categoryResponse.statusText.toString(),
+        );
       }
-      showErrorMessage(categoryResponse, "Error Occurred").show();
     } on SocketException {
       GetSnackBar(
         message: "No Internet Connectivity",
@@ -38,7 +51,7 @@ class CategoryController extends GetxController {
         e.toString(),
         snackPosition: SnackPosition.BOTTOM,
         colorText: Colors.white,
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.green,
         duration: Duration(seconds: 5),
       ).show();
     } finally {
