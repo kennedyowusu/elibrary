@@ -11,14 +11,20 @@ class Category {
     required this.id,
     required this.name,
     required this.icon,
+    required List<Category> children,
   });
 
   int id;
   String name;
   String icon;
 
-  factory Category.fromJson(Map<String, dynamic> json) =>
-      Category(id: json["id"], name: json["name"], icon: json["icon"]);
+  factory Category.fromJson(Map<String, dynamic> json) => Category(
+        id: json["id"],
+        name: json["name"],
+        icon: json["icon"],
+        children: List<Category>.from(
+            json["children"].map((x) => Category.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
         "id": id,

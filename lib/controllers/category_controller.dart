@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:elibrary/model/categories.dart';
 import 'package:elibrary/services/repository/category_repository.dart';
 import 'package:flutter/material.dart';
@@ -17,21 +19,41 @@ class CategoryController extends GetxController {
 
   Future<void> getCategoryList() async {
     isLoading(true);
-    Response categoryResponse = await categoryRepository.getCategories();
-
-    if (categoryResponse.statusCode == 200) {
-      List<Category> categories =
-          categoryFromJson(categoryResponse.bodyString ?? "[]");
-      categoryList.assignAll(categories);
-    } else {
+    try {
+      Response categoryResponse = await categoryRepository.getCategories();
+      if (categoryResponse.statusCode == 200) {
+        categoryList.assignAll(
+          categoryFromJson(categoryResponse.bodyString ?? ''),
+        );
+      }
+      showErrorMessage(categoryResponse, "Error Occurred").show();
+    } on SocketException {
+      GetSnackBar(
+        message: "No Internet Connectivity",
+        duration: Duration(seconds: 5),
+      ).show();
+    } catch (e) {
       Get.snackbar(
         "Error Occurred",
-        categoryResponse.statusText.toString(),
+        e.toString(),
         snackPosition: SnackPosition.BOTTOM,
         colorText: Colors.white,
         backgroundColor: Colors.red,
-      );
+        duration: Duration(seconds: 5),
+      ).show();
+    } finally {
+      isLoading(false);
     }
-    isLoading(false);
+  }
+
+  SnackbarController showErrorMessage(
+      Response<dynamic> categoryResponse, String message) {
+    return Get.snackbar(
+      "Error Occurred",
+      categoryResponse.statusText.toString(),
+      snackPosition: SnackPosition.BOTTOM,
+      colorText: Colors.white,
+      backgroundColor: Colors.red,
+    );
   }
 }
