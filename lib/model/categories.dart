@@ -10,14 +10,14 @@ String categoryToJson(List<Category> data) =>
 
 class Category {
   Category({
-    required this.id,
-    required this.name,
-    required this.icon,
+    this.id,
+    this.name,
+    this.icon,
   });
 
-  int id;
-  String name;
-  String icon;
+  int? id = 0;
+  String? name = "";
+  String? icon = "";
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"],

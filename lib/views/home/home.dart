@@ -141,8 +141,8 @@ class HomeView extends StatelessWidget {
                           .map(
                             (category) => CategoryItem(
                               height: height,
-                              name: category.name,
-                              icon: category.icon,
+                              name: category.name ?? "",
+                              icon: category.icon ?? "",
                             ),
                           )
                           .toList(),
@@ -290,19 +290,29 @@ class CategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CategoryController categoryController = Get.find();
     return Padding(
       padding: appPaddingHorizontal(20.0),
       child: Row(
         children: [
           GestureDetector(
             onTap: () {
-              debugPrint("did Tapped");
-              // Get.to(
-              //   () => CategoryView(
-              //     category: categories[i],
-              //   ),
-              //   arguments: categories[i],
-              // );
+              for (int i = 0; i < categoryController.categoryList.length; i++) {
+                if (categoryController.categoryList[i].name == name) {
+                  Get.toNamed(
+                    RouteHelper.category,
+                    arguments: categoryController.categoryList[i].name,
+                  );
+                  debugPrint(
+                    "did Tapped ${categoryController.categoryList[i].name}",
+                  );
+                } else {
+                  // debugPrint(
+                  //     "did Tapped ${categoryController.categoryList[i].name}");
+                }
+              }
+
+              Get.toNamed(RouteHelper.category);
             },
             child: Column(
               children: [
@@ -325,9 +335,11 @@ class CategoryItem extends StatelessWidget {
                     ],
                   ),
                   child: CircleAvatar(
+                    maxRadius: 30,
                     backgroundColor: Colors.transparent,
                     backgroundImage: NetworkImage(
                       icon,
+                      scale: 1,
                     ),
                   ),
                 ),
