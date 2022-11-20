@@ -1,5 +1,6 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/styles.dart';
+import 'package:elibrary/controllers/book_controller.dart';
 import 'package:elibrary/controllers/category_controller.dart';
 import 'package:elibrary/recommendations.dart';
 import 'package:elibrary/routes/routes.dart';
@@ -16,10 +17,14 @@ class HomeView extends StatelessWidget {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final CategoryController categoryController = Get.put(CategoryController());
 
+  final BookController bookController = Get.put(BookController());
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+
+    // bookController.bookList.map((book) => {});
 
     return SafeArea(
       child: Scaffold(
