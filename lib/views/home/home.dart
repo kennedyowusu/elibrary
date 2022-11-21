@@ -1,4 +1,5 @@
 import 'package:elibrary/constants/colors.dart';
+import 'package:elibrary/constants/images.dart';
 import 'package:elibrary/constants/styles.dart';
 import 'package:elibrary/controllers/book_controller.dart';
 import 'package:elibrary/controllers/category_controller.dart';
@@ -112,26 +113,15 @@ class HomeView extends StatelessWidget {
                   height: 10 * ProjectStyle.kMultiplier * height,
                 ),
                 Container(
-                    height: height * 0.28,
-                    color: ProjectColors.grey.withOpacity(0.2),
-                    child: ListView(
-                      children: List.generate(
-                        bookController.bookList.length,
-                        (index) {
-                          return Text(
-                            bookController.bookList[index].author.toString(),
-                            style: TextStyle(color: Colors.red),
-                          );
-                        },
-                      ),
-                    )
-                    // child: CarouselSlide(
-                    //   didSelected: (int index) {
-                    //     debugPrint("did Tapped $index");
-                    //     Get.toNamed(RouteHelper.getDetailRoute());
-                    //   },
-                    // ),
-                    ),
+                  height: height * 0.28,
+                  color: ProjectColors.grey.withOpacity(0.2),
+                  child: CarouselSlide(
+                    didSelected: (int index) {
+                      debugPrint("did Tapped $index");
+                      Get.toNamed(RouteHelper.getDetailRoute());
+                    },
+                  ),
+                ),
                 SizedBox(
                   height: 20 * ProjectStyle.kMultiplier * height,
                 ),
@@ -217,7 +207,7 @@ class HomeView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         for (int index = 0;
-                            index < recommendations.length;
+                            index < bookController.bookList.length;
                             index++)
                           Column(
                             children: [
@@ -255,7 +245,9 @@ class HomeView extends StatelessWidget {
                                     children: [
                                       Center(
                                         child: Image.asset(
-                                          recommendations[index].image,
+                                          // bookController.bookList[index].image ??
+                                          //     "",
+                                          ProjectImages.biomedics,
                                           fit: BoxFit.contain,
                                           height: height * 0.16,
                                         ),
@@ -265,14 +257,15 @@ class HomeView extends StatelessWidget {
                                             ProjectStyle.kMultiplier *
                                             height,
                                       ),
-                                      sText(
-                                        recommendations[index].title,
-                                        size: 12 *
-                                            ProjectStyle.kMultiplier *
-                                            height,
-                                        weight: FontWeight.w500,
-                                        color: ProjectColors.black,
-                                      ),
+                                      // sText(
+                                      //   bookController.bookList[index].author ??
+                                      //       "",
+                                      //   size: 12 *
+                                      //       ProjectStyle.kMultiplier *
+                                      //       height,
+                                      //   weight: FontWeight.w500,
+                                      //   color: ProjectColors.black,
+                                      // ),
                                     ],
                                   ),
                                 ),

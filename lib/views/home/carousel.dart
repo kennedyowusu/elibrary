@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/images.dart';
-import 'package:elibrary/views/home/model.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:elibrary/controllers/book_controller.dart';
@@ -9,17 +8,11 @@ import 'package:get/get.dart';
 
 class CarouselSlide extends StatelessWidget {
   CarouselSlide({Key? key, required this.didSelected}) : super(key: key);
-  // final List homeModel;
   final Function(int index) didSelected;
   final BookController bookController = Get.put(BookController());
 
   @override
   Widget build(BuildContext context) {
-    for (var i = 0; i < bookController.bookList.length; i++) {
-      if (bookController.bookList[i].isAvailable == true) {
-        debugPrint("Available Books are: ${bookController.bookList[i].title}");
-      }
-    }
     return CarouselSlider(
       options: CarouselOptions(
         height: MediaQuery.of(context).size.width * 0.96 * 9 / 16,
@@ -30,12 +23,21 @@ class CarouselSlide extends StatelessWidget {
       ),
       items: bookController.bookList.map((element) {
         final index = bookController.bookList.indexOf(element);
-        final item = bookController.bookList[index];
-        debugPrint(bookController.bookList[index].author);
+        final availableBookAuthor =
+            bookController.bookList[index].isAvailable == true
+                ? bookController.bookList[index]
+                : bookController.bookList[Random().nextInt(10)];
+
+        for (int i = 0; i < bookController.bookList.length; i++) {
+          if (bookController.bookList[i].isAvailable == true) {
+            debugPrint(
+              "Authors with books available Books are: ${availableBookAuthor.author}, and the book title is ${availableBookAuthor.title}",
+            );
+          }
+        }
         return GestureDetector(
-          // onTap: () => didSelected(index),
           onTap: () {
-            debugPrint(bookController.bookList[index].author);
+            debugPrint(availableBookAuthor.author);
           },
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
@@ -44,15 +46,14 @@ class CarouselSlide extends StatelessWidget {
               alignment: Alignment.center,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.0),
                   child: Container(
-                    color: Colors
-                        .primaries[Random().nextInt(Colors.primaries.length)],
                     child: Image.asset(
-                      // item.image.toString(),
+                      // availableBookAuthor.image.toString(),
                       ProjectImages.biomedics,
-                      fit: BoxFit.contain,
+                      fit: BoxFit.fill,
                       width: MediaQuery.of(context).size.width,
+                      // height: MediaQuery.of(context).size.width * 0.96 * 9 / 16,
                     ),
                   ),
                 ),
@@ -72,11 +73,11 @@ class CarouselSlide extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        item.author.toString(),
+                        availableBookAuthor.author.toString(),
                         style: TextStyle(
                           fontSize: 12,
                           color: ProjectColors.white,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.normal,
                         ),
                       ),
                     ),
