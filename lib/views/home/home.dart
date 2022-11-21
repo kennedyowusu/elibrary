@@ -199,12 +199,15 @@ class HomeView extends StatelessWidget {
                 ),
                 Container(
                   width: width,
-                  height: height * 0.230,
+                  height: height * 0.215,
                   color: ProjectColors.grey.withOpacity(0.1),
                   child: Padding(
                     padding: appPaddingHorizontal(20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: ListView(
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      shrinkWrap: true,
+                      physics: AlwaysScrollableScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
                       children: [
                         for (int index = 0;
                             index < bookController.bookList.length;
@@ -249,7 +252,7 @@ class HomeView extends StatelessWidget {
                                           //     "",
                                           ProjectImages.biomedics,
                                           fit: BoxFit.contain,
-                                          height: height * 0.16,
+                                          height: height * 0.18,
                                         ),
                                       ),
                                       SizedBox(
