@@ -23,19 +23,20 @@ class BookController extends GetxController {
     try {
       Response bookResponse = await bookRepository.fetchBooks();
       if (bookResponse.statusCode == 200) {
-        debugPrint('The response body is: ${bookResponse.body}');
+        // debugPrint('The response body is: ${bookResponse.body}');
+        debugPrint('Total Book List is: ${bookList.length}');
 
-        debugPrint(
-          "The Content of incoming books response is = ${bookResponse.bodyString}",
-        );
+        // debugPrint(
+        //     "The Content of incoming books response is = ${bookResponse.bodyString}",
+        // );
 
         Map<String, dynamic> bookMap = bookResponse.body;
 
         bookMap.forEach((key, value) {
-          debugPrint("Book Key is = $key, Book Value is $value");
+          // debugPrint("Book Key is = $key, Book Value is $value");
         });
 
-        bookList = [] as RxList<Book>;
+        // bookList = [] as RxList<Book>;
         for (var element in bookResponse.body) {
           bookList.add(Book.fromJson(element));
         }
@@ -55,6 +56,9 @@ class BookController extends GetxController {
         duration: Duration(seconds: 5),
       ).show();
     } catch (e) {
+      debugPrint(
+        e.toString(),
+      );
       Get.snackbar(
         "Error Occurred",
         e.toString(),

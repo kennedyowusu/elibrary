@@ -112,15 +112,26 @@ class HomeView extends StatelessWidget {
                   height: 10 * ProjectStyle.kMultiplier * height,
                 ),
                 Container(
-                  height: height * 0.28,
-                  color: ProjectColors.grey.withOpacity(0.2),
-                  child: CarouselSlide(
-                    didSelected: (int index) {
-                      debugPrint("did Tapped $index");
-                      Get.toNamed(RouteHelper.getDetailRoute());
-                    },
-                  ),
-                ),
+                    height: height * 0.28,
+                    color: ProjectColors.grey.withOpacity(0.2),
+                    child: ListView(
+                      children: List.generate(
+                        bookController.bookList.length,
+                        (index) {
+                          return Text(
+                            bookController.bookList[index].author.toString(),
+                            style: TextStyle(color: Colors.red),
+                          );
+                        },
+                      ),
+                    )
+                    // child: CarouselSlide(
+                    //   didSelected: (int index) {
+                    //     debugPrint("did Tapped $index");
+                    //     Get.toNamed(RouteHelper.getDetailRoute());
+                    //   },
+                    // ),
+                    ),
                 SizedBox(
                   height: 20 * ProjectStyle.kMultiplier * height,
                 ),
@@ -342,10 +353,10 @@ class CategoryItem extends StatelessWidget {
                   child: CircleAvatar(
                     maxRadius: 30,
                     backgroundColor: Colors.transparent,
-                    backgroundImage: NetworkImage(
-                      icon,
-                      scale: 1,
-                    ),
+                    // backgroundImage: NetworkImage(
+                    //   icon,
+                    //   scale: 1,
+                    // ),
                   ),
                 ),
                 SizedBox(

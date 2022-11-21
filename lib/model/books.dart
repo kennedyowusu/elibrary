@@ -21,16 +21,19 @@ class Book {
     this.isPopular,
   });
 
-  Book.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    description = json['description'];
-    image = json['image'];
-    author = json['author'];
-    isAvailable = json['isAvailable'];
-    categoryId = json['category_id'];
-    isRecommended = json['isRecommended'];
-    isPopular = json['isPopular'];
+  Book.fromJson(Map<String, dynamic> parsedJson) {
+    id = parsedJson['id'];
+    title = parsedJson['title'];
+    description = parsedJson['description'];
+    image = parsedJson['image'];
+    author = parsedJson['author'];
+    isAvailable = parsedJson['isAvailable'].toString() == '1' ? true : false;
+    categoryId = parsedJson['category_id'];
+    isRecommended =
+        parsedJson['isRecommended'].toString() == '1' ? true : false;
+    ;
+    isPopular = parsedJson['isPopular'].toString() == '1' ? true : false;
+    ;
   }
 
   Map<String, dynamic> toJson() {
