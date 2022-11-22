@@ -80,16 +80,40 @@ class DetailScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: Center(
-                      child: Text(
-                        "${incomingBookDetails.title}",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 18.0 * ProjectStyle.kMultiplier * height,
-                          color: ProjectColors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "${incomingBookDetails.title}",
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize:
+                                  18.0 * ProjectStyle.kMultiplier * height,
+                              color: ProjectColors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          incomingBookDetails.isAvailable!
+                              ? IsAvailableContainer(
+                                  backgroundColor: ProjectColors.green,
+                                  height,
+                                  iconColor: ProjectColors.white,
+                                  size:
+                                      20.0 * ProjectStyle.kMultiplier * height,
+                                  Icons.check_box_sharp,
+                                )
+                              : IsAvailableContainer(
+                                  height,
+                                  backgroundColor: ProjectColors.red,
+                                  iconColor: ProjectColors.white,
+                                  size:
+                                      20.0 * ProjectStyle.kMultiplier * height,
+                                  Icons.cancel_sharp,
+                                ),
+                        ],
                       ),
                     ),
                   ),
@@ -162,6 +186,19 @@ class DetailScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  CircleAvatar IsAvailableContainer(double height, IconData icon,
+      {double? size, Color? backgroundColor, Color? iconColor}) {
+    return CircleAvatar(
+      radius: 15.0,
+      backgroundColor: backgroundColor,
+      child: Icon(
+        icon,
+        color: iconColor,
+        size: size,
       ),
     );
   }
