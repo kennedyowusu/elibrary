@@ -1,15 +1,19 @@
-import 'dart:convert';
-
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:elibrary/controllers/book_controller.dart';
+import 'package:elibrary/model/books.dart';
+import 'package:flutter/material.dart';
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/styles.dart';
 import 'package:elibrary/views/home/components/nav_drawer.dart';
 import 'package:elibrary/widgets/app_bar.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class RequestBookView extends StatefulWidget {
-  RequestBookView({Key? key}) : super(key: key);
+  final int screenId;
+  RequestBookView({
+    Key? key,
+    required this.screenId,
+  }) : super(key: key);
 
   @override
   State<RequestBookView> createState() => _RequestBookViewState();
@@ -115,6 +119,9 @@ class _RequestBookViewState extends State<RequestBookView> {
     double width = MediaQuery.of(context).size.width;
     debugPrint(selectReturnDate.toString());
     debugPrint(selectBorrowDate.toString());
+
+    Book requestData = Get.find<BookController>().bookList[widget.screenId];
+
     return SafeArea(
       child: Scaffold(
         key: scaffoldKey,
@@ -168,20 +175,26 @@ class _RequestBookViewState extends State<RequestBookView> {
                             weight: FontWeight.w500),
                       ),
                       SizedBox(height: height * 0.02),
-                      PostFormInputField(
-                        inputController: _titleController,
-                        hintText: "Enter Book Title",
-                        inputType: TextInputType.text,
-                        validate: (value) {
-                          if (value.isEmpty) {
-                            return "Please enter a title";
-                          }
-                          return null;
-                        },
-                        saved: (value) {
-                          title = value;
-                        },
+                      ReceivedDataFromDetailsScreen(
+                        height,
+                        requestData,
+                        "${requestData.title}",
                       ),
+                      // PostFormInputField(
+                      //   inputController: _titleController,
+                      //   isEditable: false,
+                      //   hintText: "${requestData.title}",
+                      //   inputType: TextInputType.text,
+                      //   validate: (value) {
+                      //     if (value.isEmpty) {
+                      //       return "Please enter a title";
+                      //     }
+                      //     return null;
+                      //   },
+                      //   saved: (value) {
+                      //     title = value;
+                      //   },
+                      // ),
                       SizedBox(height: height * 0.02),
                       Text(
                         "Author Name",
@@ -191,20 +204,26 @@ class _RequestBookViewState extends State<RequestBookView> {
                             weight: FontWeight.w500),
                       ),
                       SizedBox(height: height * 0.02),
-                      PostFormInputField(
-                        inputController: _authorController,
-                        hintText: "Enter Author Name",
-                        inputType: TextInputType.text,
-                        validate: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter Author Name';
-                          }
-                          return null;
-                        },
-                        saved: (value) {
-                          author = value;
-                        },
+                      ReceivedDataFromDetailsScreen(
+                        height,
+                        requestData,
+                        "${requestData.author}",
                       ),
+                      // PostFormInputField(
+                      //   isEditable: false,
+                      //   inputController: _authorController,
+                      //   hintText: "Enter Author Name",
+                      //   inputType: TextInputType.text,
+                      //   validate: (value) {
+                      //     if (value.isEmpty) {
+                      //       return 'Please enter Author Name';
+                      //     }
+                      //     return null;
+                      //   },
+                      //   saved: (value) {
+                      //     author = value;
+                      //   },
+                      // ),
                       SizedBox(height: height * 0.02),
                       Text(
                         "Student Index",
@@ -215,6 +234,7 @@ class _RequestBookViewState extends State<RequestBookView> {
                       ),
                       SizedBox(height: height * 0.02),
                       PostFormInputField(
+                        isEditable: true,
                         inputController: _indexController,
                         hintText: "Enter Your Index",
                         inputType: TextInputType.text,
@@ -261,7 +281,7 @@ class _RequestBookViewState extends State<RequestBookView> {
                                     SizedBox(height: height * 0.010),
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        primary: ProjectColors.primary,
+                                        backgroundColor: ProjectColors.primary,
                                       ),
                                       onPressed: () =>
                                           _selectBorrowDate(context),
@@ -300,7 +320,7 @@ class _RequestBookViewState extends State<RequestBookView> {
                                     SizedBox(height: height * 0.010),
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        primary: ProjectColors.primary,
+                                        backgroundColor: ProjectColors.primary,
                                       ),
                                       onPressed: () =>
                                           _selectReturnDate(context),
@@ -340,24 +360,30 @@ class _RequestBookViewState extends State<RequestBookView> {
                             weight: FontWeight.w500),
                       ),
                       SizedBox(height: height * 0.02),
-                      PostFormInputField(
-                        inputController: _nameController,
-                        hintText: "Enter Your Full Name",
-                        inputType: TextInputType.text,
-                        validate: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter your name';
-                          }
-                          return null;
-                        },
-                        saved: (value) {
-                          name = value;
-                        },
+                      // PostFormInputField(
+                      //   isEditable: false,
+                      //   inputController: _nameController,
+                      //   hintText: "Enter Your Full Name",
+                      //   inputType: TextInputType.text,
+                      //   validate: (value) {
+                      //     if (value.isEmpty) {
+                      //       return 'Please enter your name';
+                      //     }
+                      //     return null;
+                      //   },
+                      //   saved: (value) {
+                      //     name = value;
+                      //   },
+                      // ),
+                      ReceivedDataFromDetailsScreen(
+                        height,
+                        requestData,
+                        "${requestData.title}",
                       ),
                       SizedBox(height: height * 0.02),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: ProjectColors.primary,
+                          backgroundColor: ProjectColors.primary,
                           minimumSize: Size(width * 0.95, height * 0.08),
                         ),
                         onPressed: () {
@@ -379,6 +405,31 @@ class _RequestBookViewState extends State<RequestBookView> {
       ),
     );
   }
+
+  Container ReceivedDataFromDetailsScreen(
+      double height, Book requestData, String text) {
+    return Container(
+      height: height * 0.06,
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+        color: ProjectColors.grey.withOpacity(
+          0.15,
+        ),
+        borderRadius: BorderRadius.circular(
+          10.0,
+        ),
+      ),
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyle(
+            color: ProjectColors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class PostFormInputField extends StatelessWidget {
@@ -389,12 +440,14 @@ class PostFormInputField extends StatelessWidget {
     required this.hintText,
     required this.validate,
     required this.saved,
+    required this.isEditable,
   }) : super(key: key);
 
   final TextEditingController inputController;
   final TextInputType inputType;
   final String hintText;
   final Function validate, saved;
+  final bool isEditable;
 
   @override
   Widget build(BuildContext context) {

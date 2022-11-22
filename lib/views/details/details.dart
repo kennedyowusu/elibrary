@@ -164,7 +164,9 @@ class DetailScreen extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Get.toNamed(
-                    RouteHelper.getRequestBookRoute(),
+                    RouteHelper.getRequestBookRoute(
+                      screenId: screenId,
+                    ),
                   );
                 },
                 child: Container(
