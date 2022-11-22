@@ -115,14 +115,15 @@ class HomeView extends StatelessWidget {
                   height: 10 * ProjectStyle.kMultiplier * height,
                 ),
                 Container(
-                    height: height * 0.28,
-                    color: ProjectColors.grey.withOpacity(0.2),
-                    child: CarouselSlide(
-                      didSelected: (int index) {
-                        debugPrint("did Tapped $index");
-                        Get.toNamed(RouteHelper.getDetailRoute());
-                      },
-                    )),
+                  height: height * 0.28,
+                  color: ProjectColors.grey.withOpacity(0.2),
+                  child: CarouselSlide(
+                    didSelected: (int index) {
+                      debugPrint("did Tapped $index");
+                      Get.toNamed(RouteHelper.getDetailRoute());
+                    },
+                  ),
+                ),
                 SizedBox(
                   height: 20 * ProjectStyle.kMultiplier * height,
                 ),
