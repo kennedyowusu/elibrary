@@ -10,8 +10,10 @@ import 'package:elibrary/utils/refresher.dart';
 import 'package:elibrary/views/home/carousel.dart';
 import 'package:elibrary/views/home/components/nav_drawer.dart';
 import 'package:elibrary/widgets/app_bar.dart';
+import 'package:elibrary/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({super.key});
@@ -113,15 +115,14 @@ class HomeView extends StatelessWidget {
                   height: 10 * ProjectStyle.kMultiplier * height,
                 ),
                 Container(
-                  height: height * 0.28,
-                  color: ProjectColors.grey.withOpacity(0.2),
-                  child: CarouselSlide(
-                    didSelected: (int index) {
-                      debugPrint("did Tapped $index");
-                      Get.toNamed(RouteHelper.getDetailRoute());
-                    },
-                  ),
-                ),
+                    height: height * 0.28,
+                    color: ProjectColors.grey.withOpacity(0.2),
+                    child: CarouselSlide(
+                      didSelected: (int index) {
+                        debugPrint("did Tapped $index");
+                        Get.toNamed(RouteHelper.getDetailRoute());
+                      },
+                    )),
                 SizedBox(
                   height: 20 * ProjectStyle.kMultiplier * height,
                 ),
@@ -203,79 +204,109 @@ class HomeView extends StatelessWidget {
                   color: ProjectColors.grey.withOpacity(0.1),
                   child: Padding(
                     padding: appPaddingHorizontal(20.0),
-                    child: ListView(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      shrinkWrap: true,
-                      physics: AlwaysScrollableScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        for (int index = 0;
-                            index < bookController.bookList.length;
-                            index++)
-                          Column(
-                            children: [
-                              Container(
-                                height: height * 0.20,
-                                width: width * 0.29,
-                                margin: EdgeInsets.only(
-                                  top: 10 * ProjectStyle.kMultiplier * height,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: ProjectColors.white,
-                                  borderRadius: BorderRadius.circular(
-                                    10 * ProjectStyle.kMultiplier * height,
+                    child: Obx(
+                      () => ListView(
+                        shrinkWrap: true,
+                        physics: AlwaysScrollableScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          for (int index = 0;
+                              index < bookController.bookList.length;
+                              index++)
+                            Column(
+                              children: [
+                                Container(
+                                  height: height * 0.20,
+                                  width: width * 0.29,
+                                  margin: EdgeInsets.only(
+                                    top: 10 * ProjectStyle.kMultiplier * height,
                                   ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color:
-                                          ProjectColors.grey.withOpacity(0.1),
-                                      spreadRadius: 1,
-                                      blurRadius: 1,
-                                      offset: Offset(
-                                        0,
-                                        1,
-                                      ), // changes position of shadow
+                                  decoration: BoxDecoration(
+                                    color: ProjectColors.white,
+                                    borderRadius: BorderRadius.circular(
+                                      10 * ProjectStyle.kMultiplier * height,
                                     ),
-                                  ],
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Get.toNamed(RouteHelper.getDetailRoute());
-                                  },
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Center(
-                                        child: Image.asset(
-                                          // bookController.bookList[index].image ??
-                                          //     "",
-                                          ProjectImages.biomedics,
-                                          fit: BoxFit.contain,
-                                          height: height * 0.18,
-                                        ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color:
+                                            ProjectColors.grey.withOpacity(0.1),
+                                        spreadRadius: 1,
+                                        blurRadius: 1,
+                                        offset: Offset(
+                                          0,
+                                          1,
+                                        ), // changes position of shadow
                                       ),
-                                      SizedBox(
-                                        height: 10 *
-                                            ProjectStyle.kMultiplier *
-                                            height,
-                                      ),
-                                      // sText(
-                                      //   bookController.bookList[index].author ??
-                                      //       "",
-                                      //   size: 12 *
-                                      //       ProjectStyle.kMultiplier *
-                                      //       height,
-                                      //   weight: FontWeight.w500,
-                                      //   color: ProjectColors.black,
-                                      // ),
                                     ],
                                   ),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      for (int i = 0;
+                                          i < bookController.bookList.length;
+                                          i++) {
+                                        if (bookController
+                                                .bookList[index].image ==
+                                            true) {
+                                          Get.toNamed(
+                                            RouteHelper.getDetailRoute(),
+                                            arguments: [
+                                              bookController.bookList[index].id,
+                                              bookController
+                                                  .bookList[index].title,
+                                              bookController
+                                                  .bookList[index].image,
+                                              bookController
+                                                  .bookList[index].description,
+                                              bookController
+                                                  .bookList[index].author,
+                                              bookController
+                                                  .bookList[index].categoryId,
+                                            ],
+                                          );
+                                        } else {
+                                          // Get.toNamed(
+                                          //   RouteHelper.getDetailRoute(),
+                                          //   arguments:
+                                          //       bookController.bookList[index].id,
+                                          // );
+                                        }
+                                      }
+                                    },
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Center(
+                                          child: Image.asset(
+                                            // bookController.bookList[index].image ??
+                                            //     "",
+                                            ProjectImages.biomedics,
+                                            fit: BoxFit.contain,
+                                            height: height * 0.18,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10 *
+                                              ProjectStyle.kMultiplier *
+                                              height,
+                                        ),
+                                        // sText(
+                                        //   bookController.bookList[index].author ??
+                                        //       "",
+                                        //   size: 12 *
+                                        //       ProjectStyle.kMultiplier *
+                                        //       height,
+                                        //   weight: FontWeight.w500,
+                                        //   color: ProjectColors.black,
+                                        // ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                      ],
+                              ],
+                            ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

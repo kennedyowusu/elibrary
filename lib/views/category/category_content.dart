@@ -1,9 +1,7 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/styles.dart';
-import 'package:elibrary/model/categories.dart';
 import 'package:elibrary/utils/helper.dart';
 import 'package:elibrary/views/home/components/nav_drawer.dart';
-import 'package:elibrary/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +9,7 @@ class CategoryContentScreen extends StatelessWidget {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   CategoryContentScreen({super.key});
 
-  var data = Get.arguments;
+  final data = Get.arguments;
 
   @override
   Widget build(BuildContext context) {

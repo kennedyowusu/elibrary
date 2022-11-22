@@ -13,10 +13,15 @@ class DetailScreen extends StatelessWidget {
   DetailScreen({super.key});
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final data = Get.arguments;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+
+    debugPrint("Recommended data being passed ${data.toString()}");
+
     return SafeArea(
       child: Scaffold(
         key: scaffoldKey,
@@ -67,7 +72,7 @@ class DetailScreen extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        'The Book Title Here',
+                        data.toString(),
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontFamily: 'Poppins',
