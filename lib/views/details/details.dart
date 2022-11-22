@@ -1,3 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:elibrary/controllers/book_controller.dart';
+import 'package:elibrary/model/books.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/constants/images.dart';
 import 'package:elibrary/constants/styles.dart';
@@ -6,21 +12,25 @@ import 'package:elibrary/utils/helper.dart';
 import 'package:elibrary/views/home/components/nav_drawer.dart';
 import 'package:elibrary/widgets/app_bar.dart';
 import 'package:elibrary/widgets/medium.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class DetailScreen extends StatelessWidget {
-  DetailScreen({super.key});
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final int screenId;
 
-  final data = Get.arguments;
+  DetailScreen({
+    Key? key,
+    required this.screenId,
+  }) : super(key: key);
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    debugPrint("Recommended data being passed ${data.toString()}");
+    Book incomingBookDetails = Get.find<BookController>().bookList[screenId];
+
+    debugPrint(
+        "The incoming book details are: ${incomingBookDetails.title}, ${incomingBookDetails.author}, ${incomingBookDetails.image}, ${incomingBookDetails.isAvailable}");
 
     return SafeArea(
       child: Scaffold(
@@ -72,7 +82,7 @@ class DetailScreen extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        data.toString(),
+                        "${incomingBookDetails.title}",
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontFamily: 'Poppins',
@@ -94,7 +104,7 @@ class DetailScreen extends StatelessWidget {
                 top: height * 0.01,
               ),
               child: Text(
-                'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source from a Lorem Ipsum passage, and going through the cites of the word in classical literature,',
+                "${incomingBookDetails.description}",
                 style: appStyle(
                   size: 16.0 * ProjectStyle.kMultiplier * height,
                 ),

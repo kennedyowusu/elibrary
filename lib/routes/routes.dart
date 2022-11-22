@@ -25,7 +25,7 @@ class RouteHelper {
 
   static getSplashScreen() => splashScreen;
   static getInitialRoute() => home;
-  static getDetailRoute() => details;
+  static getDetailRoute(int screenId) => "$details?screenId=$screenId";
   static getRequestBookRoute() => request;
   static getSavedBooks() => savedBooks;
   static getBorrowedBooks() => borrowedBooks;
@@ -46,7 +46,11 @@ class RouteHelper {
     ),
     GetPage(
       name: details,
-      page: () => DetailScreen(),
+      page: () {
+        String? screenId = Get.parameters['screenId'];
+
+        return DetailScreen(screenId: int.parse(screenId!));
+      },
     ),
     GetPage(
       name: request,

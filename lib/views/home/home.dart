@@ -120,7 +120,7 @@ class HomeView extends StatelessWidget {
                   child: CarouselSlide(
                     didSelected: (int index) {
                       debugPrint("did Tapped $index");
-                      Get.toNamed(RouteHelper.getDetailRoute());
+                      Get.toNamed(RouteHelper.getDetailRoute(index));
                     },
                   ),
                 ),
@@ -242,36 +242,10 @@ class HomeView extends StatelessWidget {
                                   ),
                                   child: GestureDetector(
                                     onTap: () {
-                                      for (int i = 0;
-                                          i < bookController.bookList.length;
-                                          i++) {
-                                        if (bookController
-                                                .bookList[index].image ==
-                                            true) {
-                                          Get.toNamed(
-                                            RouteHelper.getDetailRoute(),
-                                            arguments: [
-                                              bookController.bookList[index].id,
-                                              bookController
-                                                  .bookList[index].title,
-                                              bookController
-                                                  .bookList[index].image,
-                                              bookController
-                                                  .bookList[index].description,
-                                              bookController
-                                                  .bookList[index].author,
-                                              bookController
-                                                  .bookList[index].categoryId,
-                                            ],
-                                          );
-                                        } else {
-                                          // Get.toNamed(
-                                          //   RouteHelper.getDetailRoute(),
-                                          //   arguments:
-                                          //       bookController.bookList[index].id,
-                                          // );
-                                        }
-                                      }
+                                      debugPrint("did Tapped $index");
+                                      Get.toNamed(
+                                        RouteHelper.getDetailRoute(index),
+                                      );
                                     },
                                     child: Column(
                                       crossAxisAlignment:
