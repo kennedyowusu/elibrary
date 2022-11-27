@@ -1,10 +1,8 @@
 import 'package:elibrary/constants/colors.dart';
 import 'package:elibrary/routes/routes.dart';
 import 'package:elibrary/views/auth/forgot_password/forgot_password.dart';
-import 'package:elibrary/views/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatefulWidget {
   LoginForm({Key? key}) : super(key: key);
@@ -68,11 +66,11 @@ class _LoginFormState extends State<LoginForm> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                labelText: 'Student Index Number',
+                labelText: 'Student Email Address',
                 labelStyle: TextStyle(
                   color: Color(0xFF000000),
                 ),
-                hintText: 'Enter Student Index Number',
+                hintText: 'Enter Student Email Address',
               ),
               validator: (context) => validateEmail(emailController.text),
             ),

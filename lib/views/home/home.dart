@@ -3,17 +3,14 @@ import 'package:elibrary/constants/images.dart';
 import 'package:elibrary/constants/styles.dart';
 import 'package:elibrary/controllers/book_controller.dart';
 import 'package:elibrary/controllers/category_controller.dart';
-import 'package:elibrary/recommendations.dart';
 import 'package:elibrary/routes/routes.dart';
 import 'package:elibrary/utils/helper.dart';
 import 'package:elibrary/utils/refresher.dart';
 import 'package:elibrary/views/home/carousel.dart';
 import 'package:elibrary/views/home/components/nav_drawer.dart';
 import 'package:elibrary/widgets/app_bar.dart';
-import 'package:elibrary/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({super.key});

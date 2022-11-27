@@ -1,6 +1,12 @@
 import 'package:elibrary/constants/colors.dart';
+import 'package:elibrary/controllers/authentication_controller.dart';
+import 'package:elibrary/model/authentication.dart';
+import 'package:elibrary/routes/routes.dart';
+import 'package:elibrary/widgets/display_name.dart';
+import 'package:elibrary/widgets/input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+// ignore: unused_import
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -13,21 +19,16 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   final _registerFormKey = GlobalKey<FormState>();
 
-  String name = '';
-
-  String email = '';
-
-  String password = '';
-
-  bool isLoading = false;
-
   TextEditingController registerEmailController = TextEditingController();
 
   TextEditingController registerDisplayNameController = TextEditingController();
 
   TextEditingController registerPasswordController = TextEditingController();
 
-  // LoadingIndicator loadingIndicator = Get.put(LoadingIndicator());
+  TextEditingController registerPasswordConfirmationController =
+      TextEditingController();
+
+  final authenticationController = Get.put(AuthenticationController());
 
   @override
   void dispose() {
@@ -35,53 +36,66 @@ class _RegisterFormState extends State<RegisterForm> {
     registerEmailController.dispose();
     registerDisplayNameController.dispose();
     registerPasswordController.dispose();
+    registerPasswordConfirmationController.dispose();
   }
 
-  String? validateName(String value) {
-    // if (value.isEmpty) {
-    //   return ErrorMessages.kNameNullError;
-    // } else if (ErrorMessages.nameValidatorRegExp.hasMatch(value)) {
-    //   return ErrorMessages.kInvalidNameError;
-    // } else if (value.length < 3) {
-    //   return ErrorMessages.kShortNameError;
-    // }
-    return null;
-  }
+  void registerUser(AuthenticationController authenticationController) {
+    String name = registerDisplayNameController.text.trim();
+    String email = registerEmailController.text.trim();
+    String password = registerPasswordController.text.trim();
+    String confirmPassword = registerPasswordConfirmationController.text.trim();
 
-  String? validateEmail(String value) {
-    // Check if this field is empty
-    if (value == null || value.isEmpty) {
-      return 'This field is required';
+    if (name.isEmpty) {
+      displayCustomSnackBar(title: "Full Name", "Full Name is required");
+      return;
+    } else if (email.isEmpty) {
+      displayCustomSnackBar(
+          title: "Student Email Address", "Student Email Address is required");
+      return;
+    } else if (!GetUtils.isEmail(email)) {
+      displayCustomSnackBar(
+        title: "Invalid Email Address",
+        "Enter valid Email Address",
+      );
+    } else if (password.isEmpty) {
+      displayCustomSnackBar(title: "Password", "Password is required");
+      return;
+    } else if (password.length < 6) {
+      displayCustomSnackBar(
+          title: "Password Length", "Password must be at least 6 characters");
+    } else if (confirmPassword.isEmpty) {
+      displayCustomSnackBar(
+          title: "Password Confirmation", "Confirm Your Password");
+      return;
+    } else if (password != confirmPassword) {
+      displayCustomSnackBar(
+          title: "Password Confirmation", "Passwords do not match");
+      return;
+    } else {
+      AuthModel authModel = AuthModel(
+        name: name,
+        email: email,
+        password: password,
+        confirmPassword: confirmPassword,
+      );
+      debugPrint(authModel.toString());
+      authenticationController.registration(authModel).then((status) => {
+            if (status.isSuccess)
+              {
+                Get.offNamed(
+                  RouteHelper.getInitialRoute(),
+                ),
+                debugPrint(authModel.toString()),
+              }
+            else
+              {
+                displayCustomSnackBar(
+                  title: "Error Occurred",
+                  status.message,
+                ),
+              }
+          });
     }
-
-    // using regular expression
-    if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-      return "Please enter a valid email address";
-    }
-
-    // the email is valid
-    return null;
-  }
-
-  String? validatePassword(String value) {
-    if (value.isEmpty) {
-      return 'Password is required';
-    } else if (value.length < 6) {
-      return 'Password must be at least 6 characters';
-    }
-    return null;
-  }
-
-  Future<bool> validateRegistration() async {
-    final form = _registerFormKey.currentState;
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (form!.validate()) {
-      form.save();
-
-      prefs.setString('email', registerEmailController.text);
-    }
-    return false;
   }
 
   @override
@@ -93,101 +107,35 @@ class _RegisterFormState extends State<RegisterForm> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         children: [
-          Padding(
-            padding:
-                EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
-            child: TextFormField(
-              controller: registerDisplayNameController,
-              onSaved: (value) => name = value!,
-              validator: (context) =>
-                  validateName(registerDisplayNameController.text.trim()),
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  prefixIcon: Icon(
-                    Icons.person,
-                    color: Color(0xFFC4C4C4),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Color(0xFFC4C4C4)),
-                  ),
-                  labelText: 'Full Name',
-                  labelStyle: TextStyle(
-                    color: Color(0xFF000000),
-                  ),
-                  hintText: 'Enter Full Name'),
-            ),
+          InputField(
+            inputType: TextInputType.name,
+            controller: registerDisplayNameController,
+            labelText: "Full Name",
+            hintText: "Enter your Full Name",
+            icon: Icons.person,
           ),
-          Padding(
-            padding:
-                EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
-            child: TextFormField(
-              controller: registerEmailController,
-              keyboardType: TextInputType.emailAddress,
-              onSaved: (value) => email = value!,
-              validator: (value) {
-                validateEmail(registerEmailController.text.trim());
-                return null;
-              },
-              decoration: InputDecoration(
-                floatingLabelBehavior: FloatingLabelBehavior.auto,
-                prefixIcon: Icon(
-                  Icons.email,
-                  color: Color(0xFFC4C4C4),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: Color(0xFFC4C4C4)),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                labelText: 'Student Index Number',
-                labelStyle: TextStyle(
-                  color: Color(0xFF000000),
-                ),
-                hintText: 'Enter Student Index Number',
-              ),
-            ),
+          InputField(
+            inputType: TextInputType.emailAddress,
+            controller: registerEmailController,
+            labelText: "Student Email Address",
+            hintText: "Enter your Student Email Address",
+            icon: Icons.email,
           ),
-          Padding(
-            padding:
-                EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
-            child: TextFormField(
-              controller: registerPasswordController,
-              onSaved: (value) => password = value!,
-              validator: (String? value) {
-                validatePassword(registerPasswordController.text.trim());
-                return null;
-              },
-              obscureText: true,
-              decoration: InputDecoration(
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  prefixIcon: Icon(
-                    Icons.lock,
-                    color: Color(0xFFC4C4C4),
-                  ),
-                  suffixIcon: Icon(
-                    Icons.visibility_off,
-                    color: Color(0xFFC4C4C4),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Color(0xFFC4C4C4)),
-                  ),
-                  labelText: 'Password',
-                  labelStyle: TextStyle(
-                    color: Color(0xFF000000),
-                  ),
-                  hintText: 'Enter Password'),
-            ),
+          InputField(
+            inputType: TextInputType.visiblePassword,
+            isPassword: true,
+            controller: registerPasswordController,
+            labelText: "Password",
+            hintText: "Enter your Password",
+            icon: Icons.password,
+          ),
+          InputField(
+            inputType: TextInputType.visiblePassword,
+            isPassword: true,
+            controller: registerPasswordConfirmationController,
+            labelText: "Confirm Password",
+            hintText: "confirm your Password",
+            icon: Icons.password,
           ),
           SizedBox(height: height * 0.02),
           Container(
@@ -201,7 +149,7 @@ class _RegisterFormState extends State<RegisterForm> {
             child: ClipRect(
               child: TextButton(
                 onPressed: () {
-                  validateRegistration();
+                  registerUser(authenticationController);
                 },
                 child: Text(
                   "Sign Up",
