@@ -147,13 +147,15 @@ class _RegisterFormState extends State<RegisterForm> {
               color: ProjectColors.primary,
             ),
             child: ClipRect(
-              child: TextButton(
-                onPressed: () {
-                  registerUser(authenticationController);
-                },
-                child: Text(
-                  "Sign Up",
-                  style: TextStyle(color: Colors.white),
+              child: Obx(
+                () => TextButton(
+                  onPressed: () {
+                    registerUser(authenticationController);
+                  },
+                  child: Text(
+                    "Sign Up",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ),

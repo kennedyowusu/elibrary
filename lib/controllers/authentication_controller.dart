@@ -56,23 +56,6 @@ class AuthenticationController extends GetxController implements GetxService {
     } finally {
       isLoading(false);
     }
-
-    // if (response.statusCode == 200) {
-    //   authenticationRepository.saveUserTokenAfterRegistration(
-    //     response.body["token"],
-    //   );
-
-    //   responseModel = ResponseModel(true, response.body["token"]);
-    // } else {
-    //   responseModel = ResponseModel(false, response.statusText!.toString());
-    //   Get.snackbar(
-    //     "Error Occurred",
-    //     response.statusText.toString(),
-    //     snackPosition: SnackPosition.BOTTOM,
-    //     colorText: Colors.white,
-    //     backgroundColor: Colors.red,
-    //   );
-    // }
     return responseModel;
   }
 }
