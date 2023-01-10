@@ -42,7 +42,7 @@ class HomeView extends StatelessWidget {
             },
           ),
         ),
-        drawer: NavigationDrawer(),
+        drawer: NavDrawer(),
         body: SingleChildScrollView(
           child: RefreshIndicator(
             onRefresh: loadResources,

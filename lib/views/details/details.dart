@@ -48,7 +48,7 @@ class DetailScreen extends StatelessWidget {
             },
           ),
         ),
-        drawer: NavigationDrawer(),
+        drawer: NavDrawer(),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

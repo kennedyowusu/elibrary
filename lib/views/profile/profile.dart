@@ -28,7 +28,7 @@ class ProfileScreen extends StatelessWidget {
             },
           ),
         ),
-        drawer: NavigationDrawer(),
+        drawer: NavDrawer(),
         body: ProfileBody(),
       ),
     );

@@ -138,7 +138,7 @@ class _RequestBookViewState extends State<RequestBookView> {
             },
           ),
         ),
-        drawer: NavigationDrawer(),
+        drawer: NavDrawer(),
         body: SingleChildScrollView(
           child: Padding(
             padding: ProjectStyle.padding(context),

@@ -33,7 +33,7 @@ class BorrowedBooksView extends StatelessWidget {
             },
           ),
         ),
-        drawer: NavigationDrawer(),
+        drawer: NavDrawer(),
         body: Padding(
           padding: ProjectStyle.padding(context),
           child: SizedBox(

@@ -55,7 +55,7 @@ class CategoryContentScreen extends StatelessWidget {
             },
           ),
         ),
-        drawer: NavigationDrawer(),
+        drawer: NavDrawer(),
         body: SingleChildScrollView(
           child: Center(
             child: Text(
