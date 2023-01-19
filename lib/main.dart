@@ -24,7 +24,7 @@ class Elibrary extends StatelessWidget {
               fontFamily: 'Poppins',
             ),
       ),
-      initialRoute: RouteHelper.getInitialRoute(),
+      initialRoute: RouteHelper.getSplashScreen(),
       getPages: RouteHelper.routes,
     );
   }
